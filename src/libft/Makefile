@@ -27,22 +27,17 @@ FLAGS = -Wall -Werror -Wextra $(INCLUDES)
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	@echo "Creating archive $(NAME)..."
-	ar rc $(NAME) $(OBJS)
-	@echo "Archive $(NAME) created."
+	@ar rc $(NAME) $(OBJS)
+	@echo "Archive $(NAME) created"
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c $(INCS)
 	@mkdir -p $(OBJ_DIR)
-	cc -c $(FLAGS) $< -o $@
+	@cc -c $(FLAGS) $< -o $@
 
 clean:
-	@echo "Cleaning object files..."
-	rm -f $(OBJS)
-	@echo "Object files cleaned."
+	@rm -f $(OBJS)
 
 fclean: clean
-	@echo "Cleaning library..."
-	rm -f $(NAME)
-	@echo "Library cleaned."
+	@rm -f $(NAME)
 
 re: fclean all

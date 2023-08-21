@@ -6,15 +6,16 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 13:27:04 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/08/21 14:20:43 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/08/21 14:57:37 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+#include "parse.h"
 
 int	main(int argc, char** argv)
 {
-	static mlx_image_t	*image;
+	mlx_image_t	*image;
 	mlx_t		*mlx;
 
 	if (!(mlx = mlx_init(WIDTH, HEIGHT, "miniRT", true)))

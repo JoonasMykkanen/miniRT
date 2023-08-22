@@ -6,7 +6,7 @@
 #    By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/05 11:21:33 by joonasmykka       #+#    #+#              #
-#    Updated: 2023/08/21 16:13:49 by joonasmykka      ###   ########.fr        #
+#    Updated: 2023/08/22 10:55:00 by joonasmykka      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,8 @@ OBJDIR = obj
 
 SRCS := \
 	$(SRCDIR)/main.c \
-	$(SRCDIR)/parse.c
+	$(SRCDIR)/init.c \
+	$(SRCDIR)/parse.c 
 
 OBJS = $(SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 
@@ -54,12 +55,12 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c
 .PHONY: clean
 clean:
 	@make clean -C $(LIBFT_DIR)
-	@rm -rf $(LIBMLX_DIR)/build
 	@rm -f $(OBJS)
 
 .PHONY: fclean
 fclean: clean
 	@make fclean -C $(LIBFT_DIR) 
+	@rm -rf $(LIBMLX_DIR)/build
 	@rm -f $(NAME)
 
 .PHONY: re

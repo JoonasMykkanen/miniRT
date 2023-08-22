@@ -6,7 +6,7 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 13:27:04 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/08/22 12:48:10 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/08/22 12:54:01 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,10 @@ int	main(int argc, char **argv)
 		if (init(&data) == OK)
 			test(&data);
 		else
-			ft_putchar_fd("Error", 2);
+			ft_putstr_fd("Error", 2);
 	}
+	else
+		ft_putstr_fd("Error, no input file\n", 2);
 	return (0);
 }
 

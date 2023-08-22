@@ -6,7 +6,7 @@
 #    By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/05 11:21:33 by joonasmykka       #+#    #+#              #
-#    Updated: 2023/08/22 10:55:00 by joonasmykka      ###   ########.fr        #
+#    Updated: 2023/08/22 12:50:54 by joonasmykka      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,7 @@ LDFLAGS = $(LIBS)
 all: $(NAME) 
 
 $(NAME): $(LIBMLX_LIB) $(LIBFT) $(OBJS)
-	cc $(LDFLAGS) $(OBJS) -o $(NAME)
+	@cc $(LDFLAGS) $(OBJS) -o $(NAME)
 
 $(LIBFT):
 	@echo "Creating dependency libft"

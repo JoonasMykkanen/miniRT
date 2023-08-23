@@ -1,42 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   parser_plane.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/21 13:27:04 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/08/22 21:55:51 by joonasmykka      ###   ########.fr       */
+/*   Created: 2023/08/22 13:15:41 by joonasmykka       #+#    #+#             */
+/*   Updated: 2023/08/22 16:50:27 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+#include "parser.h"
 
-int	test(t_data *data)
+int	create_obj_plane(t_data *data, char **params)
 {
-	if (mlx_image_to_window(data->mlx, data->image, 0, 0) == -1)
+	if (arr_len(params) == 4)
 	{
-		mlx_close_window(data->mlx);
-		puts(mlx_strerror(mlx_errno));
-		return(ERROR);
+		return (OK);
 	}
-
-	mlx_loop(data->mlx);
-	mlx_terminate(data->mlx);
-	return (OK);
+	return (ERROR);
 }
 
-int	main(int argc, char **argv)
-{
-	t_data	data;
-	
-	if (argc == 2)
-	{
-		if (init(&data, argv[1]) != OK)
-			return (ERROR);
-		test(&data);
-	}
-	else
-		ft_putstr_fd("Error, no input file\n", 2);
-	return (OK);
-}
+

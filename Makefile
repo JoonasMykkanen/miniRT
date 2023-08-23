@@ -6,7 +6,7 @@
 #    By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/05 11:21:33 by joonasmykka       #+#    #+#              #
-#    Updated: 2023/08/22 12:50:54 by joonasmykka      ###   ########.fr        #
+#    Updated: 2023/08/23 11:27:20 by joonasmykka      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,9 +22,19 @@ SRCDIR = src
 OBJDIR = obj
 
 SRCS := \
-	$(SRCDIR)/main.c \
+	$(SRCDIR)/parser_cylinder.c \
+	$(SRCDIR)/parser_helpers.c \
+	$(SRCDIR)/parser_ambient.c \
+	$(SRCDIR)/parser_camera.c \
+	$(SRCDIR)/parser_sphere.c \
+	$(SRCDIR)/parser_checks.c \
+	$(SRCDIR)/parser_plane.c \
+	$(SRCDIR)/parser_light.c \
+	$(SRCDIR)/utility.c \
+	$(SRCDIR)/ft_atof.c \
+	$(SRCDIR)/parser.c \
 	$(SRCDIR)/init.c \
-	$(SRCDIR)/parse.c 
+	$(SRCDIR)/main.c
 
 OBJS = $(SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 
@@ -32,8 +42,8 @@ INCLUDES = -I ./inc
 LIBS = -L$(LIBFT_DIR) -lft $(LIBMLX_LIB) -I ./src/mlx42/include -ldl -lglfw -L"/opt/homebrew/Cellar/glfw/3.3.8/lib/"
 # LIBS = -L$(LIBFT_DIR) -lft -L$(MLX42_DIR) -lmlx42 -I ./src/mlx42/include -ldl -lglfw -L"/Users/djames/.brew/Cellar/glfw/3.3.8/lib/"
 
-CFLAGS = $(INCLUDES)
-LDFLAGS = $(LIBS)
+CFLAGS = -g $(INCLUDES)
+LDFLAGS = -g $(LIBS)
 
 .PHONY: all
 all: $(NAME) 

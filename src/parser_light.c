@@ -1,20 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.h                                            :+:      :+:    :+:   */
+/*   parser_light.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/21 14:49:07 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/08/22 10:54:28 by joonasmykka      ###   ########.fr       */
+/*   Created: 2023/08/22 13:15:41 by joonasmykka       #+#    #+#             */
+/*   Updated: 2023/08/22 16:50:53 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSE_H
-# define PARSE_H
+#include "minirt.h"
+#include "parser.h"
 
-# include "minirt.h"
-
-int	init(t_data *data);
-
-#endif // !PARSE_H
+int	create_obj_light(t_data *data, char **params)
+{
+	if (arr_len(params) == 4)
+	{
+		return (OK);
+	}
+	return (ERROR);
+}

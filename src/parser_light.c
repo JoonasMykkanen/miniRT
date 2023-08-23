@@ -6,7 +6,7 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 13:15:41 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/08/22 16:50:53 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/08/23 23:07:06 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,18 @@
 
 int	create_obj_light(t_data *data, char **params)
 {
-	if (arr_len(params) == 4)
-	{
-		return (OK);
-	}
-	return (ERROR);
+	t_light *ptr;
+
+	ptr = &data->scene.light;
+	if (arr_len(params) != 4 || data->scene.status_light != false)
+		return (ERROR);
+	if (assign_vector(&ptr->position, params[1], POSITION) == ERROR)
+		return (ERROR);
+	ptr->brightness = ft_atof(params[2]);
+	if (check_brightness(ptr->brightness) == ERROR)
+		return (ERROR);
+	if (assign_color(&ptr->color,ptr->brightness, params[3]) == ERROR)
+		return (ERROR);
+	data->scene.status_light = true;
+	return (OK);
 }

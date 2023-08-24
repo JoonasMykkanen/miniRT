@@ -6,7 +6,7 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 13:15:41 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/08/23 23:09:06 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/08/24 13:28:18 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	create_obj_ambient(t_data *data, char **params)
 	ptr->intensity = ft_atof(params[1]);
 	if (check_brightness(ptr->intensity) == ERROR)
 		return (ERROR);
-	if (assign_color(&ptr->color, ptr->intensity, params[2]) == ERROR)
+	if (assign_color(&ptr->color, params[2]) == ERROR)
 		return (ERROR);
 	data->scene.status_ambient = true;
 	return (OK);

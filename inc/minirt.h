@@ -6,7 +6,7 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:17:31 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/08/23 20:31:19 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/08/24 13:23:02 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,13 @@ typedef struct s_vector
 	double	z;
 }				t_vector;
 
+typedef struct s_color
+{
+	int	red;
+	int	green;
+	int	blue;
+}				t_color;
+
 typedef struct s_camera
 {
 	t_vector	position;
@@ -41,7 +48,7 @@ typedef struct s_ambient
 {
 	mlx_image_t	*image;
 	float		intensity;
-	int			color;
+	t_color		color;
 }				t_ambient;
 
 typedef struct s_light
@@ -49,7 +56,7 @@ typedef struct s_light
 	mlx_image_t	*image;
 	t_vector	position;
 	float		brightness;
-	int			color;
+	t_color		color;
 }				t_light;
 
 typedef struct s_sphere
@@ -57,7 +64,7 @@ typedef struct s_sphere
 	mlx_image_t	*image;
 	t_vector	center;
 	float		diameter;
-	int			color;
+	t_color		color;
 }				t_sphere;
 
 typedef struct s_plane
@@ -65,7 +72,7 @@ typedef struct s_plane
 	mlx_image_t	*image;
 	t_vector	point;
 	t_vector	normal;
-	int			color;
+	t_color		color;
 }				t_plane;
 
 typedef struct s_cylinder
@@ -75,7 +82,7 @@ typedef struct s_cylinder
 	t_vector	axis;
 	float		diameter;
 	float		height;
-	int			color;
+	t_color		color;
 }				t_cylinder;
 
 typedef struct s_scene

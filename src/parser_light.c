@@ -6,7 +6,7 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 13:15:41 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/08/23 23:07:06 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/08/24 13:28:48 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	create_obj_light(t_data *data, char **params)
 	ptr->brightness = ft_atof(params[2]);
 	if (check_brightness(ptr->brightness) == ERROR)
 		return (ERROR);
-	if (assign_color(&ptr->color,ptr->brightness, params[3]) == ERROR)
+	if (assign_color(&ptr->color, params[3]) == ERROR)
 		return (ERROR);
 	data->scene.status_light = true;
 	return (OK);

@@ -6,7 +6,7 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 21:33:53 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/08/23 14:20:56 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/08/24 13:28:12 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,12 @@ static int	check_color_values(int r, int g, int b, char **str)
 	return (OK);
 }
 
-int	assign_color(void *target, float alpha, char *str)
+int	assign_color(void *target, char *str)
 {
 	char	**colors;
-	int		green;
-	int		blue;
-	int		red;
+	t_color	*ptr;
 
+	ptr = (t_color *)target;
 	colors = ft_split(str, ',');
 	if (!colors)
 		return (ERROR);
@@ -90,15 +89,14 @@ int	assign_color(void *target, float alpha, char *str)
 		free_arr(colors);
 		return (ERROR);
 	}
-	red = ft_atoi(colors[0]);
-	green = ft_atoi(colors[1]);
-	blue = ft_atoi(colors[2]);
-	if (check_color_values(red, green, blue, colors) == ERROR)
+	ptr->red = ft_atoi(colors[0]);
+	ptr->green = ft_atoi(colors[1]);
+	ptr->blue = ft_atoi(colors[2]);
+	if (check_color_values(ptr->red, ptr->green, ptr->blue, colors) == ERROR)
 	{
 		free_arr(colors);
 		return (ERROR);
 	}
 	free_arr(colors);
-	*(int *)target = ft_color(red, green, blue, normalize_alpha(alpha));
 	return (OK);
 }

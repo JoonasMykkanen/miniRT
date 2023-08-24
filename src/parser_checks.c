@@ -6,7 +6,7 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 16:51:51 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/08/23 14:20:41 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/08/24 13:52:11 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ int	check_number(char *str)
 int	check_color(int	value)
 {
 	if (value >= 0 && value <= 255)
+	{
 		return (OK);
+	}
 	return (ERROR);
 }
 int	check_orientation(double value)

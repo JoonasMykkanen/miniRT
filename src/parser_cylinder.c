@@ -6,7 +6,7 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 13:15:41 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/08/24 13:28:39 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/08/24 14:41:00 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int	create_obj_cylinder(t_data *data, char **params)
 
 	idx = &data->scene.num_cylinders;
 	ptr = &data->scene.cylinders[*idx];
-
 	if (arr_len(params) != 6)
 		return (ERROR);
 	if (assign_vector(&ptr->center, params[1], POSITION) == ERROR)
@@ -33,9 +32,9 @@ int	create_obj_cylinder(t_data *data, char **params)
 	if (check_number(params[4]) == ERROR)
 		return (ERROR);
 	ptr->height = ft_atof(params[4]);
-	if (assign_color(&ptr[*idx].color, params[3]) == ERROR)
+	if (assign_color(&ptr->color, params[5]) == ERROR)
 		return (ERROR);
-	*idx++;
+	*idx += 1;
 	return (OK);
 }
 

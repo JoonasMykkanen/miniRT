@@ -6,7 +6,7 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 14:48:30 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/08/23 14:13:15 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/08/24 14:41:11 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,15 @@ static int parse_line(t_data *data, char *line)
 	return (OK);
 }
 
+static void	remove_trailing_newline(char *str) {
+    size_t len; 
+	
+	len = ft_strlen(str);
+    if (len > 0 && str[len-1] == '\n') {
+        str[len-1] = '\0';
+    }
+}
+
 int	read_input(t_data *data, char *file)
 {
 	char	*line;
@@ -60,6 +69,9 @@ int	read_input(t_data *data, char *file)
 		line = get_next_line(fd);
 		if (line == NULL)
 			break ;
+		remove_trailing_newline(line);
+		if (ft_strlen(line) == 0)
+			continue ;
 		if (parse_line(data, line) == ERROR)
 		{
 			ft_putstr_fd("Map error\n", 2);

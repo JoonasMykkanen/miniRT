@@ -6,7 +6,7 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 13:15:41 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/08/24 13:29:03 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/08/24 14:30:28 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ int	create_obj_sphere(t_data *data, char **params)
 	ptr = &data->scene.spheres[*idx];
 	if (arr_len(params) != 4)
 		return (ERROR);
-	if (assign_vector(&ptr[*idx].center, params[1], POSITION) == ERROR)
+	if (assign_vector(&ptr->center, params[1], POSITION) == ERROR)
 		return (ERROR);
 	ptr->diameter = ft_atof(params[2]);
 	if (check_size(ptr->diameter) == ERROR)
 		return (ERROR);
 	if (assign_color(&ptr[*idx].color, params[3]) == ERROR)
 		return (ERROR);
-	*idx++;
+	*idx += 1;
 	return (OK);
 }

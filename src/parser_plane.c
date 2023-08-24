@@ -6,7 +6,7 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 13:15:41 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/08/24 13:29:19 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/08/24 13:34:21 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ int	create_obj_plane(t_data *data, char **params)
 		return (ERROR);
 	if (assign_color(&ptr[*idx].color, params[3]) == ERROR)
 		return (ERROR);
-	*idx++;
+	*idx += 1;
+	return (OK);
 }
 
 

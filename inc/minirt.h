@@ -6,7 +6,7 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:17:31 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/08/24 14:44:13 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/08/29 10:24:25 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 # include "../src/libft/inc/libft.h"
 # include "../src/mlx42/include/MLX42/MLX42.h"
 
-# define HEIGHT 1024
-# define WIDTH 1024
+# define HEIGHT 878
+# define WIDTH 1352
 
 # define ERROR 2
 # define OK 0
@@ -46,14 +46,12 @@ typedef struct s_camera
 
 typedef struct s_ambient
 {
-	mlx_image_t	*image;
 	float		intensity;
 	t_color		color;
 }				t_ambient;
 
 typedef struct s_light
 {
-	mlx_image_t	*image;
 	t_vector	position;
 	float		brightness;
 	t_color		color;
@@ -61,7 +59,6 @@ typedef struct s_light
 
 typedef struct s_sphere
 {
-	mlx_image_t	*image;
 	t_vector	center;
 	float		diameter;
 	t_color		color;
@@ -69,7 +66,6 @@ typedef struct s_sphere
 
 typedef struct s_plane
 {
-	mlx_image_t	*image;
 	t_vector	point;
 	t_vector	normal;
 	t_color		color;
@@ -77,7 +73,6 @@ typedef struct s_plane
 
 typedef struct s_cylinder
 {
-	mlx_image_t	*image;
 	t_vector	center;
 	t_vector	axis;
 	float		diameter;
@@ -108,7 +103,7 @@ typedef struct s_scene
 
 typedef struct s_data
 {
-	mlx_image_t	*image;
+	mlx_image_t	*img;
 	mlx_t		*mlx;
 
 	t_scene		scene;

@@ -6,7 +6,7 @@
 #    By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/05 11:21:33 by joonasmykka       #+#    #+#              #
-#    Updated: 2023/08/23 11:27:20 by joonasmykka      ###   ########.fr        #
+#    Updated: 2023/08/29 10:29:08 by joonasmykka      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,6 +49,7 @@ LDFLAGS = -g $(LIBS)
 all: $(NAME) 
 
 $(NAME): $(LIBMLX_LIB) $(LIBFT) $(OBJS)
+	@echo "Compiling miniRT"
 	@cc $(LDFLAGS) $(OBJS) -o $(NAME)
 
 $(LIBFT):
@@ -64,6 +65,7 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c
 
 .PHONY: clean
 clean:
+	@echo "Cleaning"
 	@make clean -C $(LIBFT_DIR)
 	@rm -f $(OBJS)
 
@@ -75,3 +77,7 @@ fclean: clean
 
 .PHONY: re
 re: fclean all
+
+.PHONY: test
+test: all
+	./minirt test/test.rt

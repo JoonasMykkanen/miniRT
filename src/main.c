@@ -6,7 +6,7 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 13:27:04 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/08/29 14:52:56 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/08/30 14:49:17 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,25 @@ int interpolate(int start, int end, float t) {
     return (int)(start * (1 - t) + end * t);
 }
 
+double dotProduct(t_vector a, t_vector b) {
+    return (a.x * b.x) + (a.y * b.y) + (a.z * b.z);
+}
+
+t_vector normalize(t_vector vector) {
+    double length = sqrt(vector.x * vector.x + vector.y * vector.y + vector.z * vector.z);
+    t_vector normalizedVector = {
+        vector.x / length,
+        vector.y / length,
+        vector.z / length
+    };
+    return normalizedVector;
+}
+
+int32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
+{
+    return (r << 24 | g << 16 | b << 8 | a);
+}
+
 
 int perPixel(int x, int y, int z, float r, t_data *data) {
     float t = (float)y / (float)HEIGHT;  // normalize y to range [0.0, 1.0]
@@ -30,6 +49,18 @@ int perPixel(int x, int y, int z, float r, t_data *data) {
     int red = interpolate(startR, endR, t);
     int green = interpolate(startG, endG, t);
     int blue = interpolate(startB, endB, t);
+
+
+	t_vector	norm;
+	t_vector	scaled_direction;
+	t_vector	light;
+	light.x = 1;
+    light.y = 1;
+    light.z = -1;
+    light = normalize(light);
+	t_vector	hit_pos;
+	double		t0;
+
 
 	float ax = data->scene.camera.position.x;  // Camera position x-coordinate
     float ay = data->scene.camera.position.y;  // Camera position y-coordinate
@@ -43,23 +74,35 @@ int perPixel(int x, int y, int z, float r, t_data *data) {
     
     // Compute A, B, and C coefficients for the quadratic equation
 	// A = origin
-    float A = bx * bx + by * by + bz * bz;
+    float a = bx * bx + by * by + bz * bz;
 	// B = direction of ray
-    float B = 2 * (ax * bx + ay * by + az * bz);
+    float b = 2 * (ax * bx + ay * by + az * bz);
 	// C = 
-    float C = ax * ax + ay * ay + az * az - r * r;
+    float c = ax * ax + ay * ay + az * az - r * r;
     
-    // Calculate discriminant
-    float discriminant = B * B - 4 * A * C;
+    // Calculate descriminant
+    float des = (b * b) - (4 * (a * c));
     
-    if (discriminant >= 0.0f) {
-        return 0xffff00ff;  // Color when ray hits the sphere
+    if (des >= 0.0f) {
+		int red;
+		t0 = (-b + sqrt(des)) / (2.0f * a); // cahnge his
+		scaled_direction.x = bx * t0;
+		scaled_direction.y = by * t0;
+		scaled_direction.z = bz * t0;
+		// ray.origin.y + scaled_direction.y, ray.origin.z + scaled_direction.z;
+		hit_pos.x = ax + scaled_direction.x;
+		hit_pos.y = ay + scaled_direction.y;
+		hit_pos.z = az + scaled_direction.z;
+		norm = normalize(hit_pos);
+		
+		double d =fmax((dotProduct(norm, (light))), 0.00f);
+		
+		red = (int)(1 * (255 * d)) + (int)((0.2 * 255));
+		if(red > 255)
+			red =255;
+		int color = ft_color(red, 0x00, 0x00, 0xFF);
+		return color;
 	}
-    // } else {
-	// 	return (0x000000ff);
-	// }
-
-    // Otherwise, interpolate color
     return (red << 24) | (green << 16) | (blue << 8) | 0xff;
 }
 

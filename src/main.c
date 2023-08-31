@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
+/*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 13:27:04 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/08/30 14:49:17 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/08/31 12:02:22 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@ int perPixel(int x, int y, int z, float r, t_data *data) {
 	t_vector	norm;
 	t_vector	scaled_direction;
 	t_vector	light;
-	light.x = 1;
-    light.y = 1;
-    light.z = -1;
+	light.x = data->scene.light.position.x;
+    light.y = data->scene.light.position.y;
+    light.z = data->scene.light.position.z;
     light = normalize(light);
 	t_vector	hit_pos;
 	double		t0;
@@ -66,7 +66,6 @@ int perPixel(int x, int y, int z, float r, t_data *data) {
     float ay = data->scene.camera.position.y;  // Camera position y-coordinate
     float az = data->scene.camera.position.z;  // Camera position z-coordinate
 
-    // Assuming ray direction is (x, y, z)
 	float aspect_ratio = (float)WIDTH / (float)HEIGHT;
     float bx = (x * 2.0f / WIDTH - 1.0f) * aspect_ratio;
 	float by = y * 2.0f / HEIGHT - 1.0f;
@@ -97,22 +96,53 @@ int perPixel(int x, int y, int z, float r, t_data *data) {
 		
 		double d =fmax((dotProduct(norm, (light))), 0.00f);
 		
-		red = (int)(1 * (255 * d)) + (int)((0.2 * 255));
+		red = (int)(data->scene.ambient.intensity * (255 * d)) + (int)((0.2 * 255));
 		if(red > 255)
 			red =255;
 		int color = ft_color(red, 0x00, 0x00, 0xFF);
 		return color;
+		return 0xFF0000FF;
 	}
     return (red << 24) | (green << 16) | (blue << 8) | 0xff;
 }
 
-void	draw_sphere(t_data *data)
+void	draw_sphere(void *param)
 {
-	// draw gradient
+	t_data *data = (t_data *)param;
+	
 	for (int y = 0; y < HEIGHT; y++) {
 		for (int x = 0; x < WIDTH; x++) {
 			mlx_put_pixel(data->img, x, y, perPixel(x, y, 1, data->scene.spheres->diameter / 2, data));
 		}
+	}
+}
+
+void ft_hook(void* param)
+{
+	t_data	*data = (t_data *)param;
+	mlx_t* mlx = data->mlx;
+
+	if (mlx_is_key_down(mlx, MLX_KEY_ESCAPE))
+		mlx_close_window(mlx);
+	if (mlx_is_key_down(mlx, MLX_KEY_UP))
+	{
+		data->scene.light.position.y += 2;
+		printf("up pressed x: %f\n", data->scene.light.position.y);
+	}
+	if (mlx_is_key_down(mlx, MLX_KEY_DOWN))
+	{
+		data->scene.light.position.y -= 2;
+		printf("down pressed x: %f\n", data->scene.light.position.y);
+	}
+	if (mlx_is_key_down(mlx, MLX_KEY_LEFT))
+	{
+		data->scene.light.position.x += 2;
+		printf("left pressed x: %f\n", data->scene.light.position.x);
+	}
+	if (mlx_is_key_down(mlx, MLX_KEY_RIGHT))
+	{
+		data->scene.light.position.x -= 2;
+		printf("right pressed x: %f\n", data->scene.light.position.x);
 	}
 }
 
@@ -125,6 +155,10 @@ int	test(t_data *data)
 		puts(mlx_strerror(mlx_errno));
 		return(ERROR);
 	}
+
+	mlx_loop_hook(data->mlx, draw_sphere, data);
+	mlx_loop_hook(data->mlx, ft_hook, data);
+
 	mlx_loop(data->mlx);
 	mlx_terminate(data->mlx);
 	return (OK);

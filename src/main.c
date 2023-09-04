@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 13:27:04 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/08/31 12:02:22 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/09/04 13:02:52 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ int perPixel(int x, int y, int z, float r, t_data *data) {
     int blue = interpolate(startB, endB, t);
 
 
-	t_vector	norm;
 	t_vector	scaled_direction;
+	t_vector	norm;
 	t_vector	light;
 	light.x = data->scene.light.position.x;
     light.y = data->scene.light.position.y;
@@ -84,11 +84,10 @@ int perPixel(int x, int y, int z, float r, t_data *data) {
     
     if (des >= 0.0f) {
 		int red;
-		t0 = (-b + sqrt(des)) / (2.0f * a); // cahnge his
+		t0 = (-b + sqrt(des)) / (2.0f * a); // WHAT IS THIS?
 		scaled_direction.x = bx * t0;
 		scaled_direction.y = by * t0;
 		scaled_direction.z = bz * t0;
-		// ray.origin.y + scaled_direction.y, ray.origin.z + scaled_direction.z;
 		hit_pos.x = ax + scaled_direction.x;
 		hit_pos.y = ay + scaled_direction.y;
 		hit_pos.z = az + scaled_direction.z;
@@ -98,7 +97,7 @@ int perPixel(int x, int y, int z, float r, t_data *data) {
 		
 		red = (int)(data->scene.ambient.intensity * (255 * d)) + (int)((0.2 * 255));
 		if(red > 255)
-			red =255;
+			return 0xffffffff;
 		int color = ft_color(red, 0x00, 0x00, 0xFF);
 		return color;
 		return 0xFF0000FF;
@@ -112,7 +111,7 @@ void	draw_sphere(void *param)
 	
 	for (int y = 0; y < HEIGHT; y++) {
 		for (int x = 0; x < WIDTH; x++) {
-			mlx_put_pixel(data->img, x, y, perPixel(x, y, 1, data->scene.spheres->diameter / 2, data));
+			mlx_put_pixel(data->img, x, y, perPixel(x, y, 1, data->scene.spheres[0].diameter / 2, data));
 		}
 	}
 }
@@ -120,30 +119,17 @@ void	draw_sphere(void *param)
 void ft_hook(void* param)
 {
 	t_data	*data = (t_data *)param;
-	mlx_t* mlx = data->mlx;
 
-	if (mlx_is_key_down(mlx, MLX_KEY_ESCAPE))
-		mlx_close_window(mlx);
-	if (mlx_is_key_down(mlx, MLX_KEY_UP))
-	{
-		data->scene.light.position.y += 2;
-		printf("up pressed x: %f\n", data->scene.light.position.y);
-	}
-	if (mlx_is_key_down(mlx, MLX_KEY_DOWN))
-	{
-		data->scene.light.position.y -= 2;
-		printf("down pressed x: %f\n", data->scene.light.position.y);
-	}
-	if (mlx_is_key_down(mlx, MLX_KEY_LEFT))
-	{
-		data->scene.light.position.x += 2;
-		printf("left pressed x: %f\n", data->scene.light.position.x);
-	}
-	if (mlx_is_key_down(mlx, MLX_KEY_RIGHT))
-	{
-		data->scene.light.position.x -= 2;
-		printf("right pressed x: %f\n", data->scene.light.position.x);
-	}
+	if (mlx_is_key_down(data->mlx, MLX_KEY_ESCAPE))
+		mlx_close_window(data->mlx);
+	if (mlx_is_key_down(data->mlx, MLX_KEY_UP))
+		data->scene.light.position.y += 1;
+	if (mlx_is_key_down(data->mlx, MLX_KEY_DOWN))
+		data->scene.light.position.y -= 1;
+	if (mlx_is_key_down(data->mlx, MLX_KEY_LEFT))
+		data->scene.light.position.x += 1;
+	if (mlx_is_key_down(data->mlx, MLX_KEY_RIGHT))
+		data->scene.light.position.x -= 1;
 }
 
 int	test(t_data *data)
@@ -177,6 +163,6 @@ int	main(int argc, char **argv)
 		test(&data);
 	}
 	else
-		ft_putstr_fd("Error, no input file\n", 2);
+		ft_putstr_fd("Error with inputfile\n", 2);
 	return (OK);
 }

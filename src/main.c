@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
+/*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 13:27:04 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/09/04 13:02:52 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/09/06 17:50:42 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int perPixel(int x, int y, int z, float r, t_data *data) {
     light = normalize(light);
 	t_vector	hit_pos;
 	double		t0;
+	double		t1;
 
 
 	float ax = data->scene.camera.position.x;  // Camera position x-coordinate
@@ -84,7 +85,8 @@ int perPixel(int x, int y, int z, float r, t_data *data) {
     
     if (des >= 0.0f) {
 		int red;
-		t0 = (-b + sqrt(des)) / (2.0f * a); // WHAT IS THIS?
+		t0 = (-b + sqrt(des)) / (2.0f * a);
+		t1 = (-b - sqrt(des)) / (2.0f * a);
 		scaled_direction.x = bx * t0;
 		scaled_direction.y = by * t0;
 		scaled_direction.z = bz * t0;
@@ -95,14 +97,20 @@ int perPixel(int x, int y, int z, float r, t_data *data) {
 		
 		double d =fmax((dotProduct(norm, (light))), 0.00f);
 		
-		red = (int)(data->scene.ambient.intensity * (255 * d)) + (int)((0.2 * 255));
+		red = (int)(((data->scene.light.color.red * data->scene.light.brightness) * d)) + (int)((data->scene.ambient.intensity * data->scene.ambient.color.red)) * data->scene.spheres[0].color.red / 255;
 		if(red > 255)
-			return 0xffffffff;
-		int color = ft_color(red, 0x00, 0x00, 0xFF);
+			red = 255;
+		green = (int)(((data->scene.light.color.green * data->scene.light.brightness) * d)) + (int)((data->scene.ambient.intensity * data->scene.ambient.color.green))* data->scene.spheres[0].color.green / 255;
+		if(green > 255)
+			green = 255;
+		blue = (int)(((data->scene.light.color.blue * data->scene.light.brightness) * d)) + (int)((data->scene.ambient.intensity * data->scene.ambient.color.blue))* data->scene.spheres[0].color.blue / 255;
+		if(blue > 255)
+			blue = 255;
+		int color = ft_color(red, green, blue, 0xff);
 		return color;
-		return 0xFF0000FF;
 	}
     return (red << 24) | (green << 16) | (blue << 8) | 0xff;
+	// return 0x000000ff;
 }
 
 void	draw_sphere(void *param)

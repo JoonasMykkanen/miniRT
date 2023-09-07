@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:17:31 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/09/06 16:47:08 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/09/07 10:44:12 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 # include "../src/libft/inc/libft.h"
 # include "../src/mlx42/include/MLX42/MLX42.h"
 
-# define HEIGHT 800
-# define WIDTH 1500
+# define HEIGHT 1000
+# define WIDTH 1000
 
 # define ERROR 2
 # define OK 0

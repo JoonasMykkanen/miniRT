@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
+/*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 14:48:30 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/08/24 14:42:28 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/09/11 12:05:31 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

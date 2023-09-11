@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
+/*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 10:50:44 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/08/29 10:29:41 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/09/11 12:45:54 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,6 @@ int	init(t_data *data, char *file)
 		ft_putstr_fd((char *)mlx_strerror(mlx_errno), ERROR);
 		return (ERROR);
 	}
+	data->aspect_ratio = (float)WIDTH / (float)HEIGHT;
 	return (OK);	
 }

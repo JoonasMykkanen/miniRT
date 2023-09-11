@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test3.5.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 12:26:20 by djames            #+#    #+#             */
-/*   Updated: 2023/09/09 14:39:57 by djames           ###   ########.fr       */
+/*   Updated: 2023/09/11 12:24:30 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,81 +191,6 @@ t_atrix4x4 perspective(float fov, float aspect, float near, float far) {
 
     return (result);
 }
-void recalculate_projection(t_camera cam)
-{
-    
-}
-void camera1(void* param)
-{
-	t_camera* cam = param;
-    t_vect forward;
-    t_vect delta;
-    t_vect right;
-    t_vect up_drec;
-    int moved = 0;
-    
-
-    delta.x=0;
-    delta.y = 0;
-    up_drec.x = 0;
-    up_drec.y = 1;
-    up_drec.z = 0;
-    cam->direction.x = 0;
-    cam->direction.y = 0;
-    cam->direction.z = -1;
-    cam->position.x= 0;
-    cam->position.y= 0;
-    cam->position.z= 6;
-    right = cross(cam->direction , up_drec);
-    float speed = 5.0;
-
-    if (mlx_is_key_down(mlx, MLX_KEY_ESCAPE))
-		mlx_close_window(mlx);
-    if (mlx_is_key_down(mlx, MLX_KEY_UP))
-    {
-		cam->position.z += 5;
-        delta.y =1;
-        moved =1;
-    }
-	if (mlx_is_key_down(mlx, MLX_KEY_DOWN))
-		image->instances[0].y += 5;
-	if (mlx_is_key_down(mlx, MLX_KEY_LEFT))
-		image->instances[0].x -= 5;
-	if (mlx_is_key_down(mlx, MLX_KEY_RIGHT))
-		image->instances[0].x += 5;
-    // Rotation
-	if (delta.x != 0.0f || delta.y != 0.0f)
-	{
-		float pitchDelta = delta.y * 0.3;
-		float yawDelta = delta.x * 0.3;
-
-		t_quaternion pitchRotation = { sin(pitchDelta / 2), 0.0f, 0.0f, cos(pitchDelta / 2) };
-        t_quaternion yawRotation = { 0.0f, sin(yawDelta / 2), 0.0f, cos(yawDelta / 2) };
-
-        // Combine the pitch and yaw rotations
-        t_quaternion combinedRotation = normalize_quaternion(quaternion_cross(pitchRotation, yawRotation));
-
-        // Define the forward direction vector
-        //t_vect m_ForwardDirection = { 0.0f, 0.0f, -1.0f };
-
-    // Rotate the forward direction using the combined rotation quaternion
-        cam->direction = rotate_vector(cam->direction, combinedRotation);
-
-		moved = true;
-	}
-
-	// if (moved)
-	// {
-	// 	RecalculateView();
-	// 	RecalculateRayDirections();
-	// }
-
-}
-    typedef struct s_cy {
-    t_vect center;
-    double radius;
-    double height;
-} t_cylinder;
 
     
 int intersect_cylinder(const t_vect *origin, const t_vect *direction, const t_cylinder *cylinder, double *t) {
@@ -306,38 +231,6 @@ int intersect_cylinder(const t_vect *origin, const t_vect *direction, const t_cy
 
 }
 
-
-// int intersect_sphere(const t_vect *origin, const t_vect *direction, const t_sphere *sphere, double *t) {
-   
-// 	double ocx = origin->x - sphere->center.x;
-//     double ocy = origin->y - sphere->center.y;
-//     double ocz = origin->z - sphere->center.z;
-
-//     double a = direction->x * direction->x +
-//                direction->y * direction->y +
-//                direction->z * direction->z;
-
-//     double b = 2.0 * (ocx * direction->x +
-//                       ocy * direction->y +
-//                       ocz * direction->z);
-
-//     double c = ocx * ocx + ocy * ocy + ocz * ocz - sphere->radius * sphere->radius;
-
-//     double discriminant = b * b - 4 * a * c;
-
-//     if (discriminant > 0) {
-//         double t1 = (-b - sqrt(discriminant)) / (2 * a);
-//         double t2 = (-b + sqrt(discriminant)) / (2 * a);
-
-//         if (t1 >= 0 || t2 >= 0) {
-//             *t = (t1 < t2) ? t1 : t2;
-//             return 1;
-//         }
-//     }
-
-//     return 0;
-
-// }
 int intersect_sphere(const t_vect *origin, const t_vect *direction, const t_sphere* sphere, double* t) {
     t_vect oc = subtract(*origin, sphere->center);
     float a = dotProduct(*direction, *direction);

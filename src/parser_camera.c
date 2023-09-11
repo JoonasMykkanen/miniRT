@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_camera.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
+/*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 13:15:41 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/08/23 23:09:42 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/09/11 12:05:06 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	assign_fov(int *fov, char *str)
 	value = ft_atoi(str);
 	if (value < 0 || value > 180)
 		return (ERROR);
-	*fov = value;
+	*fov = value * M_PI / 180.0f;
 	return (OK);
 }
 

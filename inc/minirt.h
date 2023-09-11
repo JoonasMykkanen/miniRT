@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:17:31 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/09/07 10:44:12 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/09/11 12:45:48 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ typedef struct s_sphere
 {
 	t_vector	center;
 	float		diameter;
+	float		radius;
 	t_color		color;
 }				t_sphere;
 
@@ -106,6 +107,8 @@ typedef struct s_data
 {
 	mlx_image_t	*img;
 	mlx_t		*mlx;
+
+	float		aspect_ratio;
 
 	t_scene		scene;
 }				t_data;

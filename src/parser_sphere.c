@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 13:15:41 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/09/11 12:10:37 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/09/11 16:39:47 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	create_obj_sphere(t_data *data, char **params)
 	ptr->diameter = ft_atof(params[2]);
 	if (check_size(ptr->diameter) == ERROR)
 		return (ERROR);
-	if (assign_color(&ptr[*idx].color, params[3]) == ERROR)
+	if (assign_color(&ptr->color, params[3]) == ERROR)
 		return (ERROR);
 	ptr->radius = ptr->diameter / 2;
 	*idx += 1;

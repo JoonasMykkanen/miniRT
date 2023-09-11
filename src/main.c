@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 13:27:04 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/09/11 13:15:59 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/09/11 16:17:39 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,19 +43,22 @@ int32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
     return (r << 24 | g << 16 | b << 8 | a);
 }
 
-void	iterate_spheres(t_data *data, int x, int y, double *closest)
+int	iterate_spheres(t_data *data, int x, int y, double *closest)
 {
-	for (int i = 0; i <= data->scene.num_spheres; i++) {
-		t_vector	ray_origin = {
-			data->scene.camera.position.x - data->scene.spheres[i].center.x,
-			data->scene.camera.position.y - data->scene.spheres[i].center.y,
-			data->scene.camera.position.z - data->scene.spheres[i].center.z,
-		};
-		t_vector ray_dir = {
-			((double)x / (double)WIDTH - 0.5) * data->aspect_ratio * tan(data->scene.camera.fov / 2.0),
-			(0.5 - (double)y / (double)HEIGHT) * tan(data->scene.camera.fov / 2.0),
-			-1,
-		};
+	t_vector scaled_direction;
+	t_vector hit_pos;
+	t_vector light;
+	t_vector norm;
+	t_vector ray_origin;
+	t_vector ray_dir;
+
+	for (int i = 0; i < data->scene.num_spheres; i++) {
+		ray_origin.x = data->scene.camera.position.x - data->scene.spheres[i].center.x;
+		ray_origin.y = data->scene.camera.position.y - data->scene.spheres[i].center.y;
+		ray_origin.z = data->scene.camera.position.z - data->scene.spheres[i].center.z;
+		ray_dir.x = ((double)x / (double)WIDTH - 0.5) * data->aspect_ratio * tan(data->scene.camera.fov / 2.0);
+		ray_dir.y = (0.5 - (double)y / (double)HEIGHT) * tan(data->scene.camera.fov / 2.0);
+		ray_dir.z = -1;
 		ray_dir = normalize(ray_dir);
 		
 		double	r = data->scene.spheres[i].radius;
@@ -67,29 +70,22 @@ void	iterate_spheres(t_data *data, int x, int y, double *closest)
 		if (des >= 0.0f)
 		{
 			double t = (-b - sqrt(des)) / (2.0f * a);
-			// if (t < *closest)
-			// {
-			// *closest = t;
-			t_vector scaled_direction = {
-				ray_dir.x * t,
-				ray_dir.y * t,
-				ray_dir.z * t,
-			};
-			t_vector hit_pos = {
-				ray_origin.x + scaled_direction.x,
-				ray_origin.y + scaled_direction.y,
-				ray_origin.z + scaled_direction.z,
-			};
-			t_vector light = {
-				hit_pos.x + data->scene.light.position.x,
-				hit_pos.y + data->scene.light.position.y,
-				hit_pos.z + data->scene.light.position.z,
-			};
-			t_vector norm = {
-				hit_pos.x - data->scene.spheres[i].center.x,
-				hit_pos.y - data->scene.spheres[i].center.y,
-				hit_pos.z - data->scene.spheres[i].center.z,
-			};
+			scaled_direction.x = ray_dir.x * t;
+			scaled_direction.y = ray_dir.y * t;
+			scaled_direction.z = ray_dir.z * t;
+
+			hit_pos.x = ray_origin.x + scaled_direction.x;
+			hit_pos.y = ray_origin.y + scaled_direction.y;
+			hit_pos.z = ray_origin.z + scaled_direction.z;
+
+			light.x = hit_pos.x + data->scene.light.position.x;
+			light.y = hit_pos.y + data->scene.light.position.y;
+			light.z = hit_pos.z + data->scene.light.position.z;
+			
+			norm.x = hit_pos.x - data->scene.spheres[i].center.x;
+			norm.y = hit_pos.y - data->scene.spheres[i].center.y;
+			norm.z = hit_pos.z - data->scene.spheres[i].center.z;
+			
 			norm = normalize(norm);
 			light = normalize(light);
 
@@ -121,22 +117,24 @@ void	iterate_spheres(t_data *data, int x, int y, double *closest)
 			if (blue > 255) blue = 255;
 				
 			int color = ft_color(red, green, blue, 0xff);
-			mlx_put_pixel(data->img, x, y, color);
 			// }
+			// if (color != )
+			return (color);
 		}
-		else
-			mlx_put_pixel(data->img, x, y, 0x000000ff);
+		// else
+		// 	continue ;
 	}
+	return (0x000000ff);
 }
 
 void perPixel(int x, int y, t_data *data)
 {
 	double closest = MAXFLOAT;
-	int color;
-
+	int color = 0x000000ff;
 	
-    iterate_spheres(data, x, y, &closest);
+    color = iterate_spheres(data, x, y, &closest);
 
+	mlx_put_pixel(data->img, x, y, color);
 }
 
 void	render(void *param)
@@ -178,7 +176,6 @@ void ft_hook(void* param) /// this move the camera now
 
 int	test(t_data *data)
 {
-	render(data);
 	if (mlx_image_to_window(data->mlx, data->img, 0, 0) == -1)
 	{
 		mlx_close_window(data->mlx);

@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 13:27:04 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/09/11 16:17:39 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/09/12 15:54:56 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,16 @@ int interpolate(int start, int end, float t)
 double dotProduct(t_vector a, t_vector b)
 {
     return (a.x * b.x) + (a.y * b.y) + (a.z * b.z);
+}
+
+t_vector subtract(t_vector a, t_vector b) {
+    t_vector result;
+	
+    result.x = a.x - b.x;
+    result.y = a.y - b.y;
+    result.z = a.z - b.z;
+	
+    return result;
 }
 
 t_vector normalize(t_vector vector)
@@ -127,12 +137,39 @@ int	iterate_spheres(t_data *data, int x, int y, double *closest)
 	return (0x000000ff);
 }
 
+int	draw_plane(t_data *data, int x, int y)
+{
+	t_vector ray_origin;
+	t_vector ray_dir;
+	ray_origin.x = data->scene.camera.position.x;
+	ray_origin.y = data->scene.camera.position.y;
+	ray_origin.z = data->scene.camera.position.z;
+	ray_dir.x = ((double)x / (double)WIDTH - 0.5) * data->aspect_ratio * tan(data->scene.camera.fov / 2.0);
+	ray_dir.y = (0.5 - (double)y / (double)HEIGHT) * tan(data->scene.camera.fov / 2.0);
+	ray_dir.z = -1;
+	ray_dir = normalize(ray_dir);
+
+	double numerator = dotProduct(subtract(data->scene.planes[0].point, ray_origin), data->scene.planes[0].normal);
+    double denominator = dotProduct(ray_dir, data->scene.planes[0].normal);
+	if(denominator == 0.0) {
+        printf("Ray is parallel to the plane.\n");
+        return (0x000000ff);
+    }
+    double t =  numerator / denominator;
+	if (t > 0) {
+		return (0xffffffff);		
+	}
+	return (0x000000ff);
+}
+
 void perPixel(int x, int y, t_data *data)
 {
 	double closest = MAXFLOAT;
 	int color = 0x000000ff;
 	
-    color = iterate_spheres(data, x, y, &closest);
+    // color = iterate_spheres(data, x, y, &closest);
+
+	color = draw_plane(data, x, y);
 
 	mlx_put_pixel(data->img, x, y, color);
 }

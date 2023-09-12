@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 13:27:04 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/09/12 15:54:56 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/09/12 15:56:18 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,6 @@ int	draw_plane(t_data *data, int x, int y)
 	double numerator = dotProduct(subtract(data->scene.planes[0].point, ray_origin), data->scene.planes[0].normal);
     double denominator = dotProduct(ray_dir, data->scene.planes[0].normal);
 	if(denominator == 0.0) {
-        printf("Ray is parallel to the plane.\n");
         return (0x000000ff);
     }
     double t =  numerator / denominator;

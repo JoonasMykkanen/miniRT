@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 13:27:04 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/09/13 15:46:17 by djames           ###   ########.fr       */
+/*   Updated: 2023/09/13 16:49:33 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
 // TESTING STARTS
+#include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -274,14 +275,10 @@ t_vector ray_color(const t_ray r) {
 	blue.x = 0.5;
 	blue.y = 0.7;
 	blue.z = 1.0;
-	// auto a = 0.5*(unit_direction.y() + 1.0);
-    // return (1.0-a)*color(1.0, 1.0, 1.0) + a*color(0.5, 0.7, 1.0);
 	white =  vec_multis(white, (float)(1.0 - a));
 	blue =  vec_multis(blue, (float)(a));
     return add_color(white, blue);
 }
-
-///-----------
 
 void perPixel(int x, int y, t_data *data)
 {
@@ -290,27 +287,26 @@ void perPixel(int x, int y, t_data *data)
 	
     color = iterate_spheres(data, x, y, &closest);
 
-	// color = draw_plane(data, x, y);
-
 	mlx_put_pixel(data->img, x, y, color);
 }
 
 void	render(void *param)
 {
-	t_data *data = (t_data *)param;
-	data->scene.camera.htan = tan(1.5 / 2);	//= tan((data->camerafov / 2));
+	// TIMING
+	static int idx = 0;
+	clock_t start, end;
+    double cpu_time_used;
+	start = clock();
 	
-	float fl=1;
-    
-    data->scene.camera.lookat.x =0;
-    data->scene.camera.lookat.y =0;
-    data->scene.camera.lookat.z =0;
+	t_data *data = (t_data *)param;
+
+	// THIS IS THE CAMERA LEFT OR RIGHT HAND THING
     data->scene.camera.vup.x = 0;
     data->scene.camera.vup.y = 1;
     data->scene.camera.vup.z = 0;
   
-    
-    data->scene.camera.focal = subtract(data->scene.camera.position, data->scene.camera.lookat);
+	data->scene.camera.htan = tan(data->scene.camera.fov / 2);
+    data->scene.camera.focal = subtract(data->scene.camera.position, data->scene.camera.orientation);
     data->scene.camera.f_len = length(data->scene.camera.focal);
 	data->scene.camera.viewport_height = 2.0 * data->scene.camera.htan * data->scene.camera.f_len;
 	data->scene.camera.viewport_width =data->scene.camera.viewport_height * ((double)(WIDTH)/(double)HEIGHT);
@@ -333,14 +329,7 @@ void	render(void *param)
 	data->scene.camera.help1 = vec_multis(data->scene.camera.help, 0.5); // I need to remember what is 0.5 
 	data->scene.camera.pixel = vec_add(data->scene.camera.up_left, data->scene.camera.help1);
 	
-	uint32_t color= ft_pixel(
-				0x00, //((int)(255 * x1)), // R // this we need to do all for us color in float we will do it in a bt
-				0x00,//(int)(255 * y1), // G uv(0.1) reverse the coordinate  // color entre 0  y 1
-				0x00, // B
-				0xFF
-				);
-    double tc;
-    double *t1, *t2;
+	uint32_t color;
     t_vector scaled_direction;
     t_vector hit_pos;
     t_vector norm;
@@ -353,14 +342,9 @@ void	render(void *param)
     int a2;
     int green;
     int red;
-	t_sphere sphera;
-	sphera.center.x = -0.5;
-	sphera.center.y = 0;
-	sphera.center.z = -1;
 
 	t_vector ray_d;
-
-	//-------
+	
 	for (int j = 0; j < HEIGHT; ++j) {
         for (int i = 0; i < WIDTH; ++i) {
 			data->scene.camera.help = vec_multis(data->scene.camera.pixu, (float)i);
@@ -371,7 +355,8 @@ void	render(void *param)
 			data->scene.ray = ray_create(data->scene.camera.position, ray_d);
 			t_vector pixel_color = ray_color(data->scene.ray);
 			t66 = 5000000000000.0;
-			for(int a = 0; a < 3; a++)
+			
+			for (int a = 0; a < 3; a++)
             {
                 hit = hit_sphere(sphe[a].center, 0.5, data->scene.ray);
                 if((hit < t66) && (hit > 0))
@@ -380,22 +365,12 @@ void	render(void *param)
                     aux = sphe[a];
                     a2 =a;
                 }
-                
-                
             }
-            if(t66 != 5000000000000.0){
+			
+            if (t66 != 5000000000000.0){
                 scaled_direction = vec_multis(ray_d, t66);
-				// scaled_direction.x = ray_d.x * t55;
-                // scaled_direction.y =ray_d.y * t55;
-                // scaled_direction.z = ray_d.z * t55;
                 hit_pos = subtract(data->scene.ray.orig, sphe[a2].center);
                 hit_pos = vec_add(hit_pos, scaled_direction);
-                // hit_pos.x = ray_o.x + scaled_direction.x;
-                // hit_pos.y = ray_o.y + scaled_direction.y;
-                // hit_pos.z = ray_o.z + scaled_direction.z;
-                // hit_pos.x = r.orig.x  + scaled_direction.x;
-                // hit_pos.y = origen.y + scaled_direction.y;
-                // hit_pos.z = origen.z + scaled_direction.z;
                 norm =normalize(hit_pos);
                
                 double d2 =fmax((dotProduct(norm, (data->scene.light.position))), 0.00f);
@@ -409,58 +384,48 @@ void	render(void *param)
                 green = (int)(0.7* (255 * d2)) + (int)((0.2 * 255));// make something 0  to 1 multiple  by 2551 I added the ambient // later we consider what is the color of the  this will grow with multiple by color of our object
                 if(green > 255)
                     green =255;
-                if (a2 == 0)
-                {
-                color = ft_pixel(
-				0x00, //((int)(255 * x1)), // R // this we need to do all for us color in float we will do it in a bt
-				0x00,//(int)(255 * y1), // G uv(0.1) reverse the coordinate  // color entre 0  y 1
-				blue, // B
-				0xFF
-				);
-                }else if (a2 == 1)
-                {
+                if (a2 == 0) {
+                	color = ft_pixel(
+						0x00, //((int)(255 * x1)), // R // this we need to do all for us color in float we will do it in a bt
+						0x00,//(int)(255 * y1), // G uv(0.1) reverse the coordinate  // color entre 0  y 1
+						blue, // B
+						0xFF
+					);
+                }else if (a2 == 1) {
                     color = ft_pixel(
-				0x00, //((int)(255 * x1)), // R // this we need to do all for us color in float we will do it in a bt
-				green,//(int)(255 * y1), // G uv(0.1) reverse the coordinate  // color entre 0  y 1
-				0x00, // B
-				0xFF
-				);
-                    
-                }else if (a2 == 2)
-                {
+						0x00, //((int)(255 * x1)), // R // this we need to do all for us color in float we will do it in a bt
+						green,//(int)(255 * y1), // G uv(0.1) reverse the coordinate  // color entre 0  y 1
+						0x00, // B
+						0xFF
+					);
+                }else if (a2 == 2) {
                     color = ft_pixel(
-				red, //((int)(255 * x1)), // R // this we need to do all for us color in float we will do it in a bt
-				0x00,//(int)(255 * y1), // G uv(0.1) reverse the coordinate  // color entre 0  y 1
-				0x00, // B
-				0xFF
-				);
+						red, //((int)(255 * x1)), // R // this we need to do all for us color in float we will do it in a bt
+						0x00,//(int)(255 * y1), // G uv(0.1) reverse the coordinate  // color entre 0  y 1
+						0x00, // B
+						0xFF
+					);
                 }
-			// if (t66 > 0.0)
-			// {
-				
-			}else
-			{
-			color = ft_pixel(
-				(int)(pixel_color.x * 255), //((int)(255 * x1)), // R // this we need to do all for us color in float we will do it in a bt
-				(int)(pixel_color.y * 255),//(int)(255 * y1), // G uv(0.1) reverse the coordinate  // color entre 0  y 1
-				(int)(pixel_color.z *255), // B
-				0xFF
+			} else {
+				color = ft_pixel(
+					0x00,
+					0x00,
+					0x00,
+					0xff
 				);
 			}
 		    mlx_put_pixel(data->img, i, j, color);
-			
 		}
 	}
-
-
 	
-	///--------
-	
-	// for (int y = 0; y < HEIGHT; y++) {
-	// 	for (int x = 0; x < WIDTH; x++) {
-	// 		perPixel(x, y, data);
-	// 	}
-	// }
+	// timing stuff
+	idx++;
+	end = clock();  // Mark the end time
+    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;  // Calculate time taken
+	if (idx == 10) {
+    	printf("render() took %f seconds to execute \n", cpu_time_used);
+		idx = 0;
+	}
 }
 
 void ft_hook(void* param) /// this move the camera now 
@@ -470,68 +435,18 @@ void ft_hook(void* param) /// this move the camera now
 	if (mlx_is_key_down(data->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(data->mlx);
 	if (mlx_is_key_down(data->mlx, MLX_KEY_UP))
-		//image->instances[0].y -= 5;
-        data->scene.camera.position.y -= 5;
+        data->scene.camera.position.y -= 0.3;
 	if (mlx_is_key_down(data->mlx, MLX_KEY_DOWN))
-		 data->scene.camera.position.y += 5;
-        //image->instances[0].y += 5;
+		 data->scene.camera.position.y += 0.3;
 	if (mlx_is_key_down(data->mlx, MLX_KEY_LEFT))
-		 data->scene.camera.position.x += 5;
-        //image->instances[0].x -= 5;
+		 data->scene.camera.position.x += 0.3;
 	if (mlx_is_key_down(data->mlx, MLX_KEY_RIGHT))
-		 data->scene.camera.position.x -= 5;
-        //image->instances[0].x += 5;
+		 data->scene.camera.position.x -= 0.3;
     if (mlx_is_key_down(data->mlx, MLX_KEY_Q))
-		 data->scene.camera.position.z += 5;
-        //image->instances[0].x -= 5;
+		 data->scene.camera.position.z += 0.3;
 	if (mlx_is_key_down(data->mlx, MLX_KEY_E))
-		 data->scene.camera.position.z -= 5;
-	
-	// if (mlx_is_key_down(mlx, MLX_KEY_ESCAPE))
-	// 	mlx_close_window(mlx);
-	// if (mlx_is_key_down(mlx, MLX_KEY_UP))
-	// 	//image->instances[0].y -= 5;
-    //     lookfrom.y += 0.1;
-	// if (mlx_is_key_down(mlx, MLX_KEY_DOWN))
-	// 	lookfrom.y -= 0.1;
-    //     //image->instances[0].y += 5;
-	// if (mlx_is_key_down(mlx, MLX_KEY_LEFT))
-	// 	lookfrom.x += 0.1;
-    //     //image->instances[0].x -= 5;
-	// if (mlx_is_key_down(mlx, MLX_KEY_RIGHT))
-	// 	lookfrom.x -= 0.1;
-    //     //image->instances[0].x += 5;
-    // if (mlx_is_key_down(mlx, MLX_KEY_Q))
-	// 	lookfrom.z += 0.1;
-    //     //image->instances[0].x -= 5;
-	// if (mlx_is_key_down(mlx, MLX_KEY_E))
-	// 	lookfrom.z -= 0.1;
+		 data->scene.camera.position.z -= 0.3;
 }
-
-// void ft_hook(void* param) /// this move the camera now 
-// {
-// 	t_data	*data = (t_data *)param;
-
-// 	if (mlx_is_key_down(data->mlx, MLX_KEY_ESCAPE))
-// 		mlx_close_window(data->mlx);
-// 	if (mlx_is_key_down(data->mlx, MLX_KEY_UP))
-// 		//image->instances[0].y -= 5;
-//         data->scene.camera.position.y -= 0.1;
-// 	if (mlx_is_key_down(data->mlx, MLX_KEY_DOWN))
-// 		 data->scene.camera.position.y += 0.1;
-//         //image->instances[0].y += 5;
-// 	if (mlx_is_key_down(data->mlx, MLX_KEY_LEFT))
-// 		 data->scene.camera.position.x += 0.1;
-//         //image->instances[0].x -= 5;
-// 	if (mlx_is_key_down(data->mlx, MLX_KEY_RIGHT))
-// 		 data->scene.camera.position.x -= 0.1;
-//         //image->instances[0].x += 5;
-//     if (mlx_is_key_down(data->mlx, MLX_KEY_Q))
-// 		 data->scene.camera.position.z += 0.1;
-//         //image->instances[0].x -= 5;
-// 	if (mlx_is_key_down(data->mlx, MLX_KEY_E))
-// 		 data->scene.camera.position.z -= 0.1;
-// }
 
 int	test(t_data *data)
 {
@@ -550,7 +465,6 @@ int	test(t_data *data)
 	return (OK);
 
 }
-// TESTING ENDS
 
 int	main(int argc, char **argv)
 {

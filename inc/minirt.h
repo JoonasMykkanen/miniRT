@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:17:31 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/09/12 15:46:31 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/09/13 13:19:44 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,37 @@ typedef struct s_color
 
 typedef struct s_camera
 {
-	t_vector	position;
+	t_vector	position; // same as lookfrom
 	t_vector	orientation;
-	int			fov;
+	float		fov;
+	float 		htan;
+	t_vector	lookfrom;
+	t_vector u;
+	t_vector v;
+	t_vector z;
+	t_vector up_left;
+	t_vector help;
+	t_vector help1;
+	t_vector pixel;
+	t_vector pixu;
+	t_vector pixv; 
+    t_vector lookat;//   = point3(0,0,0);   // Point camera is looking at
+    t_vector   vup;//      = vec3(0,1,0);
+    t_vector u1;
+    t_vector v1;
+    t_vector  w1;
+	t_vector w;
+    t_vector focal;
+    double f_len;
+	double viewport_height; 
+	double viewport_width;
+	t_vector center;
 }				t_camera;
+
+typedef struct s_r{
+    t_vector orig;
+    t_vector dir;
+} t_ray;
 
 typedef struct s_ambient
 {
@@ -98,6 +125,7 @@ typedef struct s_scene
 
 	t_plane		planes[10];
 	int			num_planes;
+	t_ray		ray;
 
 	t_cylinder	cylinders[10];
 	int			num_cylinders;
@@ -109,6 +137,9 @@ typedef struct s_data
 	mlx_t		*mlx;
 
 	float		aspect_ratio;
+	
+	
+	
 
 	t_scene		scene;
 }				t_data;

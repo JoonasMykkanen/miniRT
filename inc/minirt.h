@@ -6,7 +6,7 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:17:31 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/09/13 16:39:14 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/09/13 18:04:13 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,20 +40,23 @@ typedef struct s_color
 
 typedef struct s_camera
 {
-	t_vector	position; // same as lookfrom
+	t_vector	position;
 	t_vector	orientation;
 	float		fov;
-	float 		htan;
-	t_vector	lookfrom;
+	float		hvac;
+	
 	t_vector u;
 	t_vector v;
 	t_vector z;
+	
 	t_vector up_left;
 	t_vector help;
 	t_vector help1;
+	
 	t_vector pixel;
 	t_vector pixu;
 	t_vector pixv; 
+	
     t_vector lookat;//   = point3(0,0,0);   // Point camera is looking at
     t_vector   vup;//      = vec3(0,1,0);
     t_vector u1;

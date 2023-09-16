@@ -6,7 +6,7 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 13:27:04 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/09/16 11:32:26 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/09/16 11:52:45 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,17 +107,10 @@ t_vector add_color(const t_vector c1, const t_vector c2) {
 
 int draw_plane(t_data *data, int x, int y)
 {
-	t_vector dir = {
-		x,
-		y,
-		-1,
-	};
-	
 	double numerator = dotProduct(data->scene.planes[0].point, data->scene.planes[0].normal) - dotProduct(data->scene.ray.orig, data->scene.planes[0].normal);
-	double denominator = dotProduct(dir, data->scene.planes[0].normal); // Assuming data->scene.ray.dir is the ray's direction
+	double denominator = dotProduct(data->scene.ray.dir, data->scene.planes[0].normal); // Assuming data->scene.ray.dir is the ray's direction
 
 	if (denominator == 0.0) {
-		// Ray is parallel to the plane, no intersection.
 		return (0x000000ff);
 	}
 
@@ -125,8 +118,8 @@ int draw_plane(t_data *data, int x, int y)
 
 	if (t > 0) {
 		t_vector intersection_point = vec_add(vec_multis(data->scene.ray.dir, t), data->scene.ray.orig);
-
-    	if (intersection_point.x > 3 || intersection_point.x < -3 || intersection_point.z > 3 || intersection_point.z < -3) {
+		
+    	if (intersection_point.x > 3 || intersection_point.x < -3 || intersection_point.z > 3 || intersection_point.z < -3 || intersection_point.y > 3 || intersection_point.y < -3) {
 			return (0x000000ff);
 		}
 		return (0xffffffff);
@@ -179,6 +172,15 @@ void	init_camera(t_data *data)
 	data->scene.camera.pixel = vec_add(data->scene.camera.up_left, data->scene.camera.help1);
 }
 
+void	update_ray(t_data *data, int x, int y, t_vector *ray_d) {
+	data->scene.camera.help = vec_multis(data->scene.camera.pixu, (float)x);
+	data->scene.camera.help1 = vec_multis(data->scene.camera.pixv, (float)y);
+	data->scene.camera.center = vec_add(data->scene.camera.help, data->scene.camera.help1);
+	data->scene.camera.center = vec_add(data->scene.camera.center, data->scene.camera.pixel);
+	*ray_d = subtract(data->scene.camera.center, data->scene.camera.position);
+	data->scene.ray = ray_create(data->scene.camera.position, *ray_d);
+}
+
 void	render(void *param)
 {
 	static int render_frame = 0;
@@ -203,15 +205,8 @@ void	render(void *param)
 	
 	for (int j = 0; j < HEIGHT; ++j) {
         for (int i = 0; i < WIDTH; ++i) {
-			data->scene.camera.help = vec_multis(data->scene.camera.pixu, (float)i);
-			data->scene.camera.help1 = vec_multis(data->scene.camera.pixv, (float)j);
-			data->scene.camera.center = vec_add(data->scene.camera.help, data->scene.camera.help1);
-			data->scene.camera.center = vec_add(data->scene.camera.center, data->scene.camera.pixel);
-			ray_d = subtract(data->scene.camera.center, data->scene.camera.position);
-			data->scene.ray = ray_create(data->scene.camera.position, ray_d);
+			update_ray(data, i, j, &ray_d);
 			t66 = 5000000000000.0;
-
-
 			// Check for sphere hit's
 			for (int idx = 0; idx < data->scene.num_spheres; idx++) {
                 hit = hit_sphere(data->scene.spheres[idx].center, data->scene.spheres[idx].radius, data->scene.ray);
@@ -253,6 +248,7 @@ void	render(void *param)
                 
                 color  = ft_color(red, green, blue, 0xff);
 			} else {
+				// TODO -> make plane drawing somewhere logical instead of this
 				color = draw_plane(data, j, i);
 				mlx_put_pixel(data->img, i, j, color);
 				// color = 0x000000ff;

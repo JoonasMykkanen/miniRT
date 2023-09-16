@@ -6,17 +6,11 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 13:27:04 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/09/13 18:38:27 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/09/16 11:32:26 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
-// TESTING STARTS
-#include <time.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
 
 int interpolate(int start, int end, float t)
 {
@@ -35,7 +29,6 @@ t_vector subtract(t_vector a, t_vector b)
     result.x = a.x - b.x;
     result.y = a.y - b.y;
     result.z = a.z - b.z;
-	
     return result;
 }
 
@@ -45,6 +38,7 @@ double lengthSquared(t_vector v) {
 
 t_vector cross(t_vector forward, t_vector position) {
     t_vector result;
+	
     result.x = forward.y * position.z - forward.z * position.y;
     result.y = forward.z * position.x - forward.x * position.z;
     result.z = forward.x * position.y - forward.y * position.x;
@@ -53,6 +47,7 @@ t_vector cross(t_vector forward, t_vector position) {
 
 t_vector vec_multis(const t_vector v, float r) {
     t_vector result;
+
     result.x = v.x * r;
     result.y = v.y * r;
     result.z = v.z * r;
@@ -60,6 +55,7 @@ t_vector vec_multis(const t_vector v, float r) {
 }
 t_vector vec_divide(const t_vector v, float r) {
     t_vector result;
+
     result.x = v.x / r;
     result.y = v.y / r;
     result.z = v.z / r;
@@ -68,22 +64,12 @@ t_vector vec_divide(const t_vector v, float r) {
 
 t_vector vec_add(const t_vector v1, const t_vector v2) {
     t_vector result;
+
     result.x = v1.x + v2.x;
     result.y = v1.y + v2.y;
     result.z = v1.z + v2.z;
     return result;
 
-}
-
-void create_sphere(t_sphere *sphe)
-{
-    for(int i =0; i < 3; i++)
-    {
-        sphe[i].center.x =  1 + 0.30 * i;
-        sphe[i].center.y =  0;
-        sphe[i].center.z =  -i;
-        sphe[i].radius = 0.25;   
-    }
 }
 
 double length(t_vector v) {
@@ -110,6 +96,7 @@ t_vector normalize(t_vector vector)
 
 t_vector ray_at(const t_ray r, double t) {
 	t_vector help;
+
 	help = vec_multis(r.dir, (float)t);
     return vec_add(r.orig, help);
 }
@@ -118,32 +105,35 @@ t_vector add_color(const t_vector c1, const t_vector c2) {
     return (t_vector){c1.x + c2.x, c1.y + c2.y, c1.z + c2.z};
 }
 
-int	draw_plane(t_data *data, int x, int y)
+int draw_plane(t_data *data, int x, int y)
 {
-	t_vector ray_origin = {
-		data->scene.camera.position.x,
-		data->scene.camera.position.y,
-		data->scene.camera.position.z
+	t_vector dir = {
+		x,
+		y,
+		-1,
 	};
 	
-	t_vector ray_dir = {
-		((double)x / (double)WIDTH - 0.5) * data->aspect_ratio * tan(data->scene.camera.fov / 2.0),
-		(0.5 - (double)y / (double)HEIGHT) * tan(data->scene.camera.fov / 2.0),
-		-1
-	};
-	ray_dir = normalize(ray_dir);
+	double numerator = dotProduct(data->scene.planes[0].point, data->scene.planes[0].normal) - dotProduct(data->scene.ray.orig, data->scene.planes[0].normal);
+	double denominator = dotProduct(dir, data->scene.planes[0].normal); // Assuming data->scene.ray.dir is the ray's direction
 
-	double numerator = dotProduct(subtract(data->scene.planes[0].point, ray_origin), data->scene.planes[0].normal);
-    double denominator = dotProduct(ray_dir, data->scene.planes[0].normal);
-	if(denominator == 0.0) {
-        return (0x000000ff);
-    }
-    double t =  numerator / denominator;
+	if (denominator == 0.0) {
+		// Ray is parallel to the plane, no intersection.
+		return (0x000000ff);
+	}
+
+	double t = numerator / denominator;
+
 	if (t > 0) {
-		return (0xffffffff);		
+		t_vector intersection_point = vec_add(vec_multis(data->scene.ray.dir, t), data->scene.ray.orig);
+
+    	if (intersection_point.x > 3 || intersection_point.x < -3 || intersection_point.z > 3 || intersection_point.z < -3) {
+			return (0x000000ff);
+		}
+		return (0xffffffff);
 	}
 	return (0x000000ff);
 }
+
 
 double hit_sphere(const t_vector center, double radius, const t_ray r) {
     t_vector oc = subtract(r.orig, center);
@@ -155,37 +145,6 @@ double hit_sphere(const t_vector center, double radius, const t_ray r) {
 		return -1;
 	else
 		return (-b - sqrt(discriminant) ) / (2.0 * a);
-}
-
-t_vector ray_color(const t_ray r) {
-    t_vector unit_direction = normalize(r.dir);
-    double a = 0.5 * (unit_direction.y + 1.0);
-    t_vector white;
-    t_vector blue;
-    t_vector help;
-    t_vector n;
-    help.x =0;
-    help.y =0;
-    help.z =0;
-    double t = hit_sphere(help, 0.5, r);
-    if (t > 0) {
-        n = ray_at(r, t);
-        n = subtract(n, help);
-        n = normalize(n);
-        n.x = 0.5 * (n.x + 1);
-        n.y = 0.5 * (n.y + 1);
-        n.z = 0.5 * (n.z + 1);
-        return n;
-    }
-	white.x =1;
-	white.y =1;
-	white.z =1;
-	blue.x = 0.5;
-	blue.y = 0.7;
-	blue.z = 1.0;
-	white =  vec_multis(white, (float)(1.0 - a));
-	blue =  vec_multis(blue, (float)(a));
-    return add_color(white, blue);
 }
 
 // TODO --> better names for some variables in camera
@@ -222,14 +181,12 @@ void	init_camera(t_data *data)
 
 void	render(void *param)
 {
-	// TIMING
-	static int idx = 0;
+	static int render_frame = 0;
 	clock_t start, end;
     double cpu_time_used;
 	start = clock();
 	
 	t_data *data = (t_data *)param;
-
 	init_camera(data);
     
     t_vector scaled_direction;
@@ -239,8 +196,6 @@ void	render(void *param)
 	
 	uint32_t color;
 
-    t_sphere sphe[3];
-    create_sphere(sphe);
     t_sphere aux;
     double t66 = 5000000000000.0;
     double hit;
@@ -254,11 +209,11 @@ void	render(void *param)
 			data->scene.camera.center = vec_add(data->scene.camera.center, data->scene.camera.pixel);
 			ray_d = subtract(data->scene.camera.center, data->scene.camera.position);
 			data->scene.ray = ray_create(data->scene.camera.position, ray_d);
-			t_vector pixel_color = ray_color(data->scene.ray);
 			t66 = 5000000000000.0;
-			
-			for (int idx = 0; idx < data->scene.num_spheres; idx++)
-            {
+
+
+			// Check for sphere hit's
+			for (int idx = 0; idx < data->scene.num_spheres; idx++) {
                 hit = hit_sphere(data->scene.spheres[idx].center, data->scene.spheres[idx].radius, data->scene.ray);
                 if((hit < t66) && (hit > 0))
                 {
@@ -268,13 +223,13 @@ void	render(void *param)
                 }
             }
 			
-            if (t66 != 5000000000000.0){
+            if (t66 != 5000000000000.0) {
                 scaled_direction = vec_multis(ray_d, t66);
-                hit_pos = subtract(data->scene.ray.orig, sphe[a2].center);
+                hit_pos = subtract(data->scene.ray.orig, data->scene.spheres[a2].center);
                 hit_pos = vec_add(hit_pos, scaled_direction);
                 norm =normalize(hit_pos);
                
-                double d =fmax((dotProduct(norm, (data->scene.light.position))), 0.00f);
+                double d =fmax(dotProduct(norm, data->scene.light.position), 0.00f);
 
 				double ambientR = data->scene.ambient.color.red * data->scene.ambient.intensity;
 				double ambientG = data->scene.ambient.color.green * data->scene.ambient.intensity;
@@ -298,24 +253,20 @@ void	render(void *param)
                 
                 color  = ft_color(red, green, blue, 0xff);
 			} else {
-				color = ft_color(
-					0x00,
-					0x00,
-					0x00,
-					0xff
-				);
+				color = draw_plane(data, j, i);
+				mlx_put_pixel(data->img, i, j, color);
+				// color = 0x000000ff;
 			}
 		    mlx_put_pixel(data->img, i, j, color);
 		}
 	}
 	
-	// only to print timing in order to track performance
-	idx++;
-	end = clock();  // Mark the end time
+	render_frame++;
+	end = clock();
     cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
-	if (idx == 10) {
+	if (render_frame == 10) {
     	printf("render() took %f seconds to execute \n", cpu_time_used);
-		idx = 0;
+		render_frame = 0;
 	}
 }
 
@@ -337,8 +288,15 @@ void ft_hook(void* param)
 		 data->scene.camera.position.z += 0.3;
 	if (mlx_is_key_down(data->mlx, MLX_KEY_E))
 		 data->scene.camera.position.z -= 0.3;
+	if (mlx_is_key_down(data->mlx, MLX_KEY_D))
+		 data->scene.camera.orientation.x -= 0.3;
+	if (mlx_is_key_down(data->mlx, MLX_KEY_A))
+		 data->scene.camera.orientation.x += 0.3;
+	if (mlx_is_key_down(data->mlx, MLX_KEY_W))
+		 data->scene.camera.orientation.y -= 0.3;
+	if (mlx_is_key_down(data->mlx, MLX_KEY_S))
+		 data->scene.camera.orientation.y += 0.3;
 }
-
 int	test(t_data *data)
 {
 	if (mlx_image_to_window(data->mlx, data->img, 0, 0) == -1)
@@ -356,7 +314,6 @@ int	test(t_data *data)
 	return (OK);
 
 }
-
 int	main(int argc, char **argv)
 {
 	t_data	data;

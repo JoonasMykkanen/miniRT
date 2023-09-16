@@ -6,7 +6,7 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:17:31 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/09/13 18:04:13 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/09/15 17:14:33 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 # define MINIRT_H
 
 # include <math.h>
+# include <time.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <stdbool.h>
 # include "stdbool.h"
 # include "../src/libft/inc/libft.h"
 # include "../src/mlx42/include/MLX42/MLX42.h"
@@ -141,9 +145,6 @@ typedef struct s_data
 
 	float		aspect_ratio;
 	
-	
-	
-
 	t_scene		scene;
 }				t_data;
 

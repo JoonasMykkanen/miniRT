@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:17:31 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/09/13 15:38:13 by djames           ###   ########.fr       */
+/*   Updated: 2023/09/17 12:07:10 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,23 @@
 # define MINIRT_H
 
 # include <math.h>
+# include <time.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <stdbool.h>
 # include "stdbool.h"
 # include "../src/libft/inc/libft.h"
 # include "../src/mlx42/include/MLX42/MLX42.h"
 
-# define HEIGHT 1000
-# define WIDTH 1000
+# define HEIGHT	800
+# define WIDTH	1300
 
-# define ERROR 2
-# define OK 0
+# define ERROR	2
+# define OK 	0
+
+# define HORIZONTAL 1
+# define VERTICAL	2
+# define DEPTH		3
 
 typedef struct s_vector
 {
@@ -40,20 +48,26 @@ typedef struct s_color
 
 typedef struct s_camera
 {
-	t_vector	position; // same as lookfrom
+	t_vector	position;
 	t_vector	orientation;
 	float		fov;
-	float 		htan;
-	t_vector	lookfrom;
+	float		hvac;
+
+	float	angle;
+	float	R;
+	
 	t_vector u;
 	t_vector v;
 	t_vector z;
+	
 	t_vector up_left;
 	t_vector help;
 	t_vector help1;
+	
 	t_vector pixel;
 	t_vector pixu;
 	t_vector pixv; 
+	
     t_vector lookat;//   = point3(0,0,0);   // Point camera is looking at
     t_vector   vup;//      = vec3(0,1,0);
     t_vector u1;
@@ -138,17 +152,20 @@ typedef struct s_data
 
 	float		aspect_ratio;
 	
-	
-	
-
 	t_scene		scene;
 }				t_data;
 
+// GENERAL
 double	ft_atof(char *str);
 int		arr_len(char **arr);
 void	free_arr(char **arr);
 int		normalize_alpha(float value);
 int		init(t_data *data, char *file);
 int 	ft_color(int r, int g, int b, int a);
+
+// HOOK
+void	update_camera(t_data *data, int mode, float delta);
+
+// MATH
 
 #endif // !MINIRT_H

@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:17:31 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/09/18 11:09:32 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/09/18 11:38:00 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,7 @@ typedef struct s_data
 double	ft_atof(char *str);
 int		arr_len(char **arr);
 void	free_arr(char **arr);
+void	init_camera(t_data *data);
 int		init(t_data *data, char *file);
 int 	ft_color(int r, int g, int b, int a);
 
@@ -179,5 +180,11 @@ t_vector vec_add(const t_vector v1, const t_vector v2);
 t_vector 	normalize(t_vector vector);
 void		update_ray(t_data *data, int x, int y, t_vector *ray_d);
 t_ray 		ray_create(const t_vector origin, const t_vector direction);
+double		hit_sphere(const t_vector center, double radius, const t_ray r);
+
+
+// RENDER
+int	render_pixel(t_data *data, int x, int y);
+int draw_plane(t_data *data, int x, int y, double *pt);
 
 #endif // !MINIRT_H

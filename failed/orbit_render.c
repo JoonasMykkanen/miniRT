@@ -1,12 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
+/*   orbit_render.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/17 12:44:46 by joonasmykka       #+#    #+#             */
+/*   Updated: 2023/09/18 08:14:41 by joonasmykka      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 13:27:04 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/09/18 08:15:30 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/09/17 14:40:05 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -312,6 +324,125 @@ int	minirt(t_data *data)
 	return (OK);
 }
 
+// RENDER STARTS
+mlx_image_t	*img_arr[600];
+
+void	display_next_image(void *param)
+{
+	t_data *data = (t_data *)param;
+    
+	static int idx = 0;
+	printf("img:%d \n", idx);
+	data->img = img_arr[idx];
+	if (++idx >= 600)
+		idx = 0;
+	usleep(16000);
+}
+
+// TEST RENDER
+void	orbit_render(t_data *data)
+{
+	if (mlx_image_to_window(data->mlx, data->img, 0, 0) == -1)
+	{
+		mlx_close_window(data->mlx);
+		puts(mlx_strerror(mlx_errno));
+		exit(1);
+	}
+	
+	// Crunch down numbers lol :D
+	printf("Starting to render\n");
+	init_camera(data);
+	for (int index = 0; index < 600; index++) {
+		// loading bar
+		int proportion = (index * 50) / 600;
+		printf("\r[");
+		for (int j = 0; j < proportion; j++) { printf("#"); }
+		for (int j = proportion; j < 50; j++) { printf("-"); }
+		printf("] %d/%d", proportion * 2, 100);
+    	fflush(stdout);
+
+		// create actual image
+		img_arr[index] = mlx_new_image(data->mlx, WIDTH, HEIGHT);
+		// move camera for next image
+		// update_camera(data, HORIZONTAL, 0.025f);
+		// MATH PART
+		t_vector scaled_direction;
+		t_vector ray_d;
+		t_vector hit_pos;
+		t_vector norm;
+		
+		uint32_t color;
+
+		t_sphere aux;
+		double t66 = 5000000000000.0;
+		double hit;
+		int a2;
+		
+		for (int j = 0; j < HEIGHT; ++j) {
+			for (int i = 0; i < WIDTH; ++i) {
+				update_ray(data, i, j, &ray_d);
+				t66 = 5000000000000.0;
+				// Check for sphere hit's
+				for (int idx = 0; idx < data->scene.num_spheres; idx++) {
+					hit = hit_sphere(data->scene.spheres[idx].center, data->scene.spheres[idx].radius, data->scene.ray);
+					if((hit < t66) && (hit > 0))
+					{
+						aux = data->scene.spheres[idx];
+						t66 = hit;
+						a2 =idx;
+					}
+				}
+				
+				double pt;
+				color = draw_plane(data, j, i, &pt);
+				if (pt < t66) {
+					mlx_put_pixel(img_arr[index], i, j, color);
+				}
+				else if (t66 != 5000000000000.0) {
+				// if (t66 != 5000000000000.0) {
+					scaled_direction = vec_multis(ray_d, t66);
+					hit_pos = subtract(data->scene.ray.orig, data->scene.spheres[a2].center);
+					hit_pos = vec_add(hit_pos, scaled_direction);
+					norm =normalize(hit_pos);
+				
+					double d =fmax(dotProduct(norm, data->scene.light.position), 0.00f);
+
+					double ambientR = data->scene.ambient.color.red * data->scene.ambient.intensity;
+					double ambientG = data->scene.ambient.color.green * data->scene.ambient.intensity;
+					double ambientB = data->scene.ambient.color.blue * data->scene.ambient.intensity;
+
+					ambientR *= data->scene.spheres[a2].color.red / 255.0;
+					ambientG *= data->scene.spheres[a2].color.green / 255.0;
+					ambientB *= data->scene.spheres[a2].color.blue / 255.0;
+
+					double spotR = (d * data->scene.light.brightness * data->scene.light.color.red) * data->scene.spheres[a2].color.red / 255.0;
+					double spotG = (d * data->scene.light.brightness * data->scene.light.color.green) *  data->scene.spheres[a2].color.green / 255.0;
+					double spotB = (d * data->scene.light.brightness * data->scene.light.color.blue) * data->scene.spheres[a2].color.blue / 255.0;
+
+					int red = (int)(ambientR + spotR);
+					int green = (int)(ambientG + spotG);
+					int blue = (int)(ambientB + spotB);
+
+					if (red > 255) red = 255;
+					if (green > 255) green = 255;
+					if (blue > 255) blue = 255;
+					
+					color  = ft_color(red, green, blue, 0xff);
+				} else {
+					color = 0x000000ff;
+				}
+				mlx_put_pixel(img_arr[index], i, j, color);
+			}
+		}
+	}
+	printf("\nRendering done!\n");
+	
+	mlx_loop_hook(data->mlx, display_next_image, data);
+	
+	mlx_loop(data->mlx);
+	mlx_terminate(data->mlx);
+}
+
 int	main(int argc, char **argv)
 {
 	t_data	data;
@@ -320,7 +451,8 @@ int	main(int argc, char **argv)
 	{
 		if (init(&data, argv[1]) != OK)
 			return (ERROR);
-		minirt(&data);
+		// minirt(&data);
+		orbit_render(&data);
 	}
 	else
 		ft_putstr_fd("Error with inputfile\n", 2);

@@ -6,7 +6,7 @@
 #    By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/05 11:21:33 by joonasmykka       #+#    #+#              #
-#    Updated: 2023/09/13 16:06:51 by joonasmykka      ###   ########.fr        #
+#    Updated: 2023/09/17 11:28:06 by joonasmykka      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ SRCS := \
 	$(SRCDIR)/parser_camera.c \
 	$(SRCDIR)/parser_sphere.c \
 	$(SRCDIR)/parser_checks.c \
+	$(SRCDIR)/hook_helpers.c \
 	$(SRCDIR)/parser_plane.c \
 	$(SRCDIR)/parser_light.c \
 	$(SRCDIR)/utility.c \

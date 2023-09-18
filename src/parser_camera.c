@@ -6,7 +6,7 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 13:15:41 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/09/13 16:32:30 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/09/17 13:48:44 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ int	create_obj_camera(t_data *data, char **params)
 		return (ERROR);
 	if (assign_fov(&ptr->fov, params[3]) == ERROR)
 		return (ERROR);
+	data->scene.camera.R = sqrt(data->scene.camera.position.x * data->scene.camera.position.x + data->scene.camera.position.z * data->scene.camera.position.z);
+	data->scene.camera.angle = atan2(data->scene.camera.position.z, data->scene.camera.position.x);
 	data->scene.status_camera = true;
 	return (OK);
 }

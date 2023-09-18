@@ -3,107 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
+/*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 13:27:04 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/09/18 08:15:30 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/09/18 11:13:31 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
-int interpolate(int start, int end, float t)
-{
-    return (int)(start * (1 - t) + end * t);
-}
-
-double dotProduct(t_vector a, t_vector b)
-{
-    return (a.x * b.x) + (a.y * b.y) + (a.z * b.z);
-}
-
-t_vector subtract(t_vector a, t_vector b)
-{
-    t_vector result;
-	
-    result.x = a.x - b.x;
-    result.y = a.y - b.y;
-    result.z = a.z - b.z;
-    return result;
-}
-
-double lengthSquared(t_vector v) {
-    return v.x * v.x + v.y * v.y + v.z * v.z;
-}
-
-t_vector cross(t_vector forward, t_vector position) {
-    t_vector result;
-	
-    result.x = forward.y * position.z - forward.z * position.y;
-    result.y = forward.z * position.x - forward.x * position.z;
-    result.z = forward.x * position.y - forward.y * position.x;
-    return (result);
-}
-
-t_vector vec_multis(const t_vector v, float r) {
-    t_vector result;
-
-    result.x = v.x * r;
-    result.y = v.y * r;
-    result.z = v.z * r;
-    return result;
-}
-t_vector vec_divide(const t_vector v, float r) {
-    t_vector result;
-
-    result.x = v.x / r;
-    result.y = v.y / r;
-    result.z = v.z / r;
-    return result;
-}
-
-t_vector vec_add(const t_vector v1, const t_vector v2) {
-    t_vector result;
-
-    result.x = v1.x + v2.x;
-    result.y = v1.y + v2.y;
-    result.z = v1.z + v2.z;
-    return result;
-
-}
-
-double length(t_vector v) {
-    return sqrt(lengthSquared(v));
-}
-
-t_ray ray_create(const t_vector origin, const t_vector direction) {
-    t_ray r = {origin, direction};
-	
-    return r;
-}
-
-t_vector normalize(t_vector vector)
-{
-    double length = sqrt(vector.x * vector.x + vector.y * vector.y + vector.z * vector.z);
-	
-    t_vector normalizedVector = {
-        vector.x / length,
-        vector.y / length,
-        vector.z / length
-    };
-    return normalizedVector;
-}
-
-t_vector ray_at(const t_ray r, double t) {
-	t_vector help;
-
-	help = vec_multis(r.dir, (float)t);
-    return vec_add(r.orig, help);
-}
-
-t_vector add_color(const t_vector c1, const t_vector c2) {
-    return (t_vector){c1.x + c2.x, c1.y + c2.y, c1.z + c2.z};
-}
 
 int draw_plane(t_data *data, int x, int y, double *pt)
 {
@@ -173,18 +80,6 @@ void	init_camera(t_data *data)
 	data->scene.camera.help = vec_add(data->scene.camera.pixu, data->scene.camera.pixv);
 	data->scene.camera.help1 = vec_multis(data->scene.camera.help, 0.5); // I need to remember what is 0.5 
 	data->scene.camera.pixel = vec_add(data->scene.camera.up_left, data->scene.camera.help1);
-}
-
-// TODO -> Make sure what variables needs to be recalculated...
-// TODO -> our rays aim at one fixed point that makes moving look weird
-// 		   it's always aiming for that one specific location
-void	update_ray(t_data *data, int x, int y, t_vector *ray_d) {
-	data->scene.camera.help = vec_multis(data->scene.camera.pixu, (float)x);
-	data->scene.camera.help1 = vec_multis(data->scene.camera.pixv, (float)y);
-	data->scene.camera.center = vec_add(data->scene.camera.help, data->scene.camera.help1);
-	data->scene.camera.center = vec_add(data->scene.camera.center, data->scene.camera.pixel);
-	*ray_d = subtract(data->scene.camera.center, data->scene.camera.position);
-	data->scene.ray = ray_create(data->scene.camera.position, *ray_d);
 }
 
 void	render(void *param)

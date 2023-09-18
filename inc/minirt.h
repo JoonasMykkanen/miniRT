@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
+/*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:17:31 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/09/17 12:07:10 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/09/18 11:09:32 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,6 @@ typedef struct s_data
 double	ft_atof(char *str);
 int		arr_len(char **arr);
 void	free_arr(char **arr);
-int		normalize_alpha(float value);
 int		init(t_data *data, char *file);
 int 	ft_color(int r, int g, int b, int a);
 
@@ -167,5 +166,18 @@ int 	ft_color(int r, int g, int b, int a);
 void	update_camera(t_data *data, int mode, float delta);
 
 // MATH
+double length(t_vector v);
+double lengthSquared(t_vector v);
+double dotProduct(t_vector a, t_vector b);
+t_vector subtract(t_vector a, t_vector b);
+t_vector vec_divide(const t_vector v, float r);
+t_vector vec_multis(const t_vector v, float r);
+t_vector cross(t_vector forward, t_vector position);
+t_vector vec_add(const t_vector v1, const t_vector v2);
+
+// RAY
+t_vector 	normalize(t_vector vector);
+void		update_ray(t_data *data, int x, int y, t_vector *ray_d);
+t_ray 		ray_create(const t_vector origin, const t_vector direction);
 
 #endif // !MINIRT_H

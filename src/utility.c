@@ -6,17 +6,12 @@
 /*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 13:42:27 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/09/06 17:15:24 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/09/18 11:09:29 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/inc/libft.h"
 #include <math.h>
-
-int	normalize_alpha(float value)
-{
-	return (round(value * 255));
-}
 
 int ft_color(int r, int g, int b, int a)
 {

@@ -6,19 +6,7 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 12:44:46 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/09/18 08:14:41 by joonasmykka      ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/21 13:27:04 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/09/17 14:40:05 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/09/18 11:56:31 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -326,6 +314,7 @@ int	minirt(t_data *data)
 
 // RENDER STARTS
 mlx_image_t	*img_arr[600];
+int	arr[600][1300][800];
 
 void	display_next_image(void *param)
 {

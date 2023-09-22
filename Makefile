@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+         #
+#    By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/05 11:21:33 by joonasmykka       #+#    #+#              #
-#    Updated: 2023/09/18 11:12:39 by jmykkane         ###   ########.fr        #
+#    Updated: 2023/09/22 08:15:22 by joonasmykka      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,6 @@ SRCS := \
 	$(SRCDIR)/parser_camera.c \
 	$(SRCDIR)/parser_sphere.c \
 	$(SRCDIR)/parser_checks.c \
-	$(SRCDIR)/hook_helpers.c \
 	$(SRCDIR)/parser_plane.c \
 	$(SRCDIR)/parser_light.c \
 	$(SRCDIR)/vector_math.c \
@@ -36,6 +35,7 @@ SRCS := \
 	$(SRCDIR)/ft_atof.c \
 	$(SRCDIR)/parser.c \
 	$(SRCDIR)/init.c \
+	$(SRCDIR)/hook.c \
 	$(SRCDIR)/ray.c \
 	$(SRCDIR)/main.c
 

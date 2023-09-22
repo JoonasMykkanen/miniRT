@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:17:31 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/09/18 11:38:00 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/09/22 08:15:07 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,7 +164,8 @@ int		init(t_data *data, char *file);
 int 	ft_color(int r, int g, int b, int a);
 
 // HOOK
-void	update_camera(t_data *data, int mode, float delta);
+void	render(void *param);
+void	ft_hook(void *param);
 
 // MATH
 double length(t_vector v);

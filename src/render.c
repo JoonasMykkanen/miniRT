@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 11:17:48 by jmykkane          #+#    #+#             */
-/*   Updated: 2023/09/25 12:11:20 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/09/25 13:58:47 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,13 @@ void draw_plane(t_data *data, double *closest_t, int *color)
 
 	double t = numerator / denominator;
 
-	if (t > 0 && t < *closest_t) {
+	if (t > 0) {
 		t_vector intersection_point = vec_add(vec_multis(data->scene.ray.dir, t), data->scene.ray.orig);
 		
     	if (intersection_point.x > max || intersection_point.x < min || intersection_point.z > max || intersection_point.z < min || intersection_point.y > max || intersection_point.y < min)
+			return ;
+		double d = dist(data->scene.ray.orig, intersection_point);
+		if (d > *closest_t && *closest_t != 10)
 			return ;
 		*color = ft_color(100, 100, 100, 0xff);
 	}
@@ -59,6 +62,7 @@ void	draw_sphere(t_data *data, double *closest_t, int *color)
 		}
 	}
 	if (t66 != 5000000000000.0) {
+		*closest_t = t66;
 		scaled_direction = vec_multis(ray_d, t66);
 		hit_pos = subtract(data->scene.ray.orig, data->scene.spheres[a2].center);
 		hit_pos = vec_add(hit_pos, scaled_direction);
@@ -95,6 +99,7 @@ int	render_pixel(t_data *data, int x, int y)
 	double		closest_t;
 	int			color;
 	
+	closest_t = 10;
 	color = 0x000000ff;
 	update_ray(data, x, y, &data->scene.ray.dir);
 	draw_sphere(data, &closest_t, &color);

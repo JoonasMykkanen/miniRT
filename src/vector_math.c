@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 10:57:04 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/09/18 11:09:46 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/09/25 13:56:26 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,12 @@ t_vector vec_add(const t_vector v1, const t_vector v2) {
 
 double length(t_vector v) {
     return sqrt(lengthSquared(v));
+}
+
+double dist(t_vector a, t_vector b)
+{
+    double d;
+
+    d = sqrt((b.x - a.x) * (b.x - a.x) + (b.y - a.y) * (b.y - a.y) + (b.z - a.z) * (b.z - a.z));
+    return d;
 }

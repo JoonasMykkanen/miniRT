@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:17:31 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/09/25 11:18:46 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/09/25 13:56:52 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,7 @@ void	ft_hook(void *param);
 // MATH
 double length(t_vector v);
 double lengthSquared(t_vector v);
+double dist(t_vector a, t_vector b);
 double dotProduct(t_vector a, t_vector b);
 t_vector subtract(t_vector a, t_vector b);
 t_vector vec_divide(const t_vector v, float r);

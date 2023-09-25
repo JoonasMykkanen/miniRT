@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 11:06:06 by jmykkane          #+#    #+#             */
-/*   Updated: 2023/09/18 11:06:58 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/09/18 11:20:04 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,16 @@ void	update_ray(t_data *data, int x, int y, t_vector *ray_d) {
 	data->scene.camera.center = vec_add(data->scene.camera.center, data->scene.camera.pixel);
 	*ray_d = subtract(data->scene.camera.center, data->scene.camera.position);
 	data->scene.ray = ray_create(data->scene.camera.position, *ray_d);
+}
+
+double hit_sphere(const t_vector center, double radius, const t_ray r) {
+    t_vector oc = subtract(r.orig, center);
+    double a = dotProduct(r.dir, r.dir);
+    double b = 2.0 * dotProduct(oc, r.dir);
+    double c = dotProduct(oc, oc) - radius * radius;
+    double discriminant = b * b - 4 * a * c;
+	if(discriminant < 0)
+		return -1;
+	else
+		return (-b - sqrt(discriminant) ) / (2.0 * a);
 }

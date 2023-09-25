@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+         #
+#    By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/05 11:21:33 by joonasmykka       #+#    #+#              #
-#    Updated: 2023/09/22 08:15:22 by joonasmykka      ###   ########.fr        #
+#    Updated: 2023/09/25 10:55:26 by jmykkane         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,7 @@ SRCS := \
 	$(SRCDIR)/utility.c \
 	$(SRCDIR)/ft_atof.c \
 	$(SRCDIR)/parser.c \
+	$(SRCDIR)/render.c \
 	$(SRCDIR)/init.c \
 	$(SRCDIR)/hook.c \
 	$(SRCDIR)/ray.c \

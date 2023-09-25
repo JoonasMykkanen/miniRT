@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
+/*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:17:31 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/09/22 08:15:07 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/09/25 11:18:46 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,7 +185,6 @@ double		hit_sphere(const t_vector center, double radius, const t_ray r);
 
 
 // RENDER
-int	render_pixel(t_data *data, int x, int y);
-int draw_plane(t_data *data, int x, int y, double *pt);
+int		render_pixel(t_data *data, int x, int y);
 
 #endif // !MINIRT_H

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:17:31 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/09/25 13:56:52 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/09/25 14:37:04 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,6 +166,7 @@ int 	ft_color(int r, int g, int b, int a);
 // HOOK
 void	render(void *param);
 void	ft_hook(void *param);
+void	update_camera(t_data *data, int mode, float delta);
 
 // MATH
 double length(t_vector v);
@@ -187,5 +188,7 @@ double		hit_sphere(const t_vector center, double radius, const t_ray r);
 
 // RENDER
 int		render_pixel(t_data *data, int x, int y);
+void 	draw_plane(t_data *data, double *closest_t, int *color);
+void	draw_sphere(t_data *data, double *closest_t, int *color);
 
 #endif // !MINIRT_H

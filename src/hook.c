@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   hook.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 08:06:45 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/09/25 13:54:27 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/09/25 14:30:58 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-static void	update_camera(t_data *data, int mode, float delta)
+void	update_camera(t_data *data, int mode, float delta)
 {
 	if (mode == HORIZONTAL) {
 		data->scene.camera.angle += delta;

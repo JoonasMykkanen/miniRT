@@ -6,7 +6,7 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:17:31 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/09/25 14:37:04 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/09/26 12:44:57 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,9 +181,12 @@ t_vector vec_add(const t_vector v1, const t_vector v2);
 
 // RAY
 t_vector 	normalize(t_vector vector);
+t_vector 	ray_at(const t_ray r, double t);
 void		update_ray(t_data *data, int x, int y, t_vector *ray_d);
 t_ray 		ray_create(const t_vector origin, const t_vector direction);
+t_ray 		create_shadow_ray(t_vector surface_point, t_vector light_pos);
 double		hit_sphere(const t_vector center, double radius, const t_ray r);
+int 	is_in_shadow(t_vector surface_point, t_vector light_source_position, t_data *data, int self);
 
 
 // RENDER

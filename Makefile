@@ -6,7 +6,7 @@
 #    By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/05 11:21:33 by joonasmykka       #+#    #+#              #
-#    Updated: 2023/09/25 14:39:33 by joonasmykka      ###   ########.fr        #
+#    Updated: 2023/09/26 12:31:21 by joonasmykka      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,8 @@ SRCS := \
 	$(SRCDIR)/parser_checks.c \
 	$(SRCDIR)/parser_plane.c \
 	$(SRCDIR)/parser_light.c \
-	$(SRCDIR)/vector_math.c \
+	$(SRCDIR)/vec_helpers.c \
+	$(SRCDIR)/vec_math.c \
 	$(SRCDIR)/utility.c \
 	$(SRCDIR)/ft_atof.c \
 	$(SRCDIR)/parser.c \

@@ -6,7 +6,7 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:17:31 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/09/26 12:44:57 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/09/28 12:42:53 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,12 @@ typedef struct s_cylinder
 	t_color		color;
 }				t_cylinder;
 
+typedef struct s_shadow
+{
+	double	t_object;
+	double	t_shadow;
+}				t_shadow;
+
 typedef struct s_scene
 {
 	t_ambient	ambient;
@@ -133,6 +139,8 @@ typedef struct s_scene
 
 	t_light		light;
 	bool		status_light;
+
+	t_shadow	shadow;
 
 	t_sphere	spheres[10];
 	int			num_spheres;

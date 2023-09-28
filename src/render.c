@@ -6,7 +6,7 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 11:17:48 by jmykkane          #+#    #+#             */
-/*   Updated: 2023/09/26 12:45:12 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/09/28 14:28:51 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,22 @@
 
 void draw_plane(t_data *data, double *closest_t, int *color)
 {
+	// double 	t66 = 5000000000000.0;
+	// t_plane	aux;
+    // double 	hit;
+    // int 	a2;
+
+	// t66 = 5000000000000.0;
+	// for (int idx = 0; idx < data->scene.num_planes; idx++) {
+	// 	hit = hit_sphere(data->scene.spheres[idx].center, data->scene.spheres[idx].radius, data->scene.ray);
+	// 	if((hit < t66) && (hit > 0))
+	// 	{
+	// 		aux = data->scene.spheres[idx];
+	// 		t66 = hit;
+	// 		a2 =idx;
+	// 	}
+	// }
+
 	double 	numerator = dotProduct(data->scene.planes[0].point, data->scene.planes[0].normal) - dotProduct(data->scene.ray.orig, data->scene.planes[0].normal);
 	double 	denominator = dotProduct(data->scene.ray.dir, data->scene.planes[0].normal);
 	
@@ -119,8 +135,8 @@ int	render_pixel(t_data *data, int x, int y)
 	closest_t = 10;
 	color = 0x000000ff;
 	update_ray(data, x, y, &data->scene.ray.dir);
-	draw_sphere(data, &closest_t, &color);
 	draw_plane(data, &closest_t, &color);
+	draw_sphere(data, &closest_t, &color);
 
 	return color;
 }

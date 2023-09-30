@@ -6,16 +6,17 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:17:31 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/09/28 12:42:53 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/09/30 06:57:42 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
 
-# include <math.h>
 # include <time.h>
+# include <math.h>
 # include <stdio.h>
+# include <float.h>
 # include <stdlib.h>
 # include <stdbool.h>
 # include "stdbool.h"
@@ -31,6 +32,10 @@
 # define HORIZONTAL 1
 # define VERTICAL	2
 # define DEPTH		3
+
+# define PLANE 1
+# define SPHERE 2
+# define CYLINDER 3
 
 typedef struct s_vector
 {
@@ -123,12 +128,6 @@ typedef struct s_cylinder
 	t_color		color;
 }				t_cylinder;
 
-typedef struct s_shadow
-{
-	double	t_object;
-	double	t_shadow;
-}				t_shadow;
-
 typedef struct s_scene
 {
 	t_ambient	ambient;
@@ -139,8 +138,6 @@ typedef struct s_scene
 
 	t_light		light;
 	bool		status_light;
-
-	t_shadow	shadow;
 
 	t_sphere	spheres[10];
 	int			num_spheres;
@@ -153,6 +150,15 @@ typedef struct s_scene
 	int			num_cylinders;
 }				t_scene;
 
+typedef struct s_pixel
+{
+	double	closest_t;
+	int		obj_type;
+	int		obj_idx;
+	int		shadow;
+	int		color;
+}				t_pixel;
+
 typedef struct s_data
 {
 	mlx_image_t	*img;
@@ -160,6 +166,7 @@ typedef struct s_data
 
 	float		aspect_ratio;
 	
+	t_pixel		pix;
 	t_scene		scene;
 }				t_data;
 
@@ -190,16 +197,18 @@ t_vector vec_add(const t_vector v1, const t_vector v2);
 // RAY
 t_vector 	normalize(t_vector vector);
 t_vector 	ray_at(const t_ray r, double t);
-void		update_ray(t_data *data, int x, int y, t_vector *ray_d);
+double		hit_plane(t_plane plane, t_ray	ray);
+void		update_ray(t_data *data, int x, int y);
 t_ray 		ray_create(const t_vector origin, const t_vector direction);
 t_ray 		create_shadow_ray(t_vector surface_point, t_vector light_pos);
 double		hit_sphere(const t_vector center, double radius, const t_ray r);
-int 	is_in_shadow(t_vector surface_point, t_vector light_source_position, t_data *data, int self);
+int 		is_in_shadow(t_vector surface_point, t_vector light_source_position, t_data *data, int self);
 
 
 // RENDER
+void	shoot_ray(t_data *data);
 int		render_pixel(t_data *data, int x, int y);
-void 	draw_plane(t_data *data, double *closest_t, int *color);
-void	draw_sphere(t_data *data, double *closest_t, int *color);
+void 	draw_plane(t_data *data);
+void	draw_sphere(t_data *data);
 
 #endif // !MINIRT_H

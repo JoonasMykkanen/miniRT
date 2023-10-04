@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
+/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 11:17:48 by jmykkane          #+#    #+#             */
-/*   Updated: 2023/10/04 11:22:55 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/10/04 12:51:05 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,18 @@ void draw_plane(t_data *data)
 		data->pix.color = calculate_color(data, obj.point, obj.color);
 }
 
+void	draw_cylinder(t_data *data)
+{
+	t_vector	intersect;
+	t_cylinder	obj;
+	int			idx;
+
+	idx = data->pix.obj_idx;
+	obj = data->scene.cylinders[idx];
+	intersect = ray_at(data->scene.ray, data->pix.closest_t);
+	if (!is_in_shadow(intersect, data->scene.light.position, data, idx))
+		data->pix.color = calculate_color(data, obj.center, obj.color);
+}
 void	draw_sphere(t_data *data)
 {
 	t_vector	intersect;
@@ -54,7 +66,16 @@ int	render_pixel(t_data *data, int x, int y)
 	if (data->pix.obj_type == SPHERE)
 		draw_sphere(data);
 	// TODO CREATE LOGIC FOR BELOW
-	// if (data->pix.obj_type == CYLINDER)
-		// draw_cylinder(data);
+	if (data->pix.obj_type == CYLINDER)
+		draw_cylinder(data);
+	// double tc = hit_cylinder(pc, ph, 0.5, r);
+    //         //double rc = hit_cap();
+    //         if(tc != -1)
+    //         {
+                
+                
+    //             blue =255;
+                
+    //         }
 	return (data->pix.color);
 }

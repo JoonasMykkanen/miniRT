@@ -6,7 +6,7 @@
 #    By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/05 11:21:33 by joonasmykka       #+#    #+#              #
-#    Updated: 2023/09/30 06:42:26 by joonasmykka      ###   ########.fr        #
+#    Updated: 2023/10/04 07:38:32 by joonasmykka      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,8 @@ SRCS := \
 	$(SRCDIR)/ft_atof.c \
 	$(SRCDIR)/parser.c \
 	$(SRCDIR)/render.c \
+	$(SRCDIR)/shadow.c \
+	$(SRCDIR)/light.c \
 	$(SRCDIR)/init.c \
 	$(SRCDIR)/hook.c \
 	$(SRCDIR)/ray.c \

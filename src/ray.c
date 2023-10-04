@@ -6,7 +6,7 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 11:06:06 by jmykkane          #+#    #+#             */
-/*   Updated: 2023/09/30 06:54:13 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/10/04 07:28:42 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,40 +37,6 @@ void	update_ray(t_data *data, int x, int y) {
 	data->scene.camera.center = vec_add(data->scene.camera.center, data->scene.camera.pixel);
 	data->scene.ray.dir = subtract(data->scene.camera.center, data->scene.camera.position);
 	data->scene.ray = ray_create(data->scene.camera.position, data->scene.ray.dir);
-}
-
-// Create a shadow ray from the surface point to the light source
-int is_in_shadow(t_vector surface_point, t_vector light_source_position, t_data *data, int self)
-{
-    t_ray shadow_ray = create_shadow_ray(surface_point, light_source_position);
-	float t = 0;
-    for (int i = 0; i < data->scene.num_spheres; i++) {
-		if (i == self)
-			continue ;
-		t = hit_sphere(data->scene.spheres[i].center, data->scene.spheres[i].radius, shadow_ray);
-        if (t > 0) {
-            return 1;
-        }
-    }
-    return 0;
-}
-
-t_ray 		create_shadow_ray(t_vector surface_point, t_vector light_pos)
-{
-    t_ray	shadow_ray;
-	float	length;
-
-    shadow_ray.dir.x = light_pos.x - surface_point.x;
-    shadow_ray.dir.y = light_pos.y - surface_point.y;
-    shadow_ray.dir.z = light_pos.z - surface_point.z;
-    length = dotProduct(shadow_ray.dir, shadow_ray.dir);
-	length = sqrtf(length);
-    shadow_ray.dir.x /= length;
-    shadow_ray.dir.y /= length;
-    shadow_ray.dir.z /= length;
-    shadow_ray.orig = surface_point;
-
-    return shadow_ray;
 }
 
 t_vector ray_at(const t_ray r, double t) {

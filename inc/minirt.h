@@ -6,7 +6,7 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:17:31 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/04 06:36:35 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/10/04 11:22:07 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,10 @@
 # define PLANE 1
 # define SPHERE 2
 # define CYLINDER 3
+
+# define FIXED_PLANES 1
+# define PLANE_MAX 10
+# define PLANE_MIN -10
 
 typedef struct s_vector
 {
@@ -183,6 +187,11 @@ void	free_arr(char **arr);
 void	init_camera(t_data *data);
 int		init(t_data *data, char *file);
 int 	ft_color(int r, int g, int b, int a);
+
+// LIGHT
+void	check_rgb_values(t_color *color);
+double	calculate_spot_light(t_data *data, t_vector point);
+int		calculate_color(t_data *data, t_vector point, t_color color);
 
 // HOOK
 void	render(void *param);

@@ -6,7 +6,7 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:17:31 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/09/30 06:57:42 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/10/04 06:36:35 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 # define VERTICAL	2
 # define DEPTH		3
 
+# define NONE 0
 # define PLANE 1
 # define SPHERE 2
 # define CYLINDER 3
@@ -152,11 +153,16 @@ typedef struct s_scene
 
 typedef struct s_pixel
 {
-	double	closest_t;
-	int		obj_type;
-	int		obj_idx;
-	int		shadow;
-	int		color;
+	double		closest_t;
+	int			obj_type;
+	int			obj_idx;
+	int			shadow;
+	int			color;
+
+	t_vector	scaled_dir;
+	t_vector	light_dir;
+	t_vector	hit_pos;
+	t_vector	norm;
 }				t_pixel;
 
 typedef struct s_data

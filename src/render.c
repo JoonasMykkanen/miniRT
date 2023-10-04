@@ -6,26 +6,30 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 11:17:48 by jmykkane          #+#    #+#             */
-/*   Updated: 2023/09/30 08:14:53 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/10/04 06:42:50 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
+static double	calculate_spot_light(t_data *data, t_vector point)
+{
+	double	d;
+
+	data->pix.scaled_dir = vec_multis(data->scene.ray.dir, data->pix.closest_t);
+	data->pix.hit_pos = subtract(data->scene.ray.orig, point);
+	data->pix.hit_pos = vec_add(data->pix.hit_pos, data->pix.scaled_dir);
+	data->pix.norm = normalize(data->pix.hit_pos);
+	data->pix.light_dir = normalize(subtract(data->scene.light.position, data->pix.hit_pos));
+	d = fmax(dotProduct(data->pix.norm, data->pix.light_dir), 0.0);	
+	return (d);
+}
+
 int	calculate_color(t_data *data, t_vector point, t_color color)
 {
-	t_vector scaled_direction;
-    t_vector hit_pos;
-    t_vector norm;
-
-	// TODO --> previous line was using uninitialized direction vector
-	// for some reason that made the transition with facing light and "dark side"
-	// much smoother, why?
-	scaled_direction = vec_multis(data->scene.ray.dir, data->pix.closest_t);
-	hit_pos = subtract(data->scene.ray.orig, point);
-	hit_pos = vec_add(hit_pos, scaled_direction);
-	norm = normalize(hit_pos);
-	double d = fmax(dotProduct(norm, data->scene.light.position), 0.0);
+	double d;
+	
+	d = calculate_spot_light(data, point);
 
 	double ambientR = data->scene.ambient.color.red * data->scene.ambient.intensity;
 	double ambientG = data->scene.ambient.color.green * data->scene.ambient.intensity;
@@ -46,64 +50,47 @@ int	calculate_color(t_data *data, t_vector point, t_color color)
 	if (color.red > 255) color.red = 255;
 	if (color.green > 255) color.green = 255;
 	if (color.blue > 255) color.blue = 255;
+
+	if (color.red < 0) color.red = 0;
+	if (color.green < 0) color.green = 0;
+	if (color.blue < 0) color.blue = 0;
 	
 	return ft_color(color.red,color. green, color.blue, 0xff);
 }
 
 void draw_plane(t_data *data) 
 {
-	double	max = 10;
-	double	min = -1 * max;
-	double t;
-	
-	t = hit_plane(data->scene.planes[0], data->scene.ray);
+	t_plane		obj;
+	int			idx;
 
-	if (t > 0) {
-		t_vector intersection_point = vec_add(vec_multis(data->scene.ray.dir, t), data->scene.ray.orig);
-		
-    	if (intersection_point.x > max || intersection_point.x < min || intersection_point.z > max || intersection_point.z < min || intersection_point.y > max || intersection_point.y < min)
-			return ;
-		double d = dist(data->scene.ray.orig, intersection_point);
-		if (d > data->pix.closest_t && data->pix.closest_t != 10)
-			return ;
-		data->pix.color = calculate_color(data, data->scene.planes[0].point, data->scene.planes[0].color);
-	}
+	idx = data->pix.obj_idx;
+	obj = data->scene.planes[idx];
+	data->pix.color = calculate_color(data, obj.point, obj.color);
 }
 
 void	draw_sphere(t_data *data)
 {
-	t_vector scaled_direction;	
-    t_vector hit_pos;
-    t_vector norm;
-    t_sphere aux;
-    double t66;
-    double hit;
-    int a2;
-	
-	t66 = DBL_MAX;
-	for (int idx = 0; idx < data->scene.num_spheres; idx++) {
-		hit = hit_sphere(data->scene.spheres[idx].center, data->scene.spheres[idx].radius, data->scene.ray);
-		if((hit < t66) && (hit > 0))
-		{
-			aux = data->scene.spheres[idx];
-			t66 = hit;
-			a2 =idx;
-		}
-	}
-	if (t66 != DBL_MAX && t66 < data->pix.closest_t) {
-		data->pix.closest_t = t66;
-		data->pix.color = calculate_color(data, data->scene.spheres[a2].center, data->scene.spheres[a2].color);
-	} 
+	t_sphere	obj;
+	int			idx;
+
+	idx = data->pix.obj_idx;
+	obj = data->scene.spheres[idx];
+	data->pix.color = calculate_color(data, obj.center, obj.color);
 }
 
 int	render_pixel(t_data *data, int x, int y)
 {
 	data->pix.closest_t = DBL_MAX;
 	data->pix.color = 0x000000ff;
+	data->pix.obj_type = NONE;
 	update_ray(data, x, y);
-	// shoot_ray(data);
-	draw_plane(data);
-	draw_sphere(data);
-
+	shoot_ray(data);
+	if (data->pix.obj_type == PLANE)
+		draw_plane(data);
+	if (data->pix.obj_type == SPHERE)
+		draw_sphere(data);
+	// TODO CREATE LOGIC FOR BELOW
+	// if (data->pix.obj_type == CYLINDER)
+		// draw_cylinder(data);
 	return (data->pix.color);
 }

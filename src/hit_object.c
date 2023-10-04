@@ -6,7 +6,7 @@
 /*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 06:40:21 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/04 15:48:13 by djames           ###   ########.fr       */
+/*   Updated: 2023/10/04 16:36:03 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,16 +145,16 @@ double hit_cylinder2(const t_vector axis, const t_vector C, double r, const t_ra
     // if (projection2 < 0 && t2 >= 0)
     //     return t2;
     double ho = dotProduct(h, h);
-    // if (projection >= 0 && projection <= ho)
-    //     return t1;
-    // if (projection2 >= 0 && projection2 <= ho)
-    //      return t2;
+    if (projection >= 0 && projection <= ho)
+        return t1;
+    if (projection2 >= 0 && projection2 <= ho)
+         return t2;
     // if(projection2 >  ho)
     //     return t2;
     // }
     //Check the intersection conditions
-     if (projection >= 0 && projection <= sqrt(h.x * h.x + h.y * h.y + h.z * h.z) && t1 >= 0)
-         return t1;
+    //  if (projection >= 0 && projection <= sqrt(h.x * h.x + h.y * h.y + h.z * h.z) && t1 >= 0)
+    //      return t1;
 
     // if (projection2 >= 0 && projection2 <= sqrt(h.x * h.x + h.y * h.y + h.z * h.z) && t2 >= 0)
     //     return t2;
@@ -180,11 +180,11 @@ double hit_cylinder(const t_vector axis, const t_vector pos, double rad, const t
 	depth = hit_cylinder2(axis, pos, rad, r);
 	// if (depth != 0 )
 	// 	return (depth);
-	hit = normalize(r.dir);
+	//hit = normalize(r.dir);
 	hit = vec_multis(hit, depth);
 	hit = vec_add(r.orig, hit);
 	axis_of = dotProduct(hit, axis);
-	if(axis_of <= 0.0)
+	if(axis_of < 0.0)
 	{
 		cap = pos;
 		normal = normalize(axis);
@@ -198,7 +198,7 @@ double hit_cylinder(const t_vector axis, const t_vector pos, double rad, const t
 		normal = axis;
 		return (hit_cap(r, rad, cap, normal)); 
 	}
-	return (0);
+	return (depth);
 	
 	// intersection = vec_multis(r.dir, depth);
     // intersection = vec_add(r.orig, r.dir);

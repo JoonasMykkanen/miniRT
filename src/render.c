@@ -6,7 +6,7 @@
 /*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 11:17:48 by jmykkane          #+#    #+#             */
-/*   Updated: 2023/10/04 12:51:05 by djames           ###   ########.fr       */
+/*   Updated: 2023/10/05 11:06:31 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,10 @@ void	draw_cylinder(t_data *data)
 	idx = data->pix.obj_idx;
 	obj = data->scene.cylinders[idx];
 	intersect = ray_at(data->scene.ray, data->pix.closest_t);
-	if (!is_in_shadow(intersect, data->scene.light.position, data, idx))
+	// if (!is_in_shadow(intersect, data->scene.light.position, data, idx))
+	if (data->pix.is_cap == 1)
+		data->pix.color = 0xff0000ff;
+	else
 		data->pix.color = calculate_color(data, obj.center, obj.color);
 }
 void	draw_sphere(t_data *data)

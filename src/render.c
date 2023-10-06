@@ -6,7 +6,7 @@
 /*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 11:17:48 by jmykkane          #+#    #+#             */
-/*   Updated: 2023/10/05 11:06:31 by djames           ###   ########.fr       */
+/*   Updated: 2023/10/06 15:43:41 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,14 +71,5 @@ int	render_pixel(t_data *data, int x, int y)
 	// TODO CREATE LOGIC FOR BELOW
 	if (data->pix.obj_type == CYLINDER)
 		draw_cylinder(data);
-	// double tc = hit_cylinder(pc, ph, 0.5, r);
-    //         //double rc = hit_cap();
-    //         if(tc != -1)
-    //         {
-                
-                
-    //             blue =255;
-                
-    //         }
 	return (data->pix.color);
 }

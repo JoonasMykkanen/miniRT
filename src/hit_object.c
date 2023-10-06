@@ -6,7 +6,7 @@
 /*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 06:40:21 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/05 15:11:20 by djames           ###   ########.fr       */
+/*   Updated: 2023/10/06 15:38:44 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,22 +71,7 @@ static void	check_planes(t_data *data)
 }
 //---------
 
-// BOOL    ray_hit_cap(
-//     double impact_time,
-//     t_object cap,
-//     t_ray *ray)
-// {
-//     t_impact    impact;
-//     t_v3d        impact_point;
 
-//     if (!ray_hit_plane(&impact, cap, ray))
-//         return (FALSE);
-//     impact_point = ray_at(ray, impact.time);
-//     if (v3d_get_dist(&impact_point, &cap->point) > cap->radius)
-//         return (FALSE);
-//     *impact_time = impact.time;
-//     return (TRUE);
-// }
 double hit_cap(t_ray r, double radios, t_vector position, t_vector normal, t_data *data)
 {
     float depth;
@@ -106,7 +91,7 @@ double hit_cap(t_ray r, double radios, t_vector position, t_vector normal, t_dat
 	if(depth < 0)
 		return (0);
     t_vector intersection;
-	intersection = vec_multis(r.dir, depth);
+	intersection = vec_multis(ray.dir, depth);
     intersection = vec_add(r.orig, intersection);
 	aux = length(subtract(intersection, position));
     if(aux > (radios))
@@ -117,11 +102,11 @@ double hit_cap(t_ray r, double radios, t_vector position, t_vector normal, t_dat
 
 
 double hit_cylinder2(const t_vector axis, const t_vector C, double r, const t_ray L, double he) {
-    t_vector h; //vec_subtract(&axis, &C);
-    //t_vector h = {H.x - C.x, H.y - C.y, H.z - C.z};
-    //t_vector w = {L.orig.x - C.x, L.orig.y - C.y, L.orig.z - C.z};
+    t_vector h; 
 	double l;
 	t_vector h1;
+    double a;
+	
     h = normalize(axis);
 	h = vec_multis(h, he);
 	h = vec_add(h, C);
@@ -130,74 +115,38 @@ double hit_cylinder2(const t_vector axis, const t_vector C, double r, const t_ra
 	h1 = vec_divide(h, l);// cahnging h to h1
     t_vector w;
     w = subtract((L.orig), C);
-    //t_vector v = {L.dir.x, L.dir.y, L.dir.z};
     t_vector v;
     v = normalize(L.dir);
-
-    //double a = v.x * v.x + v.y * v.y - (v.x * h.x + v.y * h.y) * (v.x * h.x + v.y * h.y);
-    double a;
     a = dotProduct(v, v) - (dotProduct(v, h1) * dotProduct(v, h1));
-   //double b = 2.0 * (w.x * v.x + w.y * v.y - (w.x * h.x + w.y * h.y) * (v.x * h.x + v.y * h.y));
     double b;
     b = 2.0 * ((dotProduct(v,w)) - ((dotProduct(v,h1)) * (dotProduct(w,h1))));
-    //double c = w.x * w.x + w.y * w.y - (w.x * h.x + w.y * h.y) * (w.x * h.x + w.y * h.y) - r * r;
     double c;
     c  = dotProduct(w,w) - (dotProduct(w,h1) * dotProduct(w,h1)) - r * r;
-
     double discriminant = b * b - 4 * a * c;
-
     if (discriminant > 0)
-    {   //return -1.0;  // No intersection
-
-    // Calculate the two possible values of t
-    double t1 = (-b - sqrt(discriminant)) / (2.0 * a);
-    double t2 = (-b + sqrt(discriminant)) / (2.0 * a);
-
-    // Calculate the projection of the intersection point onto the cylinder axis
-    //double projection = (w.x + t1 * v.x - C.x) * h.x + (w.y + t1 * v.y - C.y) * h.y + (w.z + t1 * v.z - C.z) * h.z;
-    t_vector sol;
-    double projection;
-    sol = vec_multis(v, t1);
-    sol = vec_add((L.orig), sol);
-    sol = subtract(sol, C);
-    projection = dotProduct(sol, h1);
-    // if (projection <= 0)
-    //     return t1;
-    t_vector sol2;
-    double projection2;
-    sol2 = vec_multis(v, t2);
-    sol2 = vec_add((L.orig), sol2);
-    sol2 = subtract(sol2, C);
-    projection2 = dotProduct(sol2, h1);
-    // if (projection2 < 0 && t2 >= 0)
-    //     return t2;
-    double ho = dotProduct(h1, h1);
-    // if (projection > 0 && projection < ho)
-    //     return t1;
-    // if (projection2 >= 0 && projection2 <= ho)
-    //      return t2;
-    // if(projection2 >  ho)
-    //     return t2;
-    // }
-    //Check the intersection conditions
-    if (projection >= 0 && projection <= sqrt(h.x * h.x + h.y * h.y + h.z * h.z) && t1 >= 0)
-         return t1;
-
+    {  
+    	double t1 = (-b - sqrt(discriminant)) / (2.0 * a);
+    	double t2 = (-b + sqrt(discriminant)) / (2.0 * a);
+    	t_vector sol;
+    	double projection;
+    	sol = vec_multis(v, t1);
+    	sol = vec_add((L.orig), sol);
+    	sol = subtract(sol, C);
+    	projection = dotProduct(sol, h1);	
+    	t_vector sol2;
+    	double projection2;
+    	sol2 = vec_multis(v, t2);
+   		sol2 = vec_add((L.orig), sol2);
+    	sol2 = subtract(sol2, C);
+    	projection2 = dotProduct(sol2, h1);
+    	double ho = dotProduct(h1, h1);
+    	if (projection >= 0 && projection <= sqrt(h1.x * h1.x + h1.y * h1.y + h1.z * h1.z) && t1 >= 0)
+        	return t1;
     // if (projection2 >= 0 && projection2 <= sqrt(h.x * h.x + h.y * h.y + h.z * h.z) && t2 >= 0)
     //     return t2;
-    // // // //if ()
     }
-    // double circleup = hit_circle(C, r, L) ;
-    // if (circleup >= 0)
-    //     return circleup;
-    // double circledown = hit_circle(H, r, L) ;
-    // if (circledown >= 0)
-    //     return circledown;
-
-    return 0.0;  // No valid intersection
+    return (0.0);
 }
-
-
 
 double hit_cylinder(const t_vector axis, const t_vector pos, double rad, const t_ray r, double h, t_data *data)
 {
@@ -207,59 +156,43 @@ double hit_cylinder(const t_vector axis, const t_vector pos, double rad, const t
 	t_vector cap;
 	t_vector normal;
 	depth = hit_cylinder2(axis, pos, rad, r, h);
-	// if (depth != 0 ) {
-	// 	data->pix.is_cap = 0;
-	// 	return (depth);
-	// }
-	//hit = normalize(r.dir);
-	// if (depth == 0)
-	// 	depth =0.00001;
-	// hit = normalize(r.dir);
-	// hit = vec_multis(hit, depth);
-	// hit = vec_add(r.orig, hit);
-	// hit = subtract(hit, pos);
-	// axis_of = dotProduct(hit, axis);
-	// data->pix.is_cap = 0;
-	// //normal = normalize(axis);
-	// // if(axis_of <= 0.0)
-	// // {
-	// 	cap = pos;
-	// 	normal = normalize(axis);
-	// 	normal = vec_multis(normal, -1);
-	// 	double au =hit_cap(r, rad, cap, normal, data);
-	// 	// if(au != 0)
-	// 	// {	if(au < depth || depth == 0)
-	// 	// 		depth = au;
-	// 	// }
-	// 	// else
-	// 	// 	data->pix.is_cap = 0;
-	// //}
-	// // if(axis_of > h)
-	// // {
-	// 	normal = normalize(axis);
-	// 	cap= vec_multis(normal, h);
-	// 	cap = vec_add(cap, pos);
-	// 	normal = axis;
-	// 	double au1 =hit_cap(r, rad, cap, normal, data);
-	// 	// if(au1 != 0 || au != 0)
-	// 	// {
-	// 		// if(au1 < depth || depth == 0)
-	// 		// 	depth = au1;
-	// 	if(au1 != 0)
-	// 	{	if(au1 < depth || depth == 0)
-	// 			depth = au1;
-	// 		else
-	// 			data->pix.is_cap = 0; 
-	// 	}
-	//}
-	// if (depth == 0.00001)
-	// 	depth =0;
-	//data->pix.is_cap = 0;
+	hit = normalize(r.dir);
+	hit = vec_multis(hit, depth);
+	hit = vec_add(r.orig, hit);
+	hit = subtract(hit, pos);
+	axis_of = dotProduct(hit, axis);
+	data->pix.is_cap = 0;
+	if(axis_of < 0.0)
+	{
+		cap = pos;
+		normal = normalize(axis);
+		normal = vec_multis(normal, -1);
+		double au =hit_cap(r, rad, cap, normal, data);
+		if(au != 0)
+		{	if(au < depth || depth == 0)
+				depth = au;
+		}
+		else
+			data->pix.is_cap = 0;
+	}
+	if(axis_of > h)
+	{
+		normal = normalize(axis);
+		cap= vec_multis(normal, h);
+		cap = vec_add(cap, pos);
+		double au1 =hit_cap(r, rad, cap, normal, data);
+		if(au1 != 0)
+		{
+			if(au1 < depth || depth == 0)
+				depth = au1;
+		}
+		else
+			data->pix.is_cap = 0;
+	}
+
 	return (depth);
-	
-	// intersection = vec_multis(r.dir, depth);
-    // intersection = vec_add(r.orig, r.dir);
 }
+
 // TODO --> add cylinder hit logic when cylinders are drawing
 static void	check_cylinder(t_data *data)
 {

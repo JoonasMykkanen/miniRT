@@ -6,7 +6,7 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 07:05:17 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/04 11:20:05 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/10/07 06:51:45 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,9 @@ double	calculate_spot_light(t_data *data, t_vector point)
 		d = fmax(dotProduct(data->scene.planes[data->pix.obj_idx].normal, data->pix.light_dir), 0.0);	
 	else
 		d = fmax(dotProduct(data->pix.norm, data->pix.light_dir), 0.0);	
-	if (d > 1)
-		d = 1;
+	// TODO: keep testing without, if no issues, remove
+	// if (d > 1)
+	// 	d = 1;
 	return (d);
 }
 

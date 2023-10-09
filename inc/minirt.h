@@ -6,7 +6,7 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:17:31 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/07 06:44:03 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/10/09 11:43:59 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,18 +212,17 @@ t_vector vec_add(const t_vector v1, const t_vector v2);
 // RAY
 t_vector 	normalize(t_vector vector);
 t_vector 	ray_at(const t_ray r, double t);
-double		hit_plane(t_plane plane, t_ray	ray);
+double		hit_plane(const t_plane *plane, const t_ray *ray);
 void		update_ray(t_data *data, int x, int y);
 t_ray 		ray_create(const t_vector origin, const t_vector direction);
 t_ray 		create_shadow_ray(t_vector surface_point, t_vector light_pos);
-double		hit_sphere(const t_vector center, double radius, const t_ray r);
+double 		hit_sphere(const t_sphere *sp, const t_ray *r);
 int 		is_in_shadow(t_vector surface_point, t_vector light_source_position, t_data *data, int self);
 
 
 // RENDER
+void	reset_pix(t_pixel *pix);
 void	shoot_ray(t_data *data);
 int		render_pixel(t_data *data, int x, int y);
-void 	draw_plane(t_data *data);
-void	draw_sphere(t_data *data);
 
 #endif // !MINIRT_H

@@ -6,7 +6,7 @@
 #    By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/05 11:21:33 by joonasmykka       #+#    #+#              #
-#    Updated: 2023/10/07 05:56:48 by joonasmykka      ###   ########.fr        #
+#    Updated: 2023/10/09 13:55:43 by joonasmykka      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -88,4 +88,4 @@ re: fclean all
 
 .PHONY: test
 test: all
-	./minirt test/test.rt
+	./minirt test/multiPlane.rt

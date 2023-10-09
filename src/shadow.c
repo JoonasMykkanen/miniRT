@@ -6,7 +6,7 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 07:37:46 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/07 07:35:16 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/10/09 12:09:16 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int is_in_shadow(t_vector surface_point, t_vector light_source_position, t_data 
 	{
 		if (idx == self && data->pix.obj_type == SPHERE)
 			continue ;
-		t = hit_sphere(data->scene.spheres[idx].center, data->scene.spheres[idx].radius, shadow_ray);
+		t = hit_sphere(&data->scene.spheres[idx], &shadow_ray);
         if (t > 0) {
             return 1;
         }

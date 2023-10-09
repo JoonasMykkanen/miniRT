@@ -6,18 +6,24 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 06:40:21 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/07 07:30:53 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/10/09 12:20:05 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-double hit_sphere(const t_vector center, double radius, const t_ray r) {
-    t_vector oc = subtract(r.orig, center);
-    double a = dotProduct(r.dir, r.dir);
-    double b = 2.0 * dotProduct(oc, r.dir);
-    double c = dotProduct(oc, oc) - radius * radius;
-    double discriminant = b * b - 4 * a * c;
+double hit_sphere(const t_sphere *sp, const t_ray *r) {
+    t_vector	oc;
+    double		a;
+    double		b;
+    double		c;
+    double		discriminant; 
+
+	oc = subtract(r->orig, sp->center);
+	a = dotProduct(r->dir, r->dir);
+	b = 2.0 * dotProduct(oc, r->dir);
+	c = dotProduct(oc, oc) - sp->radius * sp->radius;
+	discriminant = b * b - 4 * a * c;
 	if (discriminant < 0)
 		return -1;
 	else
@@ -32,7 +38,7 @@ static void	check_spheres(t_data *data)
 	idx = -1;
 	while (++idx < data->scene.num_spheres)
 	{
-		hit = hit_sphere(data->scene.spheres[idx].center, data->scene.spheres[idx].radius, data->scene.ray);
+		hit = hit_sphere(&data->scene.spheres[idx], &data->scene.ray);
 		if (hit >= 0 && hit < data->pix.closest_t)
 		{
 			data->pix.obj_idx = idx;
@@ -42,14 +48,14 @@ static void	check_spheres(t_data *data)
 	}
 }
 
-double	hit_plane(t_plane plane, t_ray ray)
+double	hit_plane(const t_plane *plane, const t_ray *ray)
 {
 	double 	denominator;
 	double 	numerator;
 	double	hit;
-
-	numerator = dotProduct(plane.point, plane.normal) - dotProduct(ray.orig, plane.normal);
-	denominator = dotProduct(ray.dir, plane.normal);
+	
+	numerator = dotProduct(plane->point, plane->normal) - dotProduct(ray->orig, plane->normal);
+	denominator = dotProduct(ray->dir, plane->normal);
 	if (denominator == 0.0)
 		return (-1);
 	hit = numerator / denominator;
@@ -66,7 +72,7 @@ static void	check_planes(t_data *data)
 	idx = -1;
 	while (++idx < data->scene.num_planes)
 	{
-		hit = hit_plane(data->scene.planes[idx], data->scene.ray);
+		hit = hit_plane(&data->scene.planes[idx], &data->scene.ray);
 		if(hit > 0 && hit < data->pix.closest_t)
 		{
 			data->pix.obj_idx = idx;
@@ -76,7 +82,7 @@ static void	check_planes(t_data *data)
 	}
 }
 
-double hit_cap(t_ray r, double radios, t_vector position, t_vector normal, t_data *data)
+double hit_cap(t_ray ray, double radios, t_vector position, t_vector normal, t_data *data)
 {
     t_vector	intersection;
 	t_plane		cap;
@@ -85,10 +91,10 @@ double hit_cap(t_ray r, double radios, t_vector position, t_vector normal, t_dat
 
 	cap.normal = normal;
 	cap.point = position;
-    t = hit_plane(cap, r);
+    t = hit_plane(&cap, &ray);
 	if (t < 0)
 		return (0);
-	intersection = ray_at(r, t);
+	intersection = ray_at(ray, t);
 	aux = length(subtract(intersection, position));
     if (aux > radios)
 		return (0);
@@ -187,7 +193,7 @@ static void	check_cylinders(t_data *data)
 	int		idx;
 
 	idx = -1;
-	while (++idx < data->scene.num_spheres)
+	while (++idx < data->scene.num_cylinders)
 	{
 		hit = hit_cylinder(data, &data->scene.cylinders[idx], &data->scene.ray);
 		if (hit > 0 && hit < data->pix.closest_t)

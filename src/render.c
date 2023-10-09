@@ -6,13 +6,13 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 11:17:48 by jmykkane          #+#    #+#             */
-/*   Updated: 2023/10/07 07:24:03 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/10/09 12:07:51 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-void draw_plane(t_data *data) 
+static void draw_plane(t_data *data) 
 {
 	t_vector	intersect;
 	t_plane		obj;
@@ -25,7 +25,7 @@ void draw_plane(t_data *data)
 		data->pix.color = calculate_color(data, obj.point, obj.color);
 }
 
-void	draw_cylinder(t_data *data)
+static void	draw_cylinder(t_data *data)
 {
 	t_vector	intersect;
 	t_cylinder	obj;
@@ -37,7 +37,7 @@ void	draw_cylinder(t_data *data)
 	if (!is_in_shadow(intersect, data->scene.light.position, data, idx))
 		data->pix.color = calculate_color(data, obj.center, obj.color);
 }
-void	draw_sphere(t_data *data)
+static void	draw_sphere(t_data *data)
 {
 	t_vector	intersect;
 	t_sphere	obj;
@@ -52,9 +52,7 @@ void	draw_sphere(t_data *data)
 
 int	render_pixel(t_data *data, int x, int y)
 {
-	data->pix.closest_t = DBL_MAX;
-	data->pix.color = 0x000000ff;
-	data->pix.obj_type = NONE;
+	reset_pix(&data->pix);
 	update_ray(data, x, y);
 	shoot_ray(data);
 	if (data->pix.obj_type == PLANE)

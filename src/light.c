@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   light.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
+/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 07:05:17 by joonasmykka       #+#    #+#             */
 /*   Updated: 2023/10/09 12:10:46 by joonasmykka      ###   ########.fr       */
@@ -12,14 +12,55 @@
 
 #include "minirt.h"
 
-int	calculate_color(t_data *data, t_vector point, t_color color)
+double calculat_l(t_data *data, t_vector surface, t_vector point)
+{
+	t_vector l;
+	t_vector s;
+	double t;
+	double t1;
+	double dot_product;
+	t_vector radial;
+	
+	dot_product = dotProduct(surface, point);
+	radial= vec_multis(point, dot_product);
+	radial = subtract(surface, radial);
+	//s= subtract(surface, radial);
+	radial =normalize(radial);
+	//l = subtract(data->pix.light_dir, surface);
+	///l = normalize(l);
+	//s =subtract(surface, point);
+	//s=normalize(s);
+	l = data->pix.light_dir;
+	l = normalize(l);
+	t = dotProduct(l, radial);
+	printf("%f\n", t);
+	t1 = acos(t);
+	return (cos(t1));
+	
+	
+}
+
+int	calculate_color(t_data *data, t_vector point, t_color color, t_vector inter)
 {
 	double 	d;
 	double	s;
 	t_color	ambient;
 	t_color	spot;
 	
-	d = calculate_spot_light(data, point);
+	if(data->pix.obj_type != CYLINDER)
+	{
+		d = calculate_spot_light(data, point);
+	}
+	else
+	{
+		if (data->pix.is_cap == 0)
+			d=0.65;
+			//d =calculat_l(data, inter, point);
+			//d = fabs(d);
+		//printf("%f\n", d);
+		else 
+			d = 0;
+	}
 	ambient.red = data->scene.ambient.color.red * data->scene.ambient.intensity;
 	ambient.green = data->scene.ambient.color.green * data->scene.ambient.intensity;
 	ambient.blue = data->scene.ambient.color.blue * data->scene.ambient.intensity;
@@ -41,7 +82,7 @@ double	calculate_spot_light(t_data *data, t_vector point)
 	double	d;
 
 	data->pix.scaled_dir = vec_multis(data->scene.ray.dir, data->pix.closest_t);
-	data->pix.hit_pos = subtract(data->scene.ray.orig, point);
+	data->pix.hit_pos = subtract(data->scene.ray.orig, point);//data->scene.//point);// aqui
 	data->pix.hit_pos = vec_add(data->pix.hit_pos, data->pix.scaled_dir);
 	data->pix.norm = normalize(data->pix.hit_pos);
 	data->pix.light_dir = normalize(subtract(data->scene.light.position, data->pix.hit_pos));

@@ -7,6 +7,7 @@
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 06:40:21 by joonasmykka       #+#    #+#             */
 /*   Updated: 2023/10/09 12:20:05 by joonasmykka      ###   ########.fr       */
+
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +42,13 @@ static void	check_spheres(t_data *data)
 		hit = hit_sphere(&data->scene.spheres[idx], &data->scene.ray);
 		if (hit >= 0 && hit < data->pix.closest_t)
 		{
-			data->pix.obj_idx = idx;
-			data->pix.closest_t = hit;
-			data->pix.obj_type = SPHERE;
+			// if (hit > 0)
+			// {
+				data->pix.obj_idx = idx;
+				data->pix.closest_t = hit;
+				data->pix.obj_type = SPHERE;
+			// }else
+			// 	data->pix.closest_t = hit;
 		}
 	}
 }
@@ -84,15 +89,22 @@ static void	check_planes(t_data *data)
 
 double hit_cap(t_ray ray, double radios, t_vector position, t_vector normal, t_data *data)
 {
-    t_vector	intersection;
-	t_plane		cap;
-	double 		aux;
-    float		t;
-
-	cap.normal = normal;
-	cap.point = position;
-    t = hit_plane(&cap, &ray);
-	if (t < 0)
+    float depth;
+	t_plane cup;
+	double aux;
+	t_vector dir;
+	t_ray ray;
+	t_vector normal1;
+	//printf("esto es en x:%f, esto es en y:%f, esto es en z:%f \n",position.x, position.y, position.z);
+	
+	normal1 = normal;
+	dir = normalize(r.dir); 
+	ray.dir =r.dir;
+	ray.orig =r.orig;
+	cup.normal = normal1;
+	cup.point = position;
+    depth = hit_plane(cup, ray);
+	if(depth < 0)
 		return (0);
 	intersection = ray_at(ray, t);
 	aux = length(subtract(intersection, position));
@@ -141,9 +153,11 @@ double hit_cylinder2(const t_vector axis, const t_vector C, double r, const t_ra
     	sol2 = subtract(sol2, C);
     	projection2 = dotProduct(sol2, h1);
     	double ho = dotProduct(h1, h1);
-    	if (projection >= 0 && projection <= sqrt(h1.x * h1.x + h1.y * h1.y + h1.z * h1.z) && t1 >= 0)
+    	if (projection >= 0 && projection <= sqrt(h.x * h.x + h.y * h.y + h.z * h.z) && t1 >= 0)
         	return t1;
-    }
+    // if (projection2 >= 0 && projection2 <= sqrt(h.x * h.x + h.y * h.y + h.z * h.z) && t2 >= 0)
+    //     return t2;
+     }
     return (0.0);
 }
 
@@ -163,13 +177,13 @@ double hit_cylinder(t_data *data, t_cylinder *cyl, t_ray *ray)
 	axis_of = dotProduct(hit, cyl->axis);
 	if (axis_of < 0.0)
 	{
-		cap = cyl->center;
-		normal = normalize(cyl->axis); // TESTING WITHOUT
-		normal = vec_multis(normal, -1); // WHAT is -1 
-		double au = hit_cap(*ray, cyl->diameter, cap, normal, data);
-		if (au != 0)
-		{	if (au < depth || depth == 0)
-				depth = au;
+		cap = pos;
+		normal = normalize(axis);
+		normal = vec_multis(normal, -1);
+		double au =hit_cap(r, rad, cap, normal, data);
+		if(au != 0)
+		{	if(au < depth || depth == 0)
+				return (au);
 		}
 	}
 	else if (axis_of > cyl->height)
@@ -180,10 +194,11 @@ double hit_cylinder(t_data *data, t_cylinder *cyl, t_ray *ray)
 		double au1 =hit_cap(*ray, cyl->diameter, cap, normal, data);
 		if (au1 != 0)
 		{
-			if (au1 < depth || depth == 0)
-				depth = au1;
+			if(au1 < depth || depth == 0)
+				return (au1);
 		}
 	}
+	data->pix.is_cap = 0;
 	return (depth);
 }
 
@@ -196,11 +211,12 @@ static void	check_cylinders(t_data *data)
 	while (++idx < data->scene.num_cylinders)
 	{
 		hit = hit_cylinder(data, &data->scene.cylinders[idx], &data->scene.ray);
-		if (hit > 0 && hit < data->pix.closest_t)
+		if (hit != 0 && hit < data->pix.closest_t)
 		{
 			data->pix.obj_idx = idx;
 			data->pix.closest_t = hit;
 			data->pix.obj_type = CYLINDER;
+
 		}
 	}
 }

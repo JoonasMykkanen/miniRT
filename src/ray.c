@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ray.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
+/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 11:06:06 by jmykkane          #+#    #+#             */
 /*   Updated: 2023/10/09 11:38:18 by joonasmykka      ###   ########.fr       */
@@ -12,9 +12,8 @@
 
 #include "minirt.h"
 
-t_ray ray_create(const t_vector origin, const t_vector direction)
-{
-    t_ray ray;
+t_ray ray_create(const t_vector origin, const t_vector direction) {
+    t_ray r = {origin, normalize(direction)};//direction};
 	
 	ray.orig = origin;
 	ray.dir = direction;

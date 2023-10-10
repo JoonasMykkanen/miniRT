@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   shadow.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
+/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 07:37:46 by joonasmykka       #+#    #+#             */
 /*   Updated: 2023/10/09 12:09:16 by joonasmykka      ###   ########.fr       */
@@ -31,7 +31,14 @@ int is_in_shadow(t_vector surface_point, t_vector light_source_position, t_data 
             return 1;
         }
     }
-	// TODO: take plane logic into use
+	for (int i = 0; i < data->scene.num_cylinders; i++) {
+		if (i == self && data->pix.obj_type == CYLINDER)
+			continue ;
+		t = hit_cylinder(data->scene.cylinders[i].axis, data->scene.cylinders[i].center, data->scene.cylinders[i].diameter, shadow_ray, data->scene.cylinders[i].height, data);
+        if (t != 0) {
+            return 1;
+        }
+    }
 	// for (int i = 0; i < data->scene.num_planes; i++) {
 	// 	if (i == self  && data->pix.obj_type == PLANE)
 	// 		continue ;

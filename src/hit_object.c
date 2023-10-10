@@ -87,7 +87,7 @@ static void	check_planes(t_data *data)
 	}
 }
 
-double hit_cap(t_ray ray, double radios, t_vector position, t_vector normal, t_data *data)
+double hit_cap(t_ray r, double radios, t_vector position, t_vector normal, t_data *data)
 {
     float depth;
 	t_plane cup;
@@ -95,6 +95,7 @@ double hit_cap(t_ray ray, double radios, t_vector position, t_vector normal, t_d
 	t_vector dir;
 	t_ray ray;
 	t_vector normal1;
+	t_vector intersection;
 	//printf("esto es en x:%f, esto es en y:%f, esto es en z:%f \n",position.x, position.y, position.z);
 	
 	normal1 = normal;
@@ -103,14 +104,16 @@ double hit_cap(t_ray ray, double radios, t_vector position, t_vector normal, t_d
 	ray.orig =r.orig;
 	cup.normal = normal1;
 	cup.point = position;
-    depth = hit_plane(cup, ray);
+    depth = hit_plane(&cup, &ray);
 	if(depth < 0)
 		return (0);
-	intersection = ray_at(ray, t);
+	intersection = vec_multis(ray.dir, depth);
+    intersection = vec_add(r.orig, intersection);
 	aux = length(subtract(intersection, position));
     if (aux > radios)
 		return (0);
-	return (t);
+	data->pix.is_cap = 1;
+	return (depth);
 }
 
 
@@ -161,21 +164,21 @@ double hit_cylinder2(const t_vector axis, const t_vector C, double r, const t_ra
     return (0.0);
 }
 
-double hit_cylinder(t_data *data, t_cylinder *cyl, t_ray *ray)
+double hit_cylinder(const t_vector axis, const t_vector pos, double rad, const t_ray r, double h, t_data *data)
 {
 	double depth;
 	double axis_of;
 	t_vector hit;
 	t_vector cap;
 	t_vector normal;
-	
-	depth = hit_cylinder2(cyl->axis, cyl->center, cyl->diameter, *ray, cyl->height);
-	hit = normalize(ray->dir); // TESTING WITHOUT
+	depth = hit_cylinder2(axis, pos, rad, r, h);
+	hit = normalize(r.dir);
 	hit = vec_multis(hit, depth);
-	hit = vec_add(ray->orig, hit);
-	hit = subtract(hit, cyl->center);
-	axis_of = dotProduct(hit, cyl->axis);
-	if (axis_of < 0.0)
+	hit = vec_add(r.orig, hit);
+	hit = subtract(hit, pos);
+	axis_of = dotProduct(hit, axis);
+	data->pix.is_cap = 0;
+	if(axis_of < 0.0)
 	{
 		cap = pos;
 		normal = normalize(axis);
@@ -186,13 +189,13 @@ double hit_cylinder(t_data *data, t_cylinder *cyl, t_ray *ray)
 				return (au);
 		}
 	}
-	else if (axis_of > cyl->height)
+	if(axis_of > h)
 	{
-		normal = normalize(cyl->axis);
-		cap= vec_multis(normal, cyl->height);
-		cap = vec_add(cap, cyl->center);
-		double au1 =hit_cap(*ray, cyl->diameter, cap, normal, data);
-		if (au1 != 0)
+		normal = normalize(axis);
+		cap= vec_multis(normal, h);
+		cap = vec_add(cap, pos);
+		double au1 =hit_cap(r, rad, cap, normal, data);
+		if(au1 != 0)
 		{
 			if(au1 < depth || depth == 0)
 				return (au1);
@@ -210,7 +213,7 @@ static void	check_cylinders(t_data *data)
 	idx = -1;
 	while (++idx < data->scene.num_cylinders)
 	{
-		hit = hit_cylinder(data, &data->scene.cylinders[idx], &data->scene.ray);
+		hit = hit_cylinder(data->scene.cylinders[idx].axis, data->scene.cylinders[idx].center, data->scene.cylinders[idx].diameter, data->scene.ray, data->scene.cylinders[idx].height, data);
 		if (hit != 0 && hit < data->pix.closest_t)
 		{
 			data->pix.obj_idx = idx;

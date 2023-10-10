@@ -6,17 +6,17 @@
 /*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 11:06:06 by jmykkane          #+#    #+#             */
-/*   Updated: 2023/10/09 11:38:18 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/10/10 12:49:38 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
 t_ray ray_create(const t_vector origin, const t_vector direction) {
-    t_ray r = {origin, normalize(direction)};//direction};
+    t_ray ray; //= {origin, normalize(direction)};//direction};
 	
 	ray.orig = origin;
-	ray.dir = direction;
+	ray.dir = normalize(direction);
     return ray;
 }
 

@@ -6,7 +6,7 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 21:33:53 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/09 14:12:35 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/10/10 12:14:41 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ int	assign_vector(void *target, char *str, int mode)
 		free_arr(xyz);
 		return (ERROR);
 	}
-	printf("before STR x: %s y: %s z: %s \n", xyz[0], xyz[1], xyz[2]);
 	if (choose_mode(vec, xyz, mode) == ERROR)
 		return (ERROR);
 	return (OK);

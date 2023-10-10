@@ -6,7 +6,7 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 13:15:41 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/08/24 13:34:21 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/10/09 14:12:40 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ int	create_obj_plane(t_data *data, char **params)
 	ptr = &data->scene.planes[*idx];
 	if (arr_len(params) != 4)
 		return (ERROR);
-	if (assign_vector(&ptr[*idx].point, params[1], POSITION) == ERROR)
+	if (assign_vector(&ptr->point, params[1], POSITION) == ERROR)
 		return (ERROR);
-	if (assign_vector(&ptr[*idx].normal, params[2], ORIENTATION) == ERROR)
+	if (assign_vector(&ptr->normal, params[2], ORIENTATION) == ERROR)
 		return (ERROR);
-	if (assign_color(&ptr[*idx].color, params[3]) == ERROR)
+	if (assign_color(&ptr->color, params[3]) == ERROR)
 		return (ERROR);
 	*idx += 1;
 	return (OK);

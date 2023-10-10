@@ -6,7 +6,7 @@
 /*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 07:05:17 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/10 12:14:48 by djames           ###   ########.fr       */
+/*   Updated: 2023/10/09 12:10:46 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,11 +87,11 @@ double	calculate_spot_light(t_data *data, t_vector point)
 	data->pix.norm = normalize(data->pix.hit_pos);
 	data->pix.light_dir = normalize(subtract(data->scene.light.position, data->pix.hit_pos));
 	if (data->pix.obj_type == PLANE)
-		d = fmax(dotProduct(data->scene.planes[data->pix.obj_idx].normal, data->pix.light_dir), 0.0);	
+		d = fmax(dotProduct(data->scene.planes[data->pix.obj_idx].normal, data->pix.light_dir), 0.0);
+	else if (data->pix.obj_type == CYLINDER)
+		d = fmax(dotProduct(data->scene.cylinders[data->pix.obj_idx].axis, data->pix.light_dir), 0.0);
 	else
 		d = fmax(dotProduct(data->pix.norm, data->pix.light_dir), 0.0);	
-	if (d > 1)
-		d = 1;
 	return (d);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shadow.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
+/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 07:37:46 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/04 10:23:33 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/10/09 15:50:08 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,14 @@ int is_in_shadow(t_vector surface_point, t_vector light_source_position, t_data 
 			continue ;
 		t = hit_sphere(data->scene.spheres[i].center, data->scene.spheres[i].radius, shadow_ray);
         if (t > 0) {
+            return 1;
+        }
+    }
+	for (int i = 0; i < data->scene.num_cylinders; i++) {
+		if (i == self && data->pix.obj_type == CYLINDER)
+			continue ;
+		t = hit_cylinder(data->scene.cylinders[i].axis, data->scene.cylinders[i].center, data->scene.cylinders[i].diameter, shadow_ray, data->scene.cylinders[i].height, data);
+        if (t != 0) {
             return 1;
         }
     }

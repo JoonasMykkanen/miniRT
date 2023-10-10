@@ -6,7 +6,7 @@
 /*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 07:05:17 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/10 14:19:33 by djames           ###   ########.fr       */
+/*   Updated: 2023/10/10 14:31:40 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,25 @@ double calculat_l(t_data *data, t_vector surface, t_vector point, t_vector cente
 	
 	
 }
+double calculat_d(t_data *data, t_vector surface, t_vector point, t_vector center, double r)
+{
+	t_vector l;
+	t_vector s;
+	double t;
+	double t1;
+	double dot_product;
+	t_vector radial;
+	
+
+	
+	radial = vec_multis(point, -1);
+	//s = vec_add(s, surface);
+	//radial = normalize(radial);
+	//s = vec_add(s, surface);
+	data->pix.light_dir = normalize(subtract(data->scene.light.position, radial));
+	t1 = fmax(dotProduct(radial, data->pix.light_dir), 0.0);
+	return t1;	
+}
 
 int	calculate_color(t_data *data, t_vector point, t_color color, t_vector inter, t_vector center, double r)
 {
@@ -70,14 +89,14 @@ int	calculate_color(t_data *data, t_vector point, t_color color, t_vector inter,
 	else
 	{
 		if (data->pix.is_cap == 0)
-		{	d=0.65;
+		{	
 			d =calculat_l(data, inter, point, center, r);
 			//d = fmax(d, 0.0);
 			//d = fabs(d);
 		//printf("%f\n", d);
 		}
 		else 
-			d = 0;
+			d = calculat_d(data, inter, point, center, r);
 	}
 	ambient.red = data->scene.ambient.color.red * data->scene.ambient.intensity;
 	ambient.green = data->scene.ambient.color.green * data->scene.ambient.intensity;

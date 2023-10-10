@@ -6,7 +6,7 @@
 /*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:17:31 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/10 12:44:18 by djames           ###   ########.fr       */
+/*   Updated: 2023/10/10 14:00:05 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,7 +192,7 @@ int 	ft_color(int r, int g, int b, int a);
 // LIGHT
 void	check_rgb_values(t_color *color);
 double	calculate_spot_light(t_data *data, t_vector point);
-int		calculate_color(t_data *data, t_vector point, t_color color, t_vector inter);
+//int		calculate_color(t_data *data, t_vector point, t_color color, t_vector inter);
 
 // HOOK
 void	render(void *param);
@@ -220,6 +220,7 @@ t_ray 		create_shadow_ray(t_vector surface_point, t_vector light_pos);
 double 		hit_sphere(const t_sphere *sp, const t_ray *r);
 int 		is_in_shadow(t_vector surface_point, t_vector light_source_position, t_data *data, int self);
 double hit_cylinder(const t_vector axis, const t_vector pos, double rad, const t_ray r, double h, t_data *data);
+int	calculate_color(t_data *data, t_vector point, t_color color, t_vector inter, t_vector center, double r);
 
 
 // RENDER

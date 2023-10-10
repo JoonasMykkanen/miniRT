@@ -6,13 +6,13 @@
 /*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 07:05:17 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/09 12:10:46 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/10/10 14:19:33 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-double calculat_l(t_data *data, t_vector surface, t_vector point)
+double calculat_l(t_data *data, t_vector surface, t_vector point, t_vector center, double r)
 {
 	t_vector l;
 	t_vector s;
@@ -21,26 +21,42 @@ double calculat_l(t_data *data, t_vector surface, t_vector point)
 	double dot_product;
 	t_vector radial;
 	
-	dot_product = dotProduct(surface, point);
-	radial= vec_multis(point, dot_product);
-	radial = subtract(surface, radial);
-	//s= subtract(surface, radial);
-	radial =normalize(radial);
-	//l = subtract(data->pix.light_dir, surface);
-	///l = normalize(l);
-	//s =subtract(surface, point);
-	//s=normalize(s);
-	l = data->pix.light_dir;
-	l = normalize(l);
-	t = dotProduct(l, radial);
-	printf("%f\n", t);
-	t1 = acos(t);
-	return (cos(t1));
+
+	l = subtract(surface, center);
+	t = length(l);
+	t = t * t - r * r;
+	t = sqrt(t);
+	radial = vec_multis(point, t);
+	radial = vec_add(radial, center);
+	s = subtract(surface, radial);
+	//s = vec_add(s, surface);
+	s = normalize(s);
+	//s = vec_add(s, surface);
+	data->pix.light_dir = normalize(subtract(data->scene.light.position, s));
+	t1 = fmax(dotProduct(s, data->pix.light_dir), 0.0);
+	return t1;
+	
+	// dot_product = dotProduct(surface, point);
+	// radial= vec_multis(point, dot_product);
+	// radial = subtract(surface, radial);
+	// //s= subtract(surface, radial);
+	// length(l);
+	// radial =normalize(radial);
+	// //l = subtract(data->scene.light.position, surface);
+	// ///l = normalize(l);
+	// //s =subtract(surface, point);
+	// //s=normalize(s);
+	// l = data->pix.light_dir;
+	// //l = normalize(l);
+	// t = dotProduct(l, radial);
+	// //printf("%f\n", t);
+	// t1 = acos(t);
+	// return (cos(t1));
 	
 	
 }
 
-int	calculate_color(t_data *data, t_vector point, t_color color, t_vector inter)
+int	calculate_color(t_data *data, t_vector point, t_color color, t_vector inter, t_vector center, double r)
 {
 	double 	d;
 	double	s;
@@ -54,10 +70,12 @@ int	calculate_color(t_data *data, t_vector point, t_color color, t_vector inter)
 	else
 	{
 		if (data->pix.is_cap == 0)
-			d=0.65;
-			//d =calculat_l(data, inter, point);
+		{	d=0.65;
+			d =calculat_l(data, inter, point, center, r);
+			//d = fmax(d, 0.0);
 			//d = fabs(d);
 		//printf("%f\n", d);
+		}
 		else 
 			d = 0;
 	}

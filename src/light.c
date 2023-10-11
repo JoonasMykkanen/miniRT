@@ -6,7 +6,7 @@
 /*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 07:05:17 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/11 12:27:32 by djames           ###   ########.fr       */
+/*   Updated: 2023/10/11 17:20:59 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ double calculat_l(t_data *data, t_vector surface, t_vector point, t_vector cente
 
 	l = subtract(surface, center);
 	t = length(l);
-	t = t * t - r * r;
+	t = (t * t) - (r * r);
 	t = sqrt(t);
 	radial = vec_multis(point, t);
 	radial = vec_add(radial, center);
@@ -33,8 +33,8 @@ double calculat_l(t_data *data, t_vector surface, t_vector point, t_vector cente
 	s = normalize(s);
 	//s = vec_add(s, surface);
 	radial = subtract(data->scene.light.position, surface);// add thi
+	//radial = vec_multis(radial, -1); // we check this later on
 	radial = normalize(radial);
-	radial = vec_multis(radial, -1); // we check this later on
 	data->pix.light_dir = normalize(subtract(surface, s));// change this data->scene.light.position
 	t1 = fmax(dotProduct(s, radial), 0.0);//data->pix.light_dir
 	return t1;
@@ -46,6 +46,7 @@ double calculat_d(t_data *data, t_vector surface, t_vector point, t_vector cente
 	t_vector s;
 
 	l = subtract(data->scene.light.position, surface);
+	l = vec_multis(l, -1.0);
 	l = normalize(l);
 	//if()// do this 
 	s = vec_multis(point, -1.0);

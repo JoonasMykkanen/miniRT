@@ -27,8 +27,11 @@ double hit_sphere(const t_sphere *sp, const t_ray *r) {
 	discriminant = b * b - 4 * a * c;
 	if (discriminant < 0)
 		return -1;
-	else
-		return (-b - sqrt(discriminant) ) / (2.0 * a);
+	else{
+		if ((-b - sqrt(discriminant) ) / (2.0 * a) > 0)
+			return (-b - sqrt(discriminant) ) / (2.0 * a);
+	}
+	return -1;
 }
 
 static void	check_spheres(t_data *data)

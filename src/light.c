@@ -6,7 +6,7 @@
 /*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 07:05:17 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/10 15:09:36 by djames           ###   ########.fr       */
+/*   Updated: 2023/10/11 12:27:32 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,76 +32,26 @@ double calculat_l(t_data *data, t_vector surface, t_vector point, t_vector cente
 	//s = vec_add(s, surface);
 	s = normalize(s);
 	//s = vec_add(s, surface);
-	data->pix.light_dir = normalize(subtract(data->scene.light.position, s));
-	t1 = fmax(dotProduct(s, data->pix.light_dir), 0.0);
+	radial = subtract(data->scene.light.position, surface);// add thi
+	radial = normalize(radial);
+	radial = vec_multis(radial, -1); // we check this later on
+	data->pix.light_dir = normalize(subtract(surface, s));// change this data->scene.light.position
+	t1 = fmax(dotProduct(s, radial), 0.0);//data->pix.light_dir
 	return t1;
-	
-	// dot_product = dotProduct(surface, point);
-	// radial= vec_multis(point, dot_product);
-	// radial = subtract(surface, radial);
-	// //s= subtract(surface, radial);
-	// length(l);
-	// radial =normalize(radial);
-	// //l = subtract(data->scene.light.position, surface);
-	// ///l = normalize(l);
-	// //s =subtract(surface, point);
-	// //s=normalize(s);
-	// l = data->pix.light_dir;
-	// //l = normalize(l);
-	// t = dotProduct(l, radial);
-	// //printf("%f\n", t);
-	// t1 = acos(t);
-	// return (cos(t1));
-	
-	
 }
 double calculat_d(t_data *data, t_vector surface, t_vector point, t_vector center, double r)
 {
-	// double	d;
-
-	// data->pix.scaled_dir = vec_multis(data->scene.ray.dir, data->pix.closest_t);
-	// data->pix.hit_pos = subtract(data->scene.ray.orig, center);//data->scene.//point);// aqui
-	// data->pix.hit_pos = vec_add(data->pix.hit_pos, data->pix.scaled_dir);
-	// data->pix.norm = normalize(data->pix.hit_pos);
-	// data->pix.light_dir = normalize(subtract(data->scene.light.position, data->pix.hit_pos));
-	
-	// d = fmax(dotProduct(center, data->pix.light_dir), 0.0);
-	// return d;
-
-
 	double	d;
+	t_vector l;
+	t_vector s;
 
-	// data->pix.scaled_dir = vec_multis(data->scene.ray.dir, data->pix.closest_t);
-	// data->pix.hit_pos = subtract(data->scene.ray.orig, center);//data->scene.//point);// aqui
-	// data->pix.hit_pos = vec_add(data->pix.hit_pos, data->pix.scaled_dir);
-	data->pix.hit_pos = vec_multis(point, -1.0);
-	data->pix.hit_pos = point;
-	data->pix.hit_pos = vec_add(data->pix.hit_pos, surface);
-	data->pix.norm = normalize(data->pix.hit_pos);
-	data->pix.light_dir = normalize(subtract(data->scene.light.position, data->pix.hit_pos));
-	
-	d = fmax(dotProduct(center, data->pix.light_dir), 0.0);
-	return d;
-	
-	
-	// t_vector l;
-	// t_vector s;
-	// double t;
-	// double t1;
-	// double dot_product;
-	// t_vector radial;
-	
-
-	
-	// //radial = vec_multis(point, -1);
-	// radial = normalize(point);
-	
-	// //s = vec_add(s, surface);
-	// //radial = normalize(radial);
-	// //s = vec_add(s, surface);
-	// data->pix.light_dir = normalize(subtract(data->scene.light.position, point));
-	// t1 = fmax(dotProduct(point, data->pix.light_dir), 0.0);
-	// return t1;	
+	l = subtract(data->scene.light.position, surface);
+	l = normalize(l);
+	//if()// do this 
+	s = vec_multis(point, -1.0);
+	s = normalize(s);
+	d = fmax(dotProduct(l, s), 0.0);
+	return d;	
 }
 
 int	calculate_color(t_data *data, t_vector point, t_color color, t_vector inter, t_vector center, double r)

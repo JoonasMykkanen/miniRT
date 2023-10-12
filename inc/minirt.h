@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:17:31 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/10 14:00:05 by djames           ###   ########.fr       */
+/*   Updated: 2023/10/12 13:56:22 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,10 @@
 # define FIXED_PLANES 1
 # define PLANE_MAX 10
 # define PLANE_MIN -10
+
+# define BODY 0
+# define TOP 1
+# define BOTTOM 2
 
 typedef struct s_vector
 {
@@ -162,7 +166,7 @@ typedef struct s_pixel
 	int			obj_idx;
 	int			shadow;
 	int			color;
-	int			is_cap;
+	int			cap;
 
 	t_vector	scaled_dir;
 	t_vector	light_dir;

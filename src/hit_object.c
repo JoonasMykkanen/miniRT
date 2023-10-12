@@ -99,7 +99,6 @@ double hit_cap(t_ray r, double radios, t_vector position, t_vector normal, t_dat
 	t_ray ray;
 	t_vector normal1;
 	t_vector intersection;
-	//printf("esto es en x:%f, esto es en y:%f, esto es en z:%f \n",position.x, position.y, position.z);
 	
 	normal1 = normal;
 	dir = normalize(r.dir); 
@@ -115,7 +114,6 @@ double hit_cap(t_ray r, double radios, t_vector position, t_vector normal, t_dat
 	aux = length(subtract(intersection, position));
     if (aux > radios)
 		return (0);
-	data->pix.is_cap = 1;
 	return (depth);
 }
 
@@ -180,16 +178,20 @@ double hit_cylinder(const t_vector axis, const t_vector pos, double rad, const t
 	hit = vec_add(r.orig, hit);
 	hit = subtract(hit, pos);
 	axis_of = dotProduct(hit, axis);
-	data->pix.is_cap = 0;
+	data->pix.cap = BODY;
 	if(axis_of < 0.0)
 	{
 		cap = pos;
 		normal = normalize(axis);
 		normal = vec_multis(normal, -1);
-		double au =hit_cap(r, rad, cap, normal, data);
+		double au = hit_cap(r, rad, cap, normal, data);
 		if(au != 0)
-		{	if(au < depth || depth == 0)
+		{
+			if(au < depth || depth == 0)
+			{
+				data->pix.cap = BOTTOM;
 				return (au);
+			}
 		}
 	}
 	if(axis_of > h)
@@ -201,10 +203,14 @@ double hit_cylinder(const t_vector axis, const t_vector pos, double rad, const t
 		if(au1 != 0)
 		{
 			if(au1 < depth || depth == 0)
+			{
+				data->pix.cap = TOP;
 				return (au1);
+			}
 		}
 	}
-	data->pix.is_cap = 0;
+	// SHOULD NOT BE NEEDED
+	// data->pix.is_cap = 0;
 	return (depth);
 }
 

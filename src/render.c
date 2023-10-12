@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 11:17:48 by jmykkane          #+#    #+#             */
-/*   Updated: 2023/10/11 11:10:13 by djames           ###   ########.fr       */
+/*   Updated: 2023/10/12 11:35:51 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	draw_cylinder(t_data *data)
 	obj = data->scene.cylinders[idx];
 	intersect = ray_at(data->scene.ray, data->pix.closest_t);
 	if (!is_in_shadow(intersect, data->scene.light.position, data, idx))
-		data->pix.color = calculate_color(data, obj.axis, obj.color, intersect, obj.center,obj.diameter);
+		data->pix.color = calculate_color(data, obj.axis, obj.color, intersect, obj.center, obj.diameter);
 }
 static void	draw_sphere(t_data *data)
 {
@@ -48,7 +48,7 @@ static void	draw_sphere(t_data *data)
 	obj = data->scene.spheres[idx];
 	intersect = ray_at(data->scene.ray, data->pix.closest_t);
 	if (!is_in_shadow(intersect, data->scene.light.position, data, idx))
-		data->pix.color = calculate_color(data, obj.center, obj.color,intersect,obj.center, 2.0);
+		data->pix.color = calculate_color(data, obj.center, obj.color, intersect, obj.center, 2.0);
 }
 
 int	render_pixel(t_data *data, int x, int y)

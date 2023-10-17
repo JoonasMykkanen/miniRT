@@ -6,7 +6,7 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:17:31 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/17 10:27:18 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/10/17 11:07:51 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,19 +150,25 @@ typedef struct s_scene
 	int			num_cylinders;
 }				t_scene;
 
+typedef struct s_obj
+{
+	int			idx;
+	int			type;
+	t_vector	axis;
+	t_vector	point;
+	t_color		color;
+	double		radius;
+}				t_obj;
+
 typedef struct s_pixel
 {
+	
 	double		closest_t;
 	int			obj_type;
 	int			obj_idx;
 	int			shadow;
 	int			color;
 	int			cap;
-
-	t_vector	obj_center;
-	double		obj_radius;
-	t_color		obj_color;
-	t_vector	obj_axis;
 
 	t_vector	scaled_dir;
 	t_vector	light_dir;
@@ -175,8 +181,9 @@ typedef struct s_data
 	mlx_image_t	*img;
 	mlx_t		*mlx;
 
-	float		aspect_ratio;
 	
+	
+	t_obj		obj;
 	t_pixel		pix;
 	t_scene		scene;
 }				t_data;
@@ -186,13 +193,14 @@ double	ft_atof(char *str);
 int		arr_len(char **arr);
 void	free_arr(char **arr);
 void	init_camera(t_data *data);
+void	clamp_colors(t_color *color);
 int		init(t_data *data, char *file);
 int 	ft_color(int r, int g, int b, int a);
 
 // LIGHT
 void	check_rgb_values(t_color *color);
-double	calculate_spot_light(t_data *data, t_vector point);
-//int		calculate_color(t_data *data, t_vector point, t_color color, t_vector inter);
+int		calculate_color(t_data *data, t_obj	*obj, t_vector inter);
+int 	is_in_shadow(t_vector surface_point, t_vector light_source_position, t_data *data, int self);
 
 // HOOK
 void	render(void *param);
@@ -221,10 +229,7 @@ void		update_ray(t_data *data, int x, int y);
 t_ray 		ray_create(const t_vector origin, const t_vector direction);
 t_ray 		create_shadow_ray(t_vector surface_point, t_vector light_pos);
 double 		hit_sphere(const t_sphere *sp, const t_ray *r);
-int 		is_in_shadow(t_vector surface_point, t_vector light_source_position, t_data *data, int self);
-double hit_cylinder(const t_vector axis, const t_vector pos, double rad, const t_ray r, double h, t_data *data);
-int	calculate_color(t_data *data, t_vector point, t_color color, t_vector inter, t_vector center, double r);
-
+double 		hit_cylinder(const t_vector axis, const t_vector pos, double rad, const t_ray r, double h, t_data *data);
 
 // RENDER
 void	reset_pix(t_pixel *pix);

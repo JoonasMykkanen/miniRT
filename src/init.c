@@ -6,7 +6,7 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 10:50:44 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/17 08:51:18 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/10/17 10:34:17 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,5 @@ int	init(t_data *data, char *file)
 		ft_putstr_fd((char *)mlx_strerror(mlx_errno), ERROR);
 		return (ERROR);
 	}
-	data->aspect_ratio = (float)WIDTH / (float)HEIGHT;
 	return (OK);	
 }

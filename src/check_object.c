@@ -6,7 +6,7 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/15 09:24:38 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/17 10:21:05 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/10/17 10:48:03 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,11 @@ void	check_spheres(t_data *data)
 			data->pix.closest_t = hit;
 			data->pix.obj_type = SPHERE;
 
-			data->pix.obj_center = data->scene.spheres[idx].center;
-			data->pix.obj_radius = data->scene.spheres[idx].radius;
-			data->pix.obj_color = data->scene.spheres[idx].color;
+			data->obj.idx = idx;
+			data->obj.type = SPHERE;
+			data->obj.point = data->scene.spheres[idx].center;
+			data->obj.color = data->scene.spheres[idx].color;
+			data->obj.radius = data->scene.spheres[idx].radius;
 		}
 	}
 }
@@ -51,9 +53,12 @@ void	check_planes(t_data *data)
 			data->pix.closest_t = hit;
 			data->pix.obj_type = PLANE;
 
-			data->pix.obj_center = data->scene.planes[idx].point;
-			data->pix.obj_color = data->scene.planes[idx].color;
-			data->pix.obj_axis = data->scene.planes[idx].normal;
+			data->obj.idx = idx;
+			data->obj.type = PLANE;
+			data->obj.axis = data->scene.planes[idx].normal;
+			data->obj.point = data->scene.planes[idx].point;
+			data->obj.color = data->scene.planes[idx].color;
+			data->obj.radius = -1;
 		}
 	}
 }
@@ -73,10 +78,12 @@ void	check_cylinders(t_data *data)
 			data->pix.closest_t = hit;
 			data->pix.obj_type = CYLINDER;
 
-			data->pix.obj_radius = data->scene.cylinders[idx].diameter / 2;
-			data->pix.obj_center = data->scene.cylinders[idx].center;
-			data->pix.obj_color = data->scene.cylinders[idx].color;
-			data->pix.obj_axis = data->scene.cylinders[idx].axis;
+			data->obj.idx = idx;
+			data->obj.type = CYLINDER;
+			data->obj.axis = data->scene.cylinders[idx].axis;
+			data->obj.point = data->scene.cylinders[idx].center;
+			data->obj.color = data->scene.cylinders[idx].color;
+			data->obj.radius = data->scene.cylinders[idx].diameter / 2;
 		}
 	}
 }

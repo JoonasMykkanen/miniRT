@@ -6,14 +6,13 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 06:40:21 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/09 12:20:05 by joonasmykka      ###   ########.fr       */
-
+/*   Updated: 2023/10/17 11:58:30 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-double hit_sphere(const t_sphere *sp, const t_ray *r) {
+double	hit_sphere(const t_sphere *sp, const t_ray *r) {
     t_vector	oc;
     double		a;
     double		b;

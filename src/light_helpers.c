@@ -6,7 +6,7 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 11:03:26 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/17 11:05:10 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/10/17 11:34:06 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,14 @@ void	clamp_colors(t_color *color)
 		color->green = 255;
 	if (color->blue > 255)
 		color->blue = 255;
+}
+
+void	spotlight_effect(t_light *light, t_obj *obj, t_color *c, double d)
+{
+	float	b;
+
+	b = light->brightness;
+	c->red = (d * b * light->color.red) * obj->color.red / 255.0;
+	c->green = (d * b * light->color.green) * obj->color.green / 255.0;
+	c->blue = (d * b * light->color.blue) * obj->color.blue / 255.0;
 }

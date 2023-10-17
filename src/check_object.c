@@ -6,7 +6,7 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/15 09:24:38 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/17 10:48:03 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/10/17 11:57:40 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void	check_spheres(t_data *data)
 			data->pix.obj_idx = idx;
 			data->pix.closest_t = hit;
 			data->pix.obj_type = SPHERE;
-
 			data->obj.idx = idx;
 			data->obj.type = SPHERE;
 			data->obj.point = data->scene.spheres[idx].center;
@@ -38,21 +37,20 @@ void	check_spheres(t_data *data)
 
 void	check_planes(t_data *data)
 {
-	double 	numerator;
-	double 	denominator;
+	double	numerator;
+	double	denominator;
 	double	hit;
 	int		idx;
-	
+
 	idx = -1;
 	while (++idx < data->scene.num_planes)
 	{
 		hit = hit_plane(&data->scene.planes[idx], &data->scene.ray);
-		if(hit > 0 && hit < data->pix.closest_t)
+		if (hit > 0 && hit < data->pix.closest_t)
 		{
 			data->pix.obj_idx = idx;
 			data->pix.closest_t = hit;
 			data->pix.obj_type = PLANE;
-
 			data->obj.idx = idx;
 			data->obj.type = PLANE;
 			data->obj.axis = data->scene.planes[idx].normal;
@@ -71,13 +69,15 @@ void	check_cylinders(t_data *data)
 	idx = -1;
 	while (++idx < data->scene.num_cylinders)
 	{
-		hit = hit_cylinder(data->scene.cylinders[idx].axis, data->scene.cylinders[idx].center, data->scene.cylinders[idx].diameter, data->scene.ray, data->scene.cylinders[idx].height, data);
+		hit = hit_cylinder(data->scene.cylinders[idx].axis,
+				data->scene.cylinders[idx].center,
+				data->scene.cylinders[idx].diameter, data->scene.ray,
+				data->scene.cylinders[idx].height, data);
 		if (hit != 0 && hit < data->pix.closest_t)
 		{
 			data->pix.obj_idx = idx;
 			data->pix.closest_t = hit;
 			data->pix.obj_type = CYLINDER;
-
 			data->obj.idx = idx;
 			data->obj.type = CYLINDER;
 			data->obj.axis = data->scene.cylinders[idx].axis;

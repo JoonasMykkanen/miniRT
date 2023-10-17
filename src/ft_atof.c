@@ -6,7 +6,7 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 20:56:59 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/08/24 14:10:26 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/10/17 11:58:00 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ double	ft_atof(char *str)
 		str++;
 	while (*str >= '0' && *str <= '9')
 	{
-		integer = integer * 10 + (*str  - '0');
+		integer = integer * 10 + (*str - '0');
 		str++;
 	}
 	if (*str++ == '.')

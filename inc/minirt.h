@@ -6,7 +6,7 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:17:31 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/17 11:07:51 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/10/17 11:49:16 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,7 +192,7 @@ typedef struct s_data
 double	ft_atof(char *str);
 int		arr_len(char **arr);
 void	free_arr(char **arr);
-void	init_camera(t_data *data);
+void	init_camera(t_data *data, double vp_height, double vp_width);
 void	clamp_colors(t_color *color);
 int		init(t_data *data, char *file);
 int 	ft_color(int r, int g, int b, int a);
@@ -200,6 +200,7 @@ int 	ft_color(int r, int g, int b, int a);
 // LIGHT
 void	check_rgb_values(t_color *color);
 int		calculate_color(t_data *data, t_obj	*obj, t_vector inter);
+void	spotlight_effect(t_light *light, t_obj *obj, t_color *c, double d);
 int 	is_in_shadow(t_vector surface_point, t_vector light_source_position, t_data *data, int self);
 
 // HOOK

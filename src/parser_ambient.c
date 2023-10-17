@@ -6,7 +6,7 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 13:15:41 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/08/24 13:52:21 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/10/17 09:41:38 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 int	create_obj_ambient(t_data *data, char **params)
 {
-	t_ambient *ptr;
+	t_ambient	*ptr;
 
 	ptr = &data->scene.ambient;
 	if (arr_len(params) != 3 || data->scene.status_ambient != false)

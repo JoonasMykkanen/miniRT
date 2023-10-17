@@ -6,7 +6,7 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 13:27:04 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/08/30 14:25:55 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/10/17 08:53:55 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,12 @@ t_vector normals[] = {
 };
 
 // t_vector reflect(t_vector lightDir, t_vector normal) {
-//     double dotProduct = lightDir.x * normal.x + lightDir.y * normal.y + lightDir.z * normal.z;
+//     double dot_product = lightDir.x * normal.x + lightDir.y * normal.y + lightDir.z * normal.z;
 
 //     t_vector reflection = {
-//         2 * dotProduct * normal.x - lightDir.x,
-//         2 * dotProduct * normal.y - lightDir.y,
-//         2 * dotProduct * normal.z - lightDir.z
+//         2 * dot_product * normal.x - lightDir.x,
+//         2 * dot_product * normal.y - lightDir.y,
+//         2 * dot_product * normal.z - lightDir.z
 //     };
 
 //     return normalize(reflection);
@@ -55,7 +55,7 @@ int interpolate(int start, int end, float t) {
     return (int)(start * (1 - t) + end * t);
 }
 
-double dotProduct(t_vector a, t_vector b) {
+double dot_product(t_vector a, t_vector b) {
     return (a.x * b.x) + (a.y * b.y) + (a.z * b.z);
 }
 
@@ -118,9 +118,9 @@ int perPixel(int x, int y, int z, float r, t_data *data) {
 	camera.y = 0;
 	camera.z = -100;
 
-	a = dotProduct(ray_d, ray_o);
-	b = 2.0f * (dotProduct(ray_d, camera));
-	c = dotProduct(ray_d, camera) - (r * r);
+	a = dot_product(ray_d, ray_o);
+	b = 2.0f * (dot_product(ray_d, camera));
+	c = dot_product(ray_d, camera) - (r * r);
     des = (b * b) - (4.0f * (a * c));
     
     if (des >= 0.0f) {
@@ -133,7 +133,7 @@ int perPixel(int x, int y, int z, float r, t_data *data) {
 		hit_pos.z = ray_o.z + scaled_dir.z;
 		norm = normalize(hit_pos);
 
-		double d =fmax((dotProduct(norm, (light))), 0.00f);
+		double d =fmax((dot_product(norm, (light))), 0.00f);
 
 		red = (int)(0.7* (255 * d)) + (int)((0.2 * 255));// make something 0  to 1 multiple  by 2551 I added the ambient // later we consider what is the color of the  this will grow with multiple by color of our object
 		if(red > 255)

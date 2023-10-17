@@ -6,7 +6,7 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 12:44:46 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/09/18 11:56:31 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/10/17 08:54:40 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int interpolate(int start, int end, float t)
     return (int)(start * (1 - t) + end * t);
 }
 
-double dotProduct(t_vector a, t_vector b)
+double dot_product(t_vector a, t_vector b)
 {
     return (a.x * b.x) + (a.y * b.y) + (a.z * b.z);
 }
@@ -32,7 +32,7 @@ t_vector subtract(t_vector a, t_vector b)
     return result;
 }
 
-double lengthSquared(t_vector v) {
+double length_squared(t_vector v) {
     return v.x * v.x + v.y * v.y + v.z * v.z;
 }
 
@@ -73,7 +73,7 @@ t_vector vec_add(const t_vector v1, const t_vector v2) {
 }
 
 double length(t_vector v) {
-    return sqrt(lengthSquared(v));
+    return sqrt(length_squared(v));
 }
 
 t_ray ray_create(const t_vector origin, const t_vector direction) {
@@ -107,8 +107,8 @@ t_vector add_color(const t_vector c1, const t_vector c2) {
 
 int draw_plane(t_data *data, int x, int y, double *pt)
 {
-	double 	numerator = dotProduct(data->scene.planes[0].point, data->scene.planes[0].normal) - dotProduct(data->scene.ray.orig, data->scene.planes[0].normal);
-	double 	denominator = dotProduct(data->scene.ray.dir, data->scene.planes[0].normal);
+	double 	numerator = dot_product(data->scene.planes[0].point, data->scene.planes[0].normal) - dot_product(data->scene.ray.orig, data->scene.planes[0].normal);
+	double 	denominator = dot_product(data->scene.ray.dir, data->scene.planes[0].normal);
 	
 	double	max = 10;
 	double	min = -1 * max;
@@ -133,9 +133,9 @@ int draw_plane(t_data *data, int x, int y, double *pt)
 
 double hit_sphere(const t_vector center, double radius, const t_ray r) {
     t_vector oc = subtract(r.orig, center);
-    double a = dotProduct(r.dir, r.dir);
-    double b = 2.0 * dotProduct(oc, r.dir);
-    double c = dotProduct(oc, oc) - radius * radius;
+    double a = dot_product(r.dir, r.dir);
+    double b = 2.0 * dot_product(oc, r.dir);
+    double c = dot_product(oc, oc) - radius * radius;
     double discriminant = b * b - 4 * a * c;
 	if(discriminant < 0)
 		return -1;
@@ -236,7 +236,7 @@ void	render(void *param)
                 hit_pos = vec_add(hit_pos, scaled_direction);
                 norm =normalize(hit_pos);
                
-                double d =fmax(dotProduct(norm, data->scene.light.position), 0.00f);
+                double d =fmax(dot_product(norm, data->scene.light.position), 0.00f);
 
 				double ambientR = data->scene.ambient.color.red * data->scene.ambient.intensity;
 				double ambientG = data->scene.ambient.color.green * data->scene.ambient.intensity;
@@ -394,7 +394,7 @@ void	orbit_render(t_data *data)
 					hit_pos = vec_add(hit_pos, scaled_direction);
 					norm =normalize(hit_pos);
 				
-					double d =fmax(dotProduct(norm, data->scene.light.position), 0.00f);
+					double d =fmax(dot_product(norm, data->scene.light.position), 0.00f);
 
 					double ambientR = data->scene.ambient.color.red * data->scene.ambient.intensity;
 					double ambientG = data->scene.ambient.color.green * data->scene.ambient.intensity;

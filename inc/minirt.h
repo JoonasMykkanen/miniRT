@@ -6,7 +6,7 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:17:31 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/12 13:56:22 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/10/17 10:27:18 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,37 +62,28 @@ typedef struct s_color
 
 typedef struct s_camera
 {
+	float		fov;
+	t_vector 	center;
 	t_vector	position;
 	t_vector	orientation;
-	float		fov;
-	float		hvac;
+	
+	double	R;
+	double 	angle;
 
-	float	angle;
-	float	R;
-	
-	t_vector u;
-	t_vector v;
-	t_vector z;
-	
-	t_vector up_left;
+	double f_len;
+	double	viewport_height;
+	double	viewport_width;
+
+	t_vector pixv; 
+	t_vector pixu;
+	t_vector pixel;
 	t_vector help;
 	t_vector help1;
+	t_vector focal;
 	
-	t_vector pixel;
-	t_vector pixu;
-	t_vector pixv; 
-	
-    t_vector lookat;//   = point3(0,0,0);   // Point camera is looking at
-    t_vector   vup;//      = vec3(0,1,0);
-    t_vector u1;
-    t_vector v1;
-    t_vector  w1;
-	t_vector w;
-    t_vector focal;
-    double f_len;
-	double viewport_height; 
-	double viewport_width;
-	t_vector center;
+	float		hvac;
+	t_vector 	up_left;
+    t_vector   	vup;
 }				t_camera;
 
 typedef struct s_r{
@@ -168,6 +159,11 @@ typedef struct s_pixel
 	int			color;
 	int			cap;
 
+	t_vector	obj_center;
+	double		obj_radius;
+	t_color		obj_color;
+	t_vector	obj_axis;
+
 	t_vector	scaled_dir;
 	t_vector	light_dir;
 	t_vector	hit_pos;
@@ -205,9 +201,9 @@ void	update_camera(t_data *data, int mode, float delta);
 
 // MATH
 double length(t_vector v);
-double lengthSquared(t_vector v);
+double length_squared(t_vector v);
 double dist(t_vector a, t_vector b);
-double dotProduct(t_vector a, t_vector b);
+double dot_product(t_vector a, t_vector b);
 t_vector subtract(t_vector a, t_vector b);
 t_vector vec_divide(const t_vector v, float r);
 t_vector vec_multis(const t_vector v, float r);
@@ -215,6 +211,9 @@ t_vector cross(t_vector forward, t_vector position);
 t_vector vec_add(const t_vector v1, const t_vector v2);
 
 // RAY
+void		check_spheres(t_data *data);
+void		check_planes(t_data *data);
+void		check_cylinders(t_data *data);
 t_vector 	normalize(t_vector vector);
 t_vector 	ray_at(const t_ray r, double t);
 double		hit_plane(const t_plane *plane, const t_ray *ray);

@@ -6,7 +6,7 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 13:15:41 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/08/24 14:41:00 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/10/17 09:39:50 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,3 @@ int	create_obj_cylinder(t_data *data, char **params)
 	*idx += 1;
 	return (OK);
 }
-

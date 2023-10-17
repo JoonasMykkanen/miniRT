@@ -6,13 +6,29 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 07:05:17 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/12 19:19:28 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/10/17 10:27:49 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-double calculate_body(t_data *data, t_vector inter, t_vector axis, t_vector center, double r)
+void	clamp_colors(t_color *color)
+{
+	if (color->red < 0)
+		color->red = 0;
+	if (color->green < 0)
+		color->green = 0;
+	if (color->blue < 0)
+		color->blue = 0;
+	if (color->red > 255)
+		color->red = 255;
+	if (color->green > 255)
+		color->green = 255;
+	if (color->blue > 255)
+		color->blue = 255;
+}
+
+double calculate_body(t_data *data, t_vector inter, t_vector axis, t_vector center)
 {
 	t_vector	vec_inter;
 	t_vector	axis_point;
@@ -20,13 +36,13 @@ double calculate_body(t_data *data, t_vector inter, t_vector axis, t_vector cent
 	double		d;
 
 	vec_inter = subtract(inter, center);
-	scalar = dotProduct(vec_inter, axis) / dotProduct(axis, axis);
+	scalar = dot_product(vec_inter, axis) / dot_product(axis, axis);
 	axis_point = vec_add(center, vec_multis(axis, scalar));
 	data->pix.light_dir = subtract(data->scene.light.position, inter);
 	data->pix.light_dir = normalize(data->pix.light_dir);
 	data->pix.norm = subtract(inter, axis_point);
 	data->pix.norm = normalize(data->pix.norm);
-	d = fmax(dotProduct(data->pix.norm, data->pix.light_dir), 0.0);
+	d = fmax(dot_product(data->pix.norm, data->pix.light_dir), 0.0);
 	return (d);
 }
 double calculate_cap(t_data *data, t_vector inter, t_vector axis, t_vector center, double r)
@@ -40,22 +56,22 @@ double calculate_cap(t_data *data, t_vector inter, t_vector axis, t_vector cente
 	else
 		data->pix.norm = vec_multis(axis, -1.0f);
 	data->pix.norm = normalize(data->pix.norm);
-	d = fmax(dotProduct(data->pix.norm, data->pix.light_dir), 0.0);
+	d = fmax(dot_product(data->pix.norm, data->pix.light_dir), 0.0);
 	return (d);
 }
 
 int	calculate_color(t_data *data, t_vector axis, t_color color, t_vector inter, t_vector center, double r)
 {
-	double 	d;
 	t_color	ambient;
 	t_color	spot;
+	double 	d;
 	
 	if(data->pix.obj_type != CYLINDER)
 		d = calculate_spot_light(data, inter);
 	else
 	{
 		if (!data->pix.cap)
-			d = calculate_body(data, inter, axis, center, r);
+			d = calculate_body(data, inter, axis, center);
 		else 
 			d = calculate_cap(data, inter, axis, center, r);
 	}
@@ -71,6 +87,7 @@ int	calculate_color(t_data *data, t_vector axis, t_color color, t_vector inter, 
 	color.red = (int)(ambient.red + spot.red);
 	color.green = (int)(ambient.green + spot.green);
 	color.blue = (int)(ambient.blue + spot.blue);
+	clamp_colors(&color);
 	return (ft_color(color.red, color. green, color.blue, 0xff));
 }
 
@@ -79,11 +96,10 @@ double	calculate_spot_light(t_data *data, t_vector point)
 	double	d;
 
 	data->pix.light_dir = normalize(subtract(data->scene.light.position, point));
-	data->pix.norm = normalize(subtract(point, data->scene.spheres[data->pix.obj_idx].center));
 	if (data->pix.obj_type == PLANE)
 		data->pix.norm = data->scene.planes[data->pix.obj_idx].normal;
 	else
 		data->pix.norm = normalize(subtract(point, data->scene.spheres[data->pix.obj_idx].center));
-	d = fmax(dotProduct(data->pix.norm, data->pix.light_dir), 0.0);	
+	d = fmax(dot_product(data->pix.norm, data->pix.light_dir), 0.0);
 	return (d);
 }

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: djames <djames@student.hive.fi>            +#+  +:+       +#+         #
+#    By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/05 11:21:33 by joonasmykka       #+#    #+#              #
-#    Updated: 2023/10/10 12:50:49 by djames           ###   ########.fr        #
+#    Updated: 2023/10/17 11:10:02 by joonasmykka      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,9 +25,11 @@ SRCS := \
 	$(SRCDIR)/parser_cylinder.c \
 	$(SRCDIR)/parser_helpers.c \
 	$(SRCDIR)/parser_ambient.c \
+	$(SRCDIR)/light_helpers.c \
 	$(SRCDIR)/parser_camera.c \
 	$(SRCDIR)/parser_sphere.c \
 	$(SRCDIR)/parser_checks.c \
+	$(SRCDIR)/check_object.c \
 	$(SRCDIR)/parser_plane.c \
 	$(SRCDIR)/parser_light.c \
 	$(SRCDIR)/vec_helpers.c \
@@ -47,9 +49,9 @@ SRCS := \
 OBJS = $(SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 
 INCLUDES = -I ./inc
-LIBS = -L$(LIBFT_DIR) -lft $(LIBMLX_LIB) -I ./src/mlx42/include -ldl -lglfw -L"/Users/$${USER}/.brew/Cellar/glfw/3.3.8/lib/"
 # LIBS = -L$(LIBFT_DIR) -lft $(LIBMLX_LIB) -I ./src/mlx42/include -ldl -lglfw -L"/Users/$${USER}/.brew/Cellar/glfw/3.3.8/lib/"
-#LIBS = -L$(LIBFT_DIR) -lft $(LIBMLX_LIB) -I ./src/mlx42/include -ldl -lglfw -L"/opt/homebrew/Cellar/glfw/3.3.8/lib/"
+# LIBS = -L$(LIBFT_DIR) -lft $(LIBMLX_LIB) -I ./src/mlx42/include -ldl -lglfw -L"/Users/$${USER}/.brew/Cellar/glfw/3.3.8/lib/"
+LIBS = -L$(LIBFT_DIR) -lft $(LIBMLX_LIB) -I ./src/mlx42/include -ldl -lglfw -L"/opt/homebrew/Cellar/glfw/3.3.8/lib/"
 
 CFLAGS = -g $(INCLUDES)
 LDFLAGS = -g $(LIBS)
@@ -89,4 +91,4 @@ re: fclean all
 
 .PHONY: test
 test: all
-	./minirt test/cyl.rt
+	./minirt test/test.rt

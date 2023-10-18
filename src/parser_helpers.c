@@ -6,19 +6,19 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 21:33:53 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/10 12:14:41 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/10/17 11:42:26 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 #include "parser.h"
 
-typedef int (*check_t)(double);
+typedef int	(*t_check)(double);
 
-static int	check_vector_values(t_vector *vec, char **xyz, check_t func)
+static int	check_vector_values(t_vector *vec, char **xyz, t_check func)
 {
 	int	status;
-	
+
 	status = OK;
 	vec->x = ft_atof(xyz[0]);
 	if (func(vec->x) == ERROR || check_number(xyz[0]) == ERROR)

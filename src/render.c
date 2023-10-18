@@ -3,52 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 11:17:48 by jmykkane          #+#    #+#             */
-/*   Updated: 2023/10/11 11:10:13 by djames           ###   ########.fr       */
+/*   Updated: 2023/10/17 10:49:12 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-static void draw_plane(t_data *data) 
+static void	draw_plane(t_data *data)
 {
-	t_vector	intersect;
-	t_plane		obj;
-	int			idx;
+	t_vector	inter;
 
-	idx = data->pix.obj_idx;
-	obj = data->scene.planes[idx];
-	intersect = vec_add(vec_multis(data->scene.ray.dir, data->pix.closest_t), data->scene.ray.orig);
-	if (!is_in_shadow(intersect, data->scene.light.position, data, idx))
-		data->pix.color = calculate_color(data, obj.point, obj.color, intersect, obj.point, 2.0);
+	inter = vec_add(vec_multis(data->scene.ray.dir, data->pix.closest_t),
+			data->scene.ray.orig);
+	if (!is_in_shadow(inter, data->scene.light.position, data, data->obj.idx))
+		data->pix.color = calculate_color(data, &data->obj, inter);
 }
 
 static void	draw_cylinder(t_data *data)
 {
-	t_vector	intersect;
-	t_cylinder	obj;
-	int			idx;
-	t_vector luz;
+	t_vector	inter;
 
-	idx = data->pix.obj_idx;
-	obj = data->scene.cylinders[idx];
-	intersect = ray_at(data->scene.ray, data->pix.closest_t);
-	if (!is_in_shadow(intersect, data->scene.light.position, data, idx))
-		data->pix.color = calculate_color(data, obj.axis, obj.color, intersect, obj.center,obj.diameter);
+	inter = ray_at(data->scene.ray, data->pix.closest_t);
+	if (!is_in_shadow(inter, data->scene.light.position, data, data->obj.idx))
+		data->pix.color = calculate_color(data, &data->obj, inter);
 }
+
 static void	draw_sphere(t_data *data)
 {
-	t_vector	intersect;
-	t_sphere	obj;
-	int			idx;
+	t_vector	inter;
 
-	idx = data->pix.obj_idx;
-	obj = data->scene.spheres[idx];
-	intersect = ray_at(data->scene.ray, data->pix.closest_t);
-	if (!is_in_shadow(intersect, data->scene.light.position, data, idx))
-		data->pix.color = calculate_color(data, obj.center, obj.color,intersect,obj.center, 2.0);
+	inter = ray_at(data->scene.ray, data->pix.closest_t);
+	if (!is_in_shadow(inter, data->scene.light.position, data, data->obj.idx))
+		data->pix.color = calculate_color(data, &data->obj, inter);
 }
 
 int	render_pixel(t_data *data, int x, int y)
@@ -56,11 +45,11 @@ int	render_pixel(t_data *data, int x, int y)
 	reset_pix(&data->pix);
 	update_ray(data, x, y);
 	shoot_ray(data);
-	if (data->pix.obj_type == PLANE)
+	if (data->obj.type == PLANE)
 		draw_plane(data);
-	if (data->pix.obj_type == SPHERE)
+	if (data->obj.type == SPHERE)
 		draw_sphere(data);
-	if (data->pix.obj_type == CYLINDER)
+	if (data->obj.type == CYLINDER)
 		draw_cylinder(data);
 	return (data->pix.color);
 }

@@ -6,7 +6,7 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 13:15:41 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/09 14:12:40 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/10/17 09:38:38 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 int	create_obj_plane(t_data *data, char **params)
 {
-	t_plane *ptr;
+	t_plane	*ptr;
 	int		*idx;
 
 	idx = &data->scene.num_planes;
@@ -31,5 +31,3 @@ int	create_obj_plane(t_data *data, char **params)
 	*idx += 1;
 	return (OK);
 }
-
-

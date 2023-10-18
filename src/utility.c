@@ -6,7 +6,7 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 13:42:27 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/09 11:39:24 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/10/17 09:41:09 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ void	reset_pix(t_pixel *pix)
 	pix->obj_type = NONE;
 }
 
-int ft_color(int r, int g, int b, int a)
+int	ft_color(int r, int g, int b, int a)
 {
-    return (r << 24 | g << 16 | b << 8 | a);
+	return (r << 24 | g << 16 | b << 8 | a);
 }
 
 void	free_arr(char **arr)
@@ -46,4 +46,20 @@ int	arr_len(char **arr)
 	while (arr[len] != NULL)
 		len++;
 	return (len);
+}
+
+int	check_number(char *str)
+{
+	while (*str)
+	{
+		if (ft_isdigit(*str) != 1)
+		{
+			if (*str != '.' && *str != '-')
+				return (ERROR);
+			else if (*str == '-' && *(str + 1) == '\0')
+				return (ERROR);
+		}
+		str++;
+	}
+	return (OK);
 }

@@ -6,7 +6,7 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 14:48:30 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/09 11:08:08 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/10/17 09:42:01 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 static int	choose_object(t_data *data, char **params)
 {
 	int	status;
-	
+
 	status = ERROR;
 	if (ft_strcmp(params[0], "A") == OK)
 		status = create_obj_ambient(data, params);
@@ -33,10 +33,26 @@ static int	choose_object(t_data *data, char **params)
 	return (status);
 }
 
-static int parse_line(t_data *data, char *line)
+static int	check_line_error(char *line)
+{
+	int		len;
+	char	c;
+
+	len = ft_strlen(line);
+	if (!ft_isdigit(line[len - 1]))
+		return (ERROR);
+	return (OK);
+}
+
+static int	parse_line(t_data *data, char *line)
 {
 	char	**params;
 
+	if (check_line_error(line))
+	{
+		ft_free(line);
+		return (ERROR);
+	}
 	params = ft_split(line, ' ');
 	ft_free(line);
 	if (!params)
@@ -49,13 +65,15 @@ static int parse_line(t_data *data, char *line)
 	return (OK);
 }
 
-static void	remove_trailing_newline(char *str) {
-    size_t len; 
-	
+static void	remove_trailing_newline(char *str)
+{
+	size_t	len;
+
 	len = ft_strlen(str);
-    if (len > 0 && str[len-1] == '\n') {
-        str[len-1] = '\0';
-    }
+	if (len > 0 && str[len - 1] == '\n')
+	{
+		str[len - 1] = '\0';
+	}
 }
 
 int	read_input(t_data *data, char *file)
@@ -77,6 +95,6 @@ int	read_input(t_data *data, char *file)
 			ft_putstr_fd("Map error\n", 2);
 			return (ERROR);
 		}
-	}	
+	}
 	return (OK);
 }

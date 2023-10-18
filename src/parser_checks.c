@@ -6,7 +6,7 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 16:51:51 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/09 12:34:25 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/10/17 09:41:15 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,7 @@
 #include "parser.h"
 #include <float.h>
 
-int	check_number(char *str)
-{
-	while (*str)
-	{
-		if (ft_isdigit(*str) != 1)
-		{
-			if (*str != '.' && *str != '-')
-				return (ERROR);
-		}
-		str++;
-	}
-	return (OK);
-}
-
-int	check_color(int	value)
+int	check_color(int value)
 {
 	if (value >= 0 && value <= 255)
 	{
@@ -36,6 +22,7 @@ int	check_color(int	value)
 	}
 	return (ERROR);
 }
+
 int	check_orientation(double value)
 {
 	if (value >= -1.0 && value <= 1.0)

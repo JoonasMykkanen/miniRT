@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:17:31 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/10 14:00:05 by djames           ###   ########.fr       */
+/*   Updated: 2023/10/17 11:49:16 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,10 @@
 # define PLANE_MAX 10
 # define PLANE_MIN -10
 
+# define BODY 0
+# define TOP 1
+# define BOTTOM 2
+
 typedef struct s_vector
 {
 	double	x;
@@ -58,37 +62,28 @@ typedef struct s_color
 
 typedef struct s_camera
 {
+	float		fov;
+	t_vector 	center;
 	t_vector	position;
 	t_vector	orientation;
-	float		fov;
-	float		hvac;
+	
+	double	R;
+	double 	angle;
 
-	float	angle;
-	float	R;
-	
-	t_vector u;
-	t_vector v;
-	t_vector z;
-	
-	t_vector up_left;
+	double f_len;
+	double	viewport_height;
+	double	viewport_width;
+
+	t_vector pixv; 
+	t_vector pixu;
+	t_vector pixel;
 	t_vector help;
 	t_vector help1;
+	t_vector focal;
 	
-	t_vector pixel;
-	t_vector pixu;
-	t_vector pixv; 
-	
-    t_vector lookat;//   = point3(0,0,0);   // Point camera is looking at
-    t_vector   vup;//      = vec3(0,1,0);
-    t_vector u1;
-    t_vector v1;
-    t_vector  w1;
-	t_vector w;
-    t_vector focal;
-    double f_len;
-	double viewport_height; 
-	double viewport_width;
-	t_vector center;
+	float		hvac;
+	t_vector 	up_left;
+    t_vector   	vup;
 }				t_camera;
 
 typedef struct s_r{
@@ -155,14 +150,25 @@ typedef struct s_scene
 	int			num_cylinders;
 }				t_scene;
 
+typedef struct s_obj
+{
+	int			idx;
+	int			type;
+	t_vector	axis;
+	t_vector	point;
+	t_color		color;
+	double		radius;
+}				t_obj;
+
 typedef struct s_pixel
 {
+	
 	double		closest_t;
 	int			obj_type;
 	int			obj_idx;
 	int			shadow;
 	int			color;
-	int			is_cap;
+	int			cap;
 
 	t_vector	scaled_dir;
 	t_vector	light_dir;
@@ -175,8 +181,9 @@ typedef struct s_data
 	mlx_image_t	*img;
 	mlx_t		*mlx;
 
-	float		aspect_ratio;
 	
+	
+	t_obj		obj;
 	t_pixel		pix;
 	t_scene		scene;
 }				t_data;
@@ -185,14 +192,16 @@ typedef struct s_data
 double	ft_atof(char *str);
 int		arr_len(char **arr);
 void	free_arr(char **arr);
-void	init_camera(t_data *data);
+void	init_camera(t_data *data, double vp_height, double vp_width);
+void	clamp_colors(t_color *color);
 int		init(t_data *data, char *file);
 int 	ft_color(int r, int g, int b, int a);
 
 // LIGHT
 void	check_rgb_values(t_color *color);
-double	calculate_spot_light(t_data *data, t_vector point);
-//int		calculate_color(t_data *data, t_vector point, t_color color, t_vector inter);
+int		calculate_color(t_data *data, t_obj	*obj, t_vector inter);
+void	spotlight_effect(t_light *light, t_obj *obj, t_color *c, double d);
+int 	is_in_shadow(t_vector surface_point, t_vector light_source_position, t_data *data, int self);
 
 // HOOK
 void	render(void *param);
@@ -201,9 +210,9 @@ void	update_camera(t_data *data, int mode, float delta);
 
 // MATH
 double length(t_vector v);
-double lengthSquared(t_vector v);
+double length_squared(t_vector v);
 double dist(t_vector a, t_vector b);
-double dotProduct(t_vector a, t_vector b);
+double dot_product(t_vector a, t_vector b);
 t_vector subtract(t_vector a, t_vector b);
 t_vector vec_divide(const t_vector v, float r);
 t_vector vec_multis(const t_vector v, float r);
@@ -211,6 +220,9 @@ t_vector cross(t_vector forward, t_vector position);
 t_vector vec_add(const t_vector v1, const t_vector v2);
 
 // RAY
+void		check_spheres(t_data *data);
+void		check_planes(t_data *data);
+void		check_cylinders(t_data *data);
 t_vector 	normalize(t_vector vector);
 t_vector 	ray_at(const t_ray r, double t);
 double		hit_plane(const t_plane *plane, const t_ray *ray);
@@ -218,10 +230,7 @@ void		update_ray(t_data *data, int x, int y);
 t_ray 		ray_create(const t_vector origin, const t_vector direction);
 t_ray 		create_shadow_ray(t_vector surface_point, t_vector light_pos);
 double 		hit_sphere(const t_sphere *sp, const t_ray *r);
-int 		is_in_shadow(t_vector surface_point, t_vector light_source_position, t_data *data, int self);
-double hit_cylinder(const t_vector axis, const t_vector pos, double rad, const t_ray r, double h, t_data *data);
-int	calculate_color(t_data *data, t_vector point, t_color color, t_vector inter, t_vector center, double r);
-
+double 		hit_cylinder(const t_vector axis, const t_vector pos, double rad, const t_ray r, double h, t_data *data);
 
 // RENDER
 void	reset_pix(t_pixel *pix);

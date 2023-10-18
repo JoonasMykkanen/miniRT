@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   color_calc_main.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 13:27:04 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/09/07 10:40:59 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/17 08:53:55 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int interpolate(int start, int end, float t)
     return (int)(start * (1 - t) + end * t);
 }
 
-double dotProduct(t_vector a, t_vector b)
+double dot_product(t_vector a, t_vector b)
 {
     return (a.x * b.x) + (a.y * b.y) + (a.z * b.z);
 }
@@ -99,7 +99,7 @@ int perPixel(int x, int y, int z, float r, t_data *data)
 		hit_pos.z = az + scaled_direction.z;
 		norm = normalize(hit_pos);
 		
-		double d =fmax((dotProduct(norm, (light))), 0.00f);
+		double d =fmax((dot_product(norm, (light))), 0.00f);
 
 		t_color	ambient;
 		ambient.red = data->scene.ambient.color.red * data->scene.ambient.intensity;

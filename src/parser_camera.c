@@ -6,7 +6,7 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 13:15:41 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/09/17 13:48:44 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/10/17 09:41:29 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 static int	assign_fov(float *fov, char *str)
 {
-	int		value;
+	int	value;
 
 	if (check_number(str) == ERROR)
 		return (ERROR);
@@ -28,7 +28,7 @@ static int	assign_fov(float *fov, char *str)
 
 int	create_obj_camera(t_data *data, char **params)
 {
-	t_camera *ptr;
+	t_camera	*ptr;
 
 	ptr = &data->scene.camera;
 	if (arr_len(params) != 4 || data->scene.status_camera != false)
@@ -39,9 +39,11 @@ int	create_obj_camera(t_data *data, char **params)
 		return (ERROR);
 	if (assign_fov(&ptr->fov, params[3]) == ERROR)
 		return (ERROR);
-	data->scene.camera.R = sqrt(data->scene.camera.position.x * data->scene.camera.position.x + data->scene.camera.position.z * data->scene.camera.position.z);
-	data->scene.camera.angle = atan2(data->scene.camera.position.z, data->scene.camera.position.x);
+	data->scene.camera.R = sqrt(data->scene.camera.position.x
+			* data->scene.camera.position.x + data->scene.camera.position.z
+			* data->scene.camera.position.z);
+	data->scene.camera.angle = atan2(data->scene.camera.position.z,
+			data->scene.camera.position.x);
 	data->scene.status_camera = true;
 	return (OK);
 }
-

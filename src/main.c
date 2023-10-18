@@ -6,7 +6,7 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 13:27:04 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/09 10:55:14 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/10/17 09:42:17 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	minirt(t_data *data)
 	{
 		mlx_close_window(data->mlx);
 		puts(mlx_strerror(mlx_errno));
-		return(ERROR);
+		return (ERROR);
 	}
 	mlx_loop_hook(data->mlx, render, data);
 	mlx_loop_hook(data->mlx, ft_hook, data);
@@ -30,7 +30,7 @@ int	minirt(t_data *data)
 int	main(int argc, char **argv)
 {
 	t_data	data;
-	
+
 	if (argc == 2)
 	{
 		if (init(&data, argv[1]) != OK)
@@ -39,6 +39,6 @@ int	main(int argc, char **argv)
 			return (ERROR);
 	}
 	else
-		ft_putstr_fd("Error with inputfile\n", 2);
+		ft_putstr_fd("Invalid number of arguments given\n", 2);
 	return (OK);
 }

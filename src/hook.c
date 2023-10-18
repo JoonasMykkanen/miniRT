@@ -6,7 +6,7 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 08:06:45 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/17 11:56:01 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/10/18 09:21:02 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,5 @@ void	render(void *param)
 			mlx_put_pixel(data->img, x, y, render_pixel(data, x, y));
 		x = -1;
 	}
+	printf("Frame done \n");
 }

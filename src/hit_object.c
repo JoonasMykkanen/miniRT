@@ -6,18 +6,18 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 06:40:21 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/17 11:58:30 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/10/17 11:59:35 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
 double	hit_sphere(const t_sphere *sp, const t_ray *r) {
+    double		discriminant; 
     t_vector	oc;
     double		a;
     double		b;
     double		c;
-    double		discriminant; 
 
 	oc = subtract(r->orig, sp->center);
 	a = dot_product(r->dir, r->dir);

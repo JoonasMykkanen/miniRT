@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:17:31 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/19 11:02:22 by djames           ###   ########.fr       */
+/*   Updated: 2023/10/19 11:14:02 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,7 +232,7 @@ double	hit_cylinder2(t_cylinder *cyl, t_ray r);
 
 // LIGHT
 void	check_rgb_values(t_color *color);
-int		calculate_color(t_data *data, t_obj	*obj, t_vector inter, int ind);
+int		calculate_color(t_data *data, t_obj	*obj, t_vector inter);
 void	spotlight_effect(t_light *light, t_obj *obj, t_color *c, double d);
 int 	is_in_shadow(t_vector surface_point, t_vector light_source_position, t_data *data, int self);
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   light.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 07:05:17 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/19 10:18:10 by djames           ###   ########.fr       */
+/*   Updated: 2023/10/19 11:14:10 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static void	calculate_ambient(t_data *data, t_color *color)
 	color->blue *= data->obj.color.blue / 255.0;
 }
 
-int	calculate_color(t_data *data, t_obj *obj, t_vector inter, int ind)
+int	calculate_color(t_data *data, t_obj *obj, t_vector inter)
 {
 	t_color	ambient;
 	t_light	light;
@@ -81,10 +81,10 @@ int	calculate_color(t_data *data, t_obj *obj, t_vector inter, int ind)
 	light = data->scene.light;
 	if (data->pix.obj_type == CYLINDER)
 	{
-		if (data->scene.cylinders[ind].fcylinder == 0)
-			d = calculate_body(data, inter, &data->scene.cylinders[ind]);
+		if (data->scene.cylinders[obj->idx].fcylinder == 0)
+			d = calculate_body(data, inter, &data->scene.cylinders[obj->idx]);
 		else
-			d = calculate_cap(data, inter, &data->scene.cylinders[ind]);
+			d = calculate_cap(data, inter, &data->scene.cylinders[obj->idx]);
 	}
 	else
 		d = calculate_spot_light(data, inter);

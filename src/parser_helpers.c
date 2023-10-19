@@ -6,7 +6,7 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 21:33:53 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/17 11:42:26 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/10/19 13:05:46 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ static int	check_vector_values(t_vector *vec, char **xyz, t_check func)
 		status = ERROR;
 	vec->z = ft_atof(xyz[2]);
 	if (func(vec->z) == ERROR || check_number(xyz[2]) == ERROR)
+		status = ERROR;
+	if ((vec->x == 0 && vec->y == 0) && vec->z == 0)
 		status = ERROR;
 	free_arr(xyz);
 	return (status);

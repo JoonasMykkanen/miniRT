@@ -6,7 +6,7 @@
 /*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 14:48:30 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/17 09:42:01 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/10/19 12:59:31 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,7 @@ static int	parse_line(t_data *data, char *line)
 	if (!params)
 		return (ERROR);
 	if (choose_object(data, params) == ERROR)
-	{
-		ft_putstr_fd("Scene error\n", 2);
 		return (ERROR);
-	}
 	return (OK);
 }
 
@@ -82,6 +79,11 @@ int	read_input(t_data *data, char *file)
 	int		fd;
 
 	fd = open(file, O_RDONLY);
+	if (fd == -1)
+	{
+		ft_putstr_fd("Error: opening file\n", 2);
+		return (ERROR);
+	}
 	while (1)
 	{
 		line = get_next_line(fd);
@@ -92,7 +94,7 @@ int	read_input(t_data *data, char *file)
 			continue ;
 		if (parse_line(data, line) == ERROR)
 		{
-			ft_putstr_fd("Map error\n", 2);
+			ft_putstr_fd("Error: Invalid map\n", 2);
 			return (ERROR);
 		}
 	}

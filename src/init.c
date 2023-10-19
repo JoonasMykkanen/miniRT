@@ -6,14 +6,13 @@
 /*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:30:00 by djames            #+#    #+#             */
-/*   Updated: 2023/10/19 15:30:04 by djames           ###   ########.fr       */
+/*   Updated: 2023/10/19 15:58:20 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 #include "parser.h"
 
-// Defines up vector and calculates viewport height and width
 void	basic_params(t_camera *cam, double *vp_h, double *vp_w)
 {
 	double	hvac;

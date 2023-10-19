@@ -6,7 +6,7 @@
 /*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:32:47 by djames            #+#    #+#             */
-/*   Updated: 2023/10/19 15:32:50 by djames           ###   ########.fr       */
+/*   Updated: 2023/10/19 15:59:03 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 void	reset_pix(t_pixel *pix)
 {
-	pix->closest_t = DBL_MAX;
+	pix->closest_t = FLT_MAX;
 	pix->color = 0x000000ff;
 	pix->obj_type = NONE;
 }

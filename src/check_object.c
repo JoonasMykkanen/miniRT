@@ -6,7 +6,7 @@
 /*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:28:48 by djames            #+#    #+#             */
-/*   Updated: 2023/10/19 15:34:11 by djames           ###   ########.fr       */
+/*   Updated: 2023/10/19 15:49:44 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ void	check_spheres(t_data *data)
 
 void	check_planes(t_data *data)
 {
-	double	numerator;
-	double	denominator;
 	double	hit;
 	int		idx;
 
@@ -69,7 +67,7 @@ void	check_cylinders(t_data *data)
 	idx = -1;
 	while (++idx < data->scene.num_cylinders)
 	{
-		hit = hit_cylinder(&data->scene.cylinders[idx], data->scene.ray, data);
+		hit = hit_cylinder(&data->scene.cylinders[idx], data->scene.ray);
 		if (hit != 0 && hit < data->pix.closest_t)
 		{
 			data->pix.obj_idx = idx;

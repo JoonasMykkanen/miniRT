@@ -6,7 +6,7 @@
 /*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:30:22 by djames            #+#    #+#             */
-/*   Updated: 2023/10/19 15:30:26 by djames           ###   ########.fr       */
+/*   Updated: 2023/10/19 15:42:37 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static double	calculate_cap(t_data *data, t_vector inter, t_cylinder *cyl)
 	opposite = cyl->axis;
 	if (cyl->fcylinder == 2)
 		opposite = vec_multis(cyl->axis, -1);
-	data->pix.light_dir = subtract(data->scene.light.position, opposite);
+	data->pix.light_dir = subtract(data->scene.light.position, inter);
 	data->pix.light_dir = vec_multis(data->pix.light_dir, -1);
 	data->pix.light_dir = normalize(data->pix.light_dir);
 	data->pix.norm = vec_multis(opposite, -1.0f);

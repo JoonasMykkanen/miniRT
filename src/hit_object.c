@@ -6,7 +6,7 @@
 /*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:29:37 by djames            #+#    #+#             */
-/*   Updated: 2023/10/19 15:29:40 by djames           ###   ########.fr       */
+/*   Updated: 2023/10/19 15:48:07 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,11 +98,11 @@ double	hit_cylinder2(t_cylinder *cyl, t_ray r)
 	return (0.0);
 }
 
-double	hit_cylinder(t_cylinder *cyl, const t_ray r, t_data *data)
+double	hit_cylinder(t_cylinder *cyl, const t_ray r)
 {
 	t_helpc2	point;
 
-	init_cyl(cyl, r, data, &point);
+	init_cyl(cyl, r, &point);
 	if (point.axis_of > cyl->height)
 	{
 		if (ay(&point, cyl, r) == 1)

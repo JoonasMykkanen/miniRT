@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
+/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 13:18:07 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/08/24 14:45:22 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/10/19 16:00:11 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include "minirt.h"
 
 // Checks to be done for each attribute category
-int	check_color(int	value);
+int	check_color(int value);
 int	check_size(double value);
 int	check_overflow(double value);
 int	check_brightness(double value);

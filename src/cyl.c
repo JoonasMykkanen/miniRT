@@ -6,13 +6,13 @@
 /*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 10:58:56 by djames            #+#    #+#             */
-/*   Updated: 2023/10/19 12:53:20 by djames           ###   ########.fr       */
+/*   Updated: 2023/10/19 15:46:53 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-void	init_cyl(t_cylinder *cyl, const t_ray r, t_data *data, t_helpc2 *point)
+void	init_cyl(t_cylinder *cyl, const t_ray r, t_helpc2 *point)
 {
 	point->depth = hit_cylinder2(cyl, r);
 	point->hit = normalize(r.dir);

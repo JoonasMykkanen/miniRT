@@ -6,32 +6,33 @@
 /*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:17:31 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/19 12:52:24 by djames           ###   ########.fr       */
+/*   Updated: 2023/10/19 16:00:37 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
 
-# include <time.h>
-# include <math.h>
-# include <stdio.h>
-# include <float.h>
-# include <stdlib.h>
-# include <stdbool.h>
-# include "stdbool.h"
 # include "../src/libft/inc/libft.h"
 # include "../src/mlx42/include/MLX42/MLX42.h"
+# include "stdbool.h"
+# include <math.h>
+# include <stdbool.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <time.h>
 
-# define HEIGHT	800
-# define WIDTH	1300
+# define HEIGHT 800
+# define WIDTH 1300
 
-# define ERROR	2
-# define OK 	0
+# define ERROR 2
+# define OK 0
 
 # define HORIZONTAL 1
-# define VERTICAL	2
-# define DEPTH		3
+# define VERTICAL 2
+# define DEPTH 3
+# define FLT_MAX 340282346638528859811704183484516925440.0000000000000000
+# define FLT_MIN -340282346638528859811704183484516925440.0000000000000000
 
 # define NONE 0
 # define PLANE 1
@@ -48,48 +49,46 @@
 
 typedef struct s_vector
 {
-	double	x;
-	double	y;
-	double	z;
+	double		x;
+	double		y;
+	double		z;
 }				t_vector;
 
 typedef struct s_color
 {
-	int	red;
-	int	green;
-	int	blue;
+	int			red;
+	int			green;
+	int			blue;
 }				t_color;
 
 typedef struct s_camera
 {
 	float		fov;
-	t_vector 	center;
+	t_vector	center;
 	t_vector	position;
 	t_vector	orientation;
-	
-	double	R;
-	double 	angle;
 
-	double f_len;
-	double	viewport_height;
-	double	viewport_width;
+	double		f_len;
+	double		viewport_height;
+	double		viewport_width;
 
-	t_vector pixv; 
-	t_vector pixu;
-	t_vector pixel;
-	t_vector help;
-	t_vector help1;
-	t_vector focal;
-	
+	t_vector	pixv;
+	t_vector	pixu;
+	t_vector	pixel;
+	t_vector	help;
+	t_vector	help1;
+	t_vector	focal;
+
 	float		hvac;
-	t_vector 	up_left;
-    t_vector   	vup;
+	t_vector	up_left;
+	t_vector	vup;
 }				t_camera;
 
-typedef struct s_r{
-    t_vector orig;
-    t_vector dir;
-} t_ray;
+typedef struct s_r
+{
+	t_vector	orig;
+	t_vector	dir;
+}				t_ray;
 
 typedef struct s_ambient
 {
@@ -133,7 +132,7 @@ typedef struct s_scene
 {
 	t_ambient	ambient;
 	bool		status_ambient;
-	
+
 	t_camera	camera;
 	bool		status_camera;
 
@@ -163,7 +162,6 @@ typedef struct s_obj
 
 typedef struct s_pixel
 {
-	
 	double		closest_t;
 	int			obj_type;
 	int			obj_idx;
@@ -182,8 +180,6 @@ typedef struct s_data
 	mlx_image_t	*img;
 	mlx_t		*mlx;
 
-	
-	
 	t_obj		obj;
 	t_pixel		pix;
 	t_scene		scene;
@@ -195,14 +191,14 @@ typedef struct s_hitc
 	t_vector	h;
 	t_vector	w;
 	t_vector	v;
-	t_vector 	sol;
+	t_vector	sol;
 	double		l;
 	double		a;
 	double		b;
 	double		c;
 	double		discriminant;
 	double		t1;
-	double 		projection;
+	double		projection;
 }				t_helpc;
 
 typedef struct s_hitc1
@@ -216,59 +212,61 @@ typedef struct s_hitc1
 	double		au1;
 }				t_helpc2;
 
-
 // GENERAL
-double	ft_atof(char *str);
-int		arr_len(char **arr);
-void	free_arr(char **arr);
-void	init_camera(t_data *data, double vp_height, double vp_width);
-void	clamp_colors(t_color *color);
-int		init(t_data *data, char *file);
-int 	ft_color(int r, int g, int b, int a);
-void	init_cyl(t_cylinder *cyl, const t_ray r, t_data *data, t_helpc2 *point);
-void	hit_cylinder3(t_helpc *hit, t_ray r, t_vector cyl);
-double	hit_cylinder2(t_cylinder *cyl, t_ray r);
-int ay(t_helpc2 *point, t_cylinder *cyl, t_ray r);
-double	hit_cap(t_ray r, t_vector position, t_vector normal, t_cylinder *cyl);
+double			ft_atof(char *str);
+int				arr_len(char **arr);
+void			free_arr(char **arr);
+void			init_camera(t_data *data, double vp_height, double vp_width);
+void			clamp_colors(t_color *color);
+int				init(t_data *data, char *file);
+int				ft_color(int r, int g, int b, int a);
+void			init_cyl(t_cylinder *cyl, const t_ray r, t_helpc2 *point);
+void			hit_cylinder3(t_helpc *hit, t_ray r, t_vector cyl);
+double			hit_cylinder2(t_cylinder *cyl, t_ray r);
+int				ay(t_helpc2 *point, t_cylinder *cyl, t_ray r);
+double			hit_cap(t_ray r, t_vector position, t_vector normal,
+					t_cylinder *cyl);
 
 // LIGHT
-void	check_rgb_values(t_color *color);
-int		calculate_color(t_data *data, t_obj	*obj, t_vector inter);
-void	spotlight_effect(t_light *light, t_obj *obj, t_color *c, double d);
-int 	is_in_shadow(t_vector surface_point, t_vector light_source_position, t_data *data, int self);
+void			check_rgb_values(t_color *color);
+int				calculate_color(t_data *data, t_obj *obj, t_vector inter);
+void			spotlight_effect(t_light *light, t_obj *obj, t_color *c,
+					double d);
+int				is_in_shadow(t_vector surface_point,
+					t_vector light_source_position,
+					t_data *data,
+					int self);
 
 // HOOK
-void	render(void *param);
-void	ft_hook(void *param);
-void	update_camera(t_data *data, int mode, float delta);
+void			render(void *param);
+void			ft_hook(void *param);
 
 // MATH
-double length(t_vector v);
-double length_squared(t_vector v);
-double dist(t_vector a, t_vector b);
-double dot_product(t_vector a, t_vector b);
-t_vector subtract(t_vector a, t_vector b);
-t_vector vec_divide(const t_vector v, float r);
-t_vector vec_multis(const t_vector v, float r);
-t_vector cross(t_vector forward, t_vector position);
-t_vector vec_add(const t_vector v1, const t_vector v2);
+double			length(t_vector v);
+double			length_squared(t_vector v);
+double			dist(t_vector a, t_vector b);
+double			dot_product(t_vector a, t_vector b);
+t_vector		subtract(t_vector a, t_vector b);
+t_vector		vec_divide(const t_vector v, float r);
+t_vector		vec_multis(const t_vector v, float r);
+t_vector		cross(t_vector forward, t_vector position);
+t_vector		vec_add(const t_vector v1, const t_vector v2);
 
 // RAY
-void		check_spheres(t_data *data);
-void		check_planes(t_data *data);
-void		check_cylinders(t_data *data);
-t_vector 	normalize(t_vector vector);
-t_vector 	ray_at(const t_ray r, double t);
-double		hit_plane(const t_plane *plane, const t_ray *ray);
-void		update_ray(t_data *data, int x, int y);
-t_ray 		ray_create(const t_vector origin, const t_vector direction);
-t_ray 		create_shadow_ray(t_vector surface_point, t_vector light_pos);
-double 		hit_sphere(const t_sphere *sp, const t_ray *r);
-//double 		hit_cylinder(const t_vector axis, const t_vector pos, double rad, const t_ray r, double h, t_data *data);
-double hit_cylinder(t_cylinder *cyl, const t_ray r, t_data *data);
+void			check_spheres(t_data *data);
+void			check_planes(t_data *data);
+void			check_cylinders(t_data *data);
+t_vector		normalize(t_vector vector);
+t_vector		ray_at(const t_ray r, double t);
+double			hit_plane(const t_plane *plane, const t_ray *ray);
+void			update_ray(t_data *data, int x, int y);
+t_ray			ray_create(const t_vector origin, const t_vector direction);
+t_ray			create_shadow_ray(t_vector surface_point, t_vector light_pos);
+double			hit_sphere(const t_sphere *sp, const t_ray *r);
+double			hit_cylinder(t_cylinder *cyl, const t_ray r);
 // RENDER
-void	reset_pix(t_pixel *pix);
-void	shoot_ray(t_data *data);
-int		render_pixel(t_data *data, int x, int y);
+void			reset_pix(t_pixel *pix);
+void			shoot_ray(t_data *data);
+int				render_pixel(t_data *data, int x, int y);
 
 #endif // !MINIRT_H

@@ -6,7 +6,7 @@
 /*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:32:37 by djames            #+#    #+#             */
-/*   Updated: 2023/10/19 15:32:40 by djames           ###   ########.fr       */
+/*   Updated: 2023/10/19 15:50:15 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	cylinder_shadow(t_data *data, t_ray shadow_ray, int self)
 	{
 		if (idx == self && data->pix.obj_type == CYLINDER)
 			continue ;
-		hit = hit_cylinder(&data->scene.cylinders[idx], shadow_ray, data);
+		hit = hit_cylinder(&data->scene.cylinders[idx], shadow_ray);
 		if (hit != 0)
 			return (1);
 	}

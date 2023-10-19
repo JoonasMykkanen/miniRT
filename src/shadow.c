@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shadow.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
+/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 07:37:46 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/17 09:29:27 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/10/18 16:44:37 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,7 @@ static int	cylinder_shadow(t_data *data, t_ray shadow_ray, int self)
 	{
 		if (idx == self && data->pix.obj_type == CYLINDER)
 			continue ;
-		hit = hit_cylinder(data->scene.cylinders[idx].axis,
-				data->scene.cylinders[idx].center,
-				data->scene.cylinders[idx].diameter, shadow_ray,
-				data->scene.cylinders[idx].height, data);
+		hit = hit_cylinder(&data->scene.cylinders[idx], shadow_ray, data);
 		if (hit != 0)
 			return (1);
 	}

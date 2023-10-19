@@ -6,7 +6,7 @@
 /*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 10:50:44 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/18 12:45:18 by djames           ###   ########.fr       */
+/*   Updated: 2023/10/19 10:20:25 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	basic_params(t_camera *cam, double *vp_h, double *vp_w)
 	hvac = tan(cam->fov / 2);
 	cam->focal = subtract(cam->position, cam->orientation);
 	cam->f_len = length(cam->focal);
-	cam->focal = vec_multis(cam->orientation, -1 );
+	cam->focal = vec_multis(cam->orientation, -1);
 	*vp_h = 2.0 * hvac * cam->f_len;
 	*vp_w = *vp_h * ((double)(WIDTH) / (double)HEIGHT);
 }

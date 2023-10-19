@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
+/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 11:17:48 by jmykkane          #+#    #+#             */
-/*   Updated: 2023/10/17 10:49:12 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/10/18 16:05:16 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,16 @@ static void	draw_plane(t_data *data)
 	inter = vec_add(vec_multis(data->scene.ray.dir, data->pix.closest_t),
 			data->scene.ray.orig);
 	if (!is_in_shadow(inter, data->scene.light.position, data, data->obj.idx))
-		data->pix.color = calculate_color(data, &data->obj, inter);
+		data->pix.color = calculate_color(data, &data->obj, inter, data->obj.idx);
 }
 
 static void	draw_cylinder(t_data *data)
 {
 	t_vector	inter;
-
+	
 	inter = ray_at(data->scene.ray, data->pix.closest_t);
 	if (!is_in_shadow(inter, data->scene.light.position, data, data->obj.idx))
-		data->pix.color = calculate_color(data, &data->obj, inter);
+		data->pix.color = calculate_color(data, &data->obj, inter, data->obj.idx);
 }
 
 static void	draw_sphere(t_data *data)
@@ -37,7 +37,7 @@ static void	draw_sphere(t_data *data)
 
 	inter = ray_at(data->scene.ray, data->pix.closest_t);
 	if (!is_in_shadow(inter, data->scene.light.position, data, data->obj.idx))
-		data->pix.color = calculate_color(data, &data->obj, inter);
+		data->pix.color = calculate_color(data, &data->obj, inter, data->obj.idx);// esto hay que arreglar
 }
 
 int	render_pixel(t_data *data, int x, int y)
@@ -45,6 +45,7 @@ int	render_pixel(t_data *data, int x, int y)
 	reset_pix(&data->pix);
 	update_ray(data, x, y);
 	shoot_ray(data);
+	// printf("this is cap%d\n", data->pix.cap);
 	if (data->obj.type == PLANE)
 		draw_plane(data);
 	if (data->obj.type == SPHERE)

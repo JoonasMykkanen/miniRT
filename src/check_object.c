@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_object.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
+/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/15 09:24:38 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/17 11:57:40 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/10/18 16:44:45 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,7 @@ void	check_cylinders(t_data *data)
 	idx = -1;
 	while (++idx < data->scene.num_cylinders)
 	{
-		hit = hit_cylinder(data->scene.cylinders[idx].axis,
-				data->scene.cylinders[idx].center,
-				data->scene.cylinders[idx].diameter, data->scene.ray,
-				data->scene.cylinders[idx].height, data);
+		hit = hit_cylinder(&data->scene.cylinders[idx], data->scene.ray, data);
 		if (hit != 0 && hit < data->pix.closest_t)
 		{
 			data->pix.obj_idx = idx;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
+/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:17:31 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/17 11:49:16 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/10/19 11:02:22 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ typedef struct s_cylinder
 	float		diameter;
 	float		height;
 	t_color		color;
+	int			fcylinder;
 }				t_cylinder;
 
 typedef struct s_scene
@@ -168,7 +169,8 @@ typedef struct s_pixel
 	int			obj_idx;
 	int			shadow;
 	int			color;
-	int			cap;
+	int			is_cap;
+	int			flag32;
 
 	t_vector	scaled_dir;
 	t_vector	light_dir;
@@ -188,6 +190,34 @@ typedef struct s_data
 	t_scene		scene;
 }				t_data;
 
+typedef struct s_hitc
+{
+	t_vector	h1;
+	t_vector	h;
+	t_vector	w;
+	t_vector	v;
+	t_vector 	sol;
+	double		l;
+	double		a;
+	double		b;
+	double		c;
+	double		discriminant;
+	double		t1;
+	double 		projection;
+}				t_helpc;
+
+typedef struct s_hitc1
+{
+	t_vector	hit;
+	t_vector	cap;
+	t_vector	normal;
+	double		depth;
+	double		axis_of;
+	double		au;
+	double		au1;
+}				t_helpc2;
+
+
 // GENERAL
 double	ft_atof(char *str);
 int		arr_len(char **arr);
@@ -196,10 +226,13 @@ void	init_camera(t_data *data, double vp_height, double vp_width);
 void	clamp_colors(t_color *color);
 int		init(t_data *data, char *file);
 int 	ft_color(int r, int g, int b, int a);
+void	init_cyl(t_cylinder *cyl, const t_ray r, t_data *data, t_helpc2 *point);
+void	hit_cylinder3(t_helpc *hit, t_ray r, t_vector cyl);
+double	hit_cylinder2(t_cylinder *cyl, t_ray r);
 
 // LIGHT
 void	check_rgb_values(t_color *color);
-int		calculate_color(t_data *data, t_obj	*obj, t_vector inter);
+int		calculate_color(t_data *data, t_obj	*obj, t_vector inter, int ind);
 void	spotlight_effect(t_light *light, t_obj *obj, t_color *c, double d);
 int 	is_in_shadow(t_vector surface_point, t_vector light_source_position, t_data *data, int self);
 
@@ -230,8 +263,8 @@ void		update_ray(t_data *data, int x, int y);
 t_ray 		ray_create(const t_vector origin, const t_vector direction);
 t_ray 		create_shadow_ray(t_vector surface_point, t_vector light_pos);
 double 		hit_sphere(const t_sphere *sp, const t_ray *r);
-double 		hit_cylinder(const t_vector axis, const t_vector pos, double rad, const t_ray r, double h, t_data *data);
-
+//double 		hit_cylinder(const t_vector axis, const t_vector pos, double rad, const t_ray r, double h, t_data *data);
+double hit_cylinder(t_cylinder *cyl, const t_ray r, t_data *data);
 // RENDER
 void	reset_pix(t_pixel *pix);
 void	shoot_ray(t_data *data);

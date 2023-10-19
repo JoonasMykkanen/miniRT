@@ -1,0 +1,36 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cyl.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/19 10:58:56 by djames            #+#    #+#             */
+/*   Updated: 2023/10/19 11:03:12 by djames           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minirt.h"
+
+void	init_cyl(t_cylinder *cyl, const t_ray r, t_data *data, t_helpc2 *point)
+{
+	point->depth = hit_cylinder2(cyl, r);
+	point->hit = normalize(r.dir);
+	point->hit = vec_multis(point->hit, point->depth);
+	point->hit = vec_add(r.orig, point->hit);
+	point->hit = subtract(point->hit, cyl->center);
+	point->axis_of = dot_product(point->hit, cyl->axis);
+	point->normal = normalize(cyl->axis);
+	cyl->fcylinder = 0;
+	point->cap = vec_multis(point->normal, cyl->height);
+	point->cap = vec_add(point->cap, cyl->center);
+}
+
+void	hit_cylinder3(t_helpc *hit, t_ray r, t_vector cyl)
+{
+	hit->t1 = (-hit->b - sqrt(hit->discriminant)) / (2.0 * hit->a);
+	hit->sol = vec_multis(hit->v, hit->t1);
+	hit->sol = vec_add((r.orig), hit->sol);
+	hit->sol = subtract(hit->sol, cyl);
+	hit->projection = dot_product(hit->sol, hit->h1);
+}

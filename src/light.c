@@ -3,25 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   light.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
+/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 07:05:17 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/17 11:35:23 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/10/19 10:18:10 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-static double	calculate_body(t_data *data, t_vector inter, t_obj *cyl)
+static double	calculate_body(t_data *data, t_vector inter, t_cylinder *cyl)
 {
 	t_vector	vec_inter;
 	t_vector	axis_point;
 	double		s;
 	double		d;
 
-	vec_inter = subtract(inter, cyl->point);
+	vec_inter = subtract(inter, cyl->center);
 	s = dot_product(vec_inter, cyl->axis) / dot_product(cyl->axis, cyl->axis);
-	axis_point = vec_add(cyl->point, vec_multis(cyl->axis, s));
+	axis_point = vec_add(cyl->center, vec_multis(cyl->axis, s));
 	data->pix.light_dir = subtract(data->scene.light.position, inter);
 	data->pix.light_dir = normalize(data->pix.light_dir);
 	data->pix.norm = subtract(inter, axis_point);
@@ -30,18 +30,16 @@ static double	calculate_body(t_data *data, t_vector inter, t_obj *cyl)
 	return (d);
 }
 
-static double	calculate_cap(t_data *data, t_vector inter, t_obj *cyl)
+static double	calculate_cap(t_data *data, t_vector inter, t_cylinder *cyl)
 {
 	double	d;
 
-	data->pix.light_dir = subtract(data->scene.light.position, inter);
+	data->pix.light_dir = subtract(data->scene.light.position, cyl->axis);
+	data->pix.light_dir = vec_multis(data->pix.light_dir, -1);
 	data->pix.light_dir = normalize(data->pix.light_dir);
-	if (data->pix.cap == TOP)
-		data->pix.norm = cyl->axis;
-	else
-		data->pix.norm = vec_multis(cyl->axis, -1.0f);
+	data->pix.norm = vec_multis(cyl->axis, -1.0f);
 	data->pix.norm = normalize(data->pix.norm);
-	d = fmax(dot_product(data->pix.norm, data->pix.light_dir), 0.0);
+	d = fmax(dot_product(data->pix.light_dir, data->pix.norm), 0.0);
 	return (d);
 }
 
@@ -73,7 +71,7 @@ static void	calculate_ambient(t_data *data, t_color *color)
 	color->blue *= data->obj.color.blue / 255.0;
 }
 
-int	calculate_color(t_data *data, t_obj *obj, t_vector inter)
+int	calculate_color(t_data *data, t_obj *obj, t_vector inter, int ind)
 {
 	t_color	ambient;
 	t_light	light;
@@ -83,10 +81,10 @@ int	calculate_color(t_data *data, t_obj *obj, t_vector inter)
 	light = data->scene.light;
 	if (data->pix.obj_type == CYLINDER)
 	{
-		if (!data->pix.cap)
-			d = calculate_body(data, inter, obj);
+		if (data->scene.cylinders[ind].fcylinder == 0)
+			d = calculate_body(data, inter, &data->scene.cylinders[ind]);
 		else
-			d = calculate_cap(data, inter, obj);
+			d = calculate_cap(data, inter, &data->scene.cylinders[ind]);
 	}
 	else
 		d = calculate_spot_light(data, inter);

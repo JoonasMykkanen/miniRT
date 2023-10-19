@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_helpers.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
+/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 21:33:53 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/19 13:05:46 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/10/19 14:40:53 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ static int	check_vector_values(t_vector *vec, char **xyz, t_check func)
 	vec->z = ft_atof(xyz[2]);
 	if (func(vec->z) == ERROR || check_number(xyz[2]) == ERROR)
 		status = ERROR;
-	if ((vec->x == 0 && vec->y == 0) && vec->z == 0)
-		status = ERROR;
 	free_arr(xyz);
 	return (status);
 }
@@ -43,7 +41,11 @@ static int	choose_mode(t_vector *vec, char **xyz, int mode)
 	if (mode == POSITION)
 		status = check_vector_values(vec, xyz, check_overflow);
 	if (mode == ORIENTATION)
+	{
 		status = check_vector_values(vec, xyz, check_orientation);
+		if ((vec->x == 0 && vec->y == 0) && vec->z == 0)
+			status = ERROR;
+	}
 	return (status);
 }
 

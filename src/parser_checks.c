@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parser_checks.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
+/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 16:51:51 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/17 09:41:15 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/10/19 12:55:38 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 #include "parser.h"
-#include <float.h>
+// #include <float.h>
 
 int	check_color(int value)
 {

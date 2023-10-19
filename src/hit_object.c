@@ -6,7 +6,7 @@
 /*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 06:40:21 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/19 10:59:34 by djames           ###   ########.fr       */
+/*   Updated: 2023/10/19 12:52:56 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ double	hit_cap(t_ray r, t_vector position, t_vector normal, t_cylinder *cyl)
 	aux = length(subtract(dir, position));
 	if (aux > cyl->diameter)
 		return (0);
-	cyl->fcylinder = 1;
 	return (depth);
 }
 
@@ -106,12 +105,8 @@ double	hit_cylinder(t_cylinder *cyl, const t_ray r, t_data *data)
 	init_cyl(cyl, r, data, &point);
 	if (point.axis_of > cyl->height)
 	{
-		point.au1 = hit_cap(r, point.cap, point.normal, cyl);
-		if (point.au1 != 0)
-		{
-			if (point.au1 < point.depth || point.depth == 0)
-				return (point.au1);
-		}
+		if (ay(&point, cyl, r) == 1)
+			return (point.au1);
 	}
 	if (point.axis_of < 0.0)
 	{
@@ -120,7 +115,10 @@ double	hit_cylinder(t_cylinder *cyl, const t_ray r, t_data *data)
 		if (point.au != 0)
 		{
 			if (point.au < point.depth || point.depth == 0)
+			{
+				cyl->fcylinder = 2;
 				return (point.au);
+			}
 		}
 	}
 	cyl->fcylinder = 0;

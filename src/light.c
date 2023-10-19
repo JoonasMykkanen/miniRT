@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   light.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
+/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 07:05:17 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/19 11:14:10 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/10/19 13:10:50 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,16 @@ static double	calculate_body(t_data *data, t_vector inter, t_cylinder *cyl)
 
 static double	calculate_cap(t_data *data, t_vector inter, t_cylinder *cyl)
 {
-	double	d;
+	t_vector	opposite;
+	double		d;
 
-	data->pix.light_dir = subtract(data->scene.light.position, cyl->axis);
+	opposite = cyl->axis;
+	if (cyl->fcylinder == 2)
+		opposite = vec_multis(cyl->axis, -1);
+	data->pix.light_dir = subtract(data->scene.light.position, opposite);
 	data->pix.light_dir = vec_multis(data->pix.light_dir, -1);
 	data->pix.light_dir = normalize(data->pix.light_dir);
-	data->pix.norm = vec_multis(cyl->axis, -1.0f);
+	data->pix.norm = vec_multis(opposite, -1.0f);
 	data->pix.norm = normalize(data->pix.norm);
 	d = fmax(dot_product(data->pix.light_dir, data->pix.norm), 0.0);
 	return (d);

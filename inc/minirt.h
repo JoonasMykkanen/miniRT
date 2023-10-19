@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
+/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:17:31 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/19 11:14:02 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/10/19 12:52:24 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,8 +169,7 @@ typedef struct s_pixel
 	int			obj_idx;
 	int			shadow;
 	int			color;
-	int			is_cap;
-	int			flag32;
+	int			side;
 
 	t_vector	scaled_dir;
 	t_vector	light_dir;
@@ -229,6 +228,8 @@ int 	ft_color(int r, int g, int b, int a);
 void	init_cyl(t_cylinder *cyl, const t_ray r, t_data *data, t_helpc2 *point);
 void	hit_cylinder3(t_helpc *hit, t_ray r, t_vector cyl);
 double	hit_cylinder2(t_cylinder *cyl, t_ray r);
+int ay(t_helpc2 *point, t_cylinder *cyl, t_ray r);
+double	hit_cap(t_ray r, t_vector position, t_vector normal, t_cylinder *cyl);
 
 // LIGHT
 void	check_rgb_values(t_color *color);

@@ -6,7 +6,7 @@
 /*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 10:58:56 by djames            #+#    #+#             */
-/*   Updated: 2023/10/19 11:03:12 by djames           ###   ########.fr       */
+/*   Updated: 2023/10/19 12:53:20 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,18 @@ void	hit_cylinder3(t_helpc *hit, t_ray r, t_vector cyl)
 	hit->sol = vec_add((r.orig), hit->sol);
 	hit->sol = subtract(hit->sol, cyl);
 	hit->projection = dot_product(hit->sol, hit->h1);
+}
+
+int	ay(t_helpc2 *point, t_cylinder *cyl, t_ray r)
+{
+	point->au1 = hit_cap(r, point->cap, point->normal, cyl);
+	if (point->au1 != 0)
+	{
+		if (point->au1 < point->depth || point->depth == 0)
+		{
+			cyl->fcylinder = 3;
+			return (1);
+		}
+	}
+	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 10:50:44 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/19 10:20:25 by djames           ###   ########.fr       */
+/*   Updated: 2023/10/19 13:01:14 by joonasmykka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,7 @@ int	init(t_data *data, char *file)
 {
 	ft_memset(&data->scene, 0, sizeof(data->scene));
 	if (read_input(data, file) != OK)
-	{
-		ft_putstr_fd("Error with input file\n", 2);
 		return (ERROR);
-	}
 	data->mlx = mlx_init(WIDTH, HEIGHT, "miniRT", true);
 	if (!data->mlx)
 	{

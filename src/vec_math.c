@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vec_math.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
+/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/17 10:57:04 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/17 08:52:36 by joonasmykka      ###   ########.fr       */
+/*   Created: 2023/10/19 15:33:00 by djames            #+#    #+#             */
+/*   Updated: 2023/10/19 15:33:02 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

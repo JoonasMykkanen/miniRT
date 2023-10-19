@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
+/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/18 11:17:48 by jmykkane          #+#    #+#             */
-/*   Updated: 2023/10/19 11:14:42 by joonasmykka      ###   ########.fr       */
+/*   Created: 2023/10/19 15:32:31 by djames            #+#    #+#             */
+/*   Updated: 2023/10/19 15:32:34 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

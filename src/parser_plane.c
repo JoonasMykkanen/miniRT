@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_plane.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
+/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/22 13:15:41 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/17 09:38:38 by joonasmykka      ###   ########.fr       */
+/*   Created: 2023/10/19 15:32:03 by djames            #+#    #+#             */
+/*   Updated: 2023/10/19 15:32:05 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

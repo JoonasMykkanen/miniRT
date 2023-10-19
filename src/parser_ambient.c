@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_ambient.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
+/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/22 13:15:41 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/17 09:41:38 by joonasmykka      ###   ########.fr       */
+/*   Created: 2023/10/19 15:31:07 by djames            #+#    #+#             */
+/*   Updated: 2023/10/19 15:31:10 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

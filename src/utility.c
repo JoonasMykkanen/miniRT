@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utility.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
+/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/22 13:42:27 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/17 09:41:09 by joonasmykka      ###   ########.fr       */
+/*   Created: 2023/10/19 15:32:47 by djames            #+#    #+#             */
+/*   Updated: 2023/10/19 15:32:50 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

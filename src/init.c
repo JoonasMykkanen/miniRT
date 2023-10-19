@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
+/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/22 10:50:44 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/19 13:01:14 by joonasmykka      ###   ########.fr       */
+/*   Created: 2023/10/19 15:30:00 by djames            #+#    #+#             */
+/*   Updated: 2023/10/19 15:30:04 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

@@ -5,14 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/22 16:51:51 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/19 12:55:38 by djames           ###   ########.fr       */
+/*   Created: 2023/10/19 15:31:23 by djames            #+#    #+#             */
+/*   Updated: 2023/10/19 15:31:31 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 #include "parser.h"
-// #include <float.h>
 
 int	check_color(int value)
 {

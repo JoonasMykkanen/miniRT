@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hook.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
+/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/22 08:06:45 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/19 13:01:51 by joonasmykka      ###   ########.fr       */
+/*   Created: 2023/10/19 15:29:47 by djames            #+#    #+#             */
+/*   Updated: 2023/10/19 15:29:50 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

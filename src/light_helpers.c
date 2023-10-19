@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   light_helpers.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
+/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/17 11:03:26 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/17 11:34:06 by joonasmykka      ###   ########.fr       */
+/*   Created: 2023/10/19 15:30:51 by djames            #+#    #+#             */
+/*   Updated: 2023/10/19 15:30:56 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

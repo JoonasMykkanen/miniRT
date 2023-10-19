@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atof.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
+/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/22 20:56:59 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/17 11:58:00 by joonasmykka      ###   ########.fr       */
+/*   Created: 2023/10/19 15:29:20 by djames            #+#    #+#             */
+/*   Updated: 2023/10/19 15:29:24 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

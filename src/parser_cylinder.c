@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_cylinder.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
+/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/22 13:15:41 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/17 09:39:50 by joonasmykka      ###   ########.fr       */
+/*   Created: 2023/10/19 15:31:39 by djames            #+#    #+#             */
+/*   Updated: 2023/10/19 15:31:41 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

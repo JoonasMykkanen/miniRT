@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:17:31 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/19 16:00:37 by djames           ###   ########.fr       */
+/*   Updated: 2023/10/20 14:36:28 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <time.h>
+
+# define FLT_MAX 340282346638528859811704183484516925440.0000000000000000
+# define FLT_MIN -340282346638528859811704183484516925440.0000000000000000
 
 # define HEIGHT 800
 # define WIDTH 1300
@@ -28,20 +30,16 @@
 # define ERROR 2
 # define OK 0
 
+# define MAX_OBJ 100
+
 # define HORIZONTAL 1
 # define VERTICAL 2
 # define DEPTH 3
-# define FLT_MAX 340282346638528859811704183484516925440.0000000000000000
-# define FLT_MIN -340282346638528859811704183484516925440.0000000000000000
 
 # define NONE 0
 # define PLANE 1
 # define SPHERE 2
 # define CYLINDER 3
-
-# define FIXED_PLANES 1
-# define PLANE_MAX 10
-# define PLANE_MIN -10
 
 # define BODY 0
 # define TOP 1
@@ -139,14 +137,14 @@ typedef struct s_scene
 	t_light		light;
 	bool		status_light;
 
-	t_sphere	spheres[10];
+	t_sphere	spheres[100];
 	int			num_spheres;
 
-	t_plane		planes[10];
+	t_plane		planes[100];
 	int			num_planes;
 	t_ray		ray;
 
-	t_cylinder	cylinders[10];
+	t_cylinder	cylinders[100];
 	int			num_cylinders;
 }				t_scene;
 

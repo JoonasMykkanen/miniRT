@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 13:18:07 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/19 16:00:11 by djames           ###   ########.fr       */
+/*   Updated: 2023/10/20 14:30:44 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,9 @@ int	create_obj_ambient(t_data *data, char **params);
 int	create_obj_cylinder(t_data *data, char **params);
 
 // Helper functions for creating and assigning variables within objects
+int	check_number(char *str);
+int	check_line_chars(char *str, int len);
 int	assign_color(void *target, char *str);
 int	assign_vector(void *target, char *str, int mode);
-int	check_number(char *str);
 
 #endif // !PARSER_H

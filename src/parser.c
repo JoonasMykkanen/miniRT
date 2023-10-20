@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:32:15 by djames            #+#    #+#             */
-/*   Updated: 2023/10/20 13:48:00 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/20 14:31:38 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,32 +34,15 @@ static int	choose_object(t_data *data, char **params)
 	return (status);
 }
 
-static int	check_line_error(char *line)
+static int	check_line_error(char *str)
 {
 	int		len;
-	int		idx;
 
-	len = ft_strlen(line);
-	if (!ft_isdigit(line[len - 1]) && line[len - 1] != ' ')
+	len = ft_strlen(str);
+	if (!ft_isdigit(str[len - 1]) && str[len - 1] != ' ')
 		return (ERROR);
-	idx = -1;
-	while (line[++idx])
-	{
-		if (!ft_isdigit(line[idx]) && idx < len)
-		{
-			if (idx < 3 && ft_isalpha(line[idx]))
-				continue ;
-			if (line[idx] == ' ' && (line[idx + 1] == ' ' || ft_isdigit(line[idx + 1])))
-				continue ;
-			if ((line[idx] == ',' || line[idx] == '.') && ft_isdigit(line[idx + 1]))
-				continue ;
-			if ((line[idx] == '+' || line[idx] == '-') &&  ft_isdigit(line[idx + 1]))
-				continue ;
-			if (line[idx] == ',' && (line[idx + 1] == '+' || line[idx + 1] == '-'))
-				continue ;
-			return (ERROR);
-		}
-	}
+	if (check_line_chars(str, len) == ERROR)
+		return (ERROR);
 	return (OK);
 }
 
@@ -87,7 +70,7 @@ static int	remove_trailing_newline(char *str)
 	size_t	len;
 
 	len = ft_strlen(str);
-	if (len == 1)
+	if (str[0] == '\n')
 		return (ERROR);
 	if (len > 0 && str[len - 1] == '\n')
 		str[len - 1] = '\0';

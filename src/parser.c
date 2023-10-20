@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:32:15 by djames            #+#    #+#             */
-/*   Updated: 2023/10/20 11:49:32 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/20 12:45:42 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,20 +64,16 @@ static int	parse_line(t_data *data, char *line)
 
 static void	remove_trailing_newline(char *str)
 {
-	char	*temp;
 	size_t	len;
 
-	temp = ft_strdup(str);
-	if (!temp)
-	{
-		
-	}
 	len = ft_strlen(str);
-	ft_strlcpy(str, temp, len - 1);
-	if (len > 0 && str[len - 1] == '\n')
+	if (len == 1)
 	{
-		str[len - 1] = '\0';
+		ft_free(str);
+		return ;
 	}
+	if (len > 0 && str[len - 1] == '\n')
+		str[len - 1] = '\0';
 }
 
 int	read_input(t_data *data, char *file)
@@ -97,7 +93,7 @@ int	read_input(t_data *data, char *file)
 		if (line == NULL)
 			break ;
 		remove_trailing_newline(line);
-		if (ft_strlen(line) == 0)
+		if (!ft_strlen(line))
 			continue ;
 		if (parse_line(data, line) == ERROR)
 		{

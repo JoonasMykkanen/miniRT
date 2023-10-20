@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_cylinder.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:31:39 by djames            #+#    #+#             */
-/*   Updated: 2023/10/19 15:31:41 by djames           ###   ########.fr       */
+/*   Updated: 2023/10/20 14:44:03 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ int	create_obj_cylinder(t_data *data, char **params)
 
 	idx = &data->scene.num_cylinders;
 	ptr = &data->scene.cylinders[*idx];
+	if (*idx >= MAX_OBJ)
+		return (ERROR);
 	if (arr_len(params) != 6)
 		return (ERROR);
 	if (assign_vector(&ptr->center, params[1], POSITION) == ERROR)

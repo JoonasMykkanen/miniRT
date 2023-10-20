@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:29:47 by djames            #+#    #+#             */
-/*   Updated: 2023/10/20 11:28:08 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/20 14:52:52 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	ft_hook(void *param)
 	data = (t_data *)param;
 	if (mlx_is_key_down(data->mlx, MLX_KEY_ESCAPE))
 	{
-		printf("called\n");
 		mlx_delete_image(data->mlx, data->img);
 		mlx_terminate(data->mlx);
 		exit(0);

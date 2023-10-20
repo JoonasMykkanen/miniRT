@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_plane.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:32:03 by djames            #+#    #+#             */
-/*   Updated: 2023/10/19 15:32:05 by djames           ###   ########.fr       */
+/*   Updated: 2023/10/20 14:44:06 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ int	create_obj_plane(t_data *data, char **params)
 
 	idx = &data->scene.num_planes;
 	ptr = &data->scene.planes[*idx];
+	if (*idx >= MAX_OBJ)
+		return (ERROR);
 	if (arr_len(params) != 4)
 		return (ERROR);
 	if (assign_vector(&ptr->point, params[1], POSITION) == ERROR)

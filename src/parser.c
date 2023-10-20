@@ -6,7 +6,7 @@
 /*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:32:15 by djames            #+#    #+#             */
-/*   Updated: 2023/10/19 15:40:39 by djames           ###   ########.fr       */
+/*   Updated: 2023/10/20 11:13:18 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ static int	choose_object(t_data *data, char **params)
 		status = create_obj_plane(data, params);
 	else if (ft_strcmp(params[0], "cy") == OK)
 		status = create_obj_cylinder(data, params);
+	free_arr(params);
 	return (status);
 }
 

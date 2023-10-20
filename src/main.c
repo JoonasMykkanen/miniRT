@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:30:31 by djames            #+#    #+#             */
-/*   Updated: 2023/10/19 15:30:34 by djames           ###   ########.fr       */
+/*   Updated: 2023/10/20 11:51:46 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,10 @@ int	minirt(t_data *data)
 		puts(mlx_strerror(mlx_errno));
 		return (ERROR);
 	}
-	mlx_loop_hook(data->mlx, render, data);
 	mlx_loop_hook(data->mlx, ft_hook, data);
+	render(data);
 	mlx_loop(data->mlx);
+	mlx_delete_image(data->mlx, data->img);
 	mlx_terminate(data->mlx);
 	return (OK);
 }

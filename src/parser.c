@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:32:15 by djames            #+#    #+#             */
-/*   Updated: 2023/10/20 11:13:18 by djames           ###   ########.fr       */
+/*   Updated: 2023/10/20 11:49:32 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,16 @@ static int	parse_line(t_data *data, char *line)
 
 static void	remove_trailing_newline(char *str)
 {
+	char	*temp;
 	size_t	len;
 
+	temp = ft_strdup(str);
+	if (!temp)
+	{
+		
+	}
 	len = ft_strlen(str);
+	ft_strlcpy(str, temp, len - 1);
 	if (len > 0 && str[len - 1] == '\n')
 	{
 		str[len - 1] = '\0';

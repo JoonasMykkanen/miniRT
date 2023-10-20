@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: djames <djames@student.hive.fi>            +#+  +:+       +#+         #
+#    By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/19 15:36:10 by djames            #+#    #+#              #
-#    Updated: 2023/10/19 15:52:58 by djames           ###   ########.fr        #
+#    Updated: 2023/10/20 11:34:30 by jmykkane         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,15 +52,15 @@ OBJS = $(SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 INCLUDES = -I ./inc
 LIBS = -L$(LIBFT_DIR) -lft $(LIBMLX_LIB) -I ./src/mlx42/include -ldl -lglfw -L"/Users/$${USER}/.brew/Cellar/glfw/3.3.8/lib/"
 
-CFLAGS = -Werror -Wall -Wextra $(INCLUDES)
-LDFLAGS =  -Werror -Wall -Wextra $(LIBS)
+CFLAGS = -g -Werror -Wall -Wextra $(INCLUDES)
+LDFLAGS =  -g -Werror -Wall -Wextra $(LIBS)
 
 .PHONY: all
 all: $(NAME) 
 
 $(NAME): $(LIBMLX_LIB) $(LIBFT) $(OBJS)
 	@echo "Compiling miniRT"
-	cc $(LDFLAGS) $(OBJS) -o $(NAME)
+	@cc $(LDFLAGS) $(OBJS) -o $(NAME)
 
 $(LIBFT):
 	@echo "Creating dependency libft"
@@ -71,7 +71,7 @@ $(LIBMLX_LIB):
 	
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	@mkdir -p $(OBJDIR)
-	cc $(CFLAGS) -c $< -o $@
+	@cc $(CFLAGS) -c $< -o $@
 
 .PHONY: clean
 clean:
@@ -90,4 +90,4 @@ re: fclean all
 
 .PHONY: test
 test: all
-	./minirt test/test.rt
+	leaks --atExit -- ./minirt test/multiPlane.rt

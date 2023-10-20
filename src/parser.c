@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:32:15 by djames            #+#    #+#             */
-/*   Updated: 2023/10/20 12:45:42 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/20 13:48:00 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,29 @@ static int	choose_object(t_data *data, char **params)
 static int	check_line_error(char *line)
 {
 	int		len;
+	int		idx;
 
 	len = ft_strlen(line);
-	if (!ft_isdigit(line[len - 1]))
+	if (!ft_isdigit(line[len - 1]) && line[len - 1] != ' ')
 		return (ERROR);
+	idx = -1;
+	while (line[++idx])
+	{
+		if (!ft_isdigit(line[idx]) && idx < len)
+		{
+			if (idx < 3 && ft_isalpha(line[idx]))
+				continue ;
+			if (line[idx] == ' ' && (line[idx + 1] == ' ' || ft_isdigit(line[idx + 1])))
+				continue ;
+			if ((line[idx] == ',' || line[idx] == '.') && ft_isdigit(line[idx + 1]))
+				continue ;
+			if ((line[idx] == '+' || line[idx] == '-') &&  ft_isdigit(line[idx + 1]))
+				continue ;
+			if (line[idx] == ',' && (line[idx + 1] == '+' || line[idx + 1] == '-'))
+				continue ;
+			return (ERROR);
+		}
+	}
 	return (OK);
 }
 
@@ -51,6 +70,7 @@ static int	parse_line(t_data *data, char *line)
 	if (check_line_error(line))
 	{
 		ft_free(line);
+		ft_putstr_fd("Error: Map error\n", 2);
 		return (ERROR);
 	}
 	params = ft_split(line, ' ');
@@ -62,18 +82,16 @@ static int	parse_line(t_data *data, char *line)
 	return (OK);
 }
 
-static void	remove_trailing_newline(char *str)
+static int	remove_trailing_newline(char *str)
 {
 	size_t	len;
 
 	len = ft_strlen(str);
 	if (len == 1)
-	{
-		ft_free(str);
-		return ;
-	}
+		return (ERROR);
 	if (len > 0 && str[len - 1] == '\n')
 		str[len - 1] = '\0';
+	return (OK);
 }
 
 int	read_input(t_data *data, char *file)
@@ -92,14 +110,13 @@ int	read_input(t_data *data, char *file)
 		line = get_next_line(fd);
 		if (line == NULL)
 			break ;
-		remove_trailing_newline(line);
-		if (!ft_strlen(line))
-			continue ;
-		if (parse_line(data, line) == ERROR)
+		if (remove_trailing_newline(line) == ERROR)
 		{
-			ft_putstr_fd("Error: Invalid map\n", 2);
-			return (ERROR);
+			ft_free(line);
+			continue ;
 		}
+		if (parse_line(data, line) == ERROR)
+			return (ERROR);
 	}
 	return (OK);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_object.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:28:48 by djames            #+#    #+#             */
-/*   Updated: 2023/10/19 15:49:44 by djames           ###   ########.fr       */
+/*   Updated: 2023/10/21 08:18:57 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,18 @@ void	check_cylinders(t_data *data)
 	}
 }
 
+// Shine coefficent set between 5 - 150
+// Specular mult 0 - 1
+static void	init_obj(t_obj *obj)
+{
+	obj->shine = 70;
+	obj->specular = 0.4;
+	obj->type = NONE;
+}
+
 void	shoot_ray(t_data *data)
 {
+	init_obj(&data->obj);
 	check_spheres(data);
 	check_planes(data);
 	check_cylinders(data);

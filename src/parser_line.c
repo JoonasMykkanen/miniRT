@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 14:27:19 by jmykkane          #+#    #+#             */
-/*   Updated: 2023/10/20 15:40:20 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/20 16:55:50 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ int	check_line_chars(char *str, int len)
 		if (str[i] == ',' && (str[i + 1] == '+' || str[i + 1] == '-'))
 			continue ;
 		if (str[i] == ' ' && (str[i + 1] == '+' || str[i + 1] == '-'))
+			continue ;
+		if ((str[i] == ' ' || str[i] == ',') && (str[i + 1] == '.'))
 			continue ;
 		return (ERROR);
 	}

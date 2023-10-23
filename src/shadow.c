@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shadow.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:32:37 by djames            #+#    #+#             */
-/*   Updated: 2023/10/19 15:50:15 by djames           ###   ########.fr       */
+/*   Updated: 2023/10/21 09:06:07 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,19 +48,7 @@ static int	cylinder_shadow(t_data *data, t_ray shadow_ray, int self)
 	return (0);
 }
 
-int	is_in_shadow(t_vector point, t_vector light_pos, t_data *data, int self)
-{
-	t_ray	shadow_ray;
-
-	shadow_ray = create_shadow_ray(point, light_pos);
-	if (sphere_shadow(data, shadow_ray, self))
-		return (1);
-	if (cylinder_shadow(data, shadow_ray, self))
-		return (1);
-	return (0);
-}
-
-t_ray	create_shadow_ray(t_vector surface_point, t_vector light_pos)
+static t_ray	create_shadow_ray(t_vector surface_point, t_vector light_pos)
 {
 	t_ray	shadow_ray;
 	float	length;
@@ -75,3 +63,17 @@ t_ray	create_shadow_ray(t_vector surface_point, t_vector light_pos)
 	shadow_ray.orig = surface_point;
 	return (shadow_ray);
 }
+
+int	is_in_shadow(t_vector point, t_vector light_pos, t_data *data, int self)
+{
+	t_ray	shadow_ray;
+
+	shadow_ray = create_shadow_ray(point, light_pos);
+	if (sphere_shadow(data, shadow_ray, self))
+		return (1);
+	if (cylinder_shadow(data, shadow_ray, self))
+		return (1);
+	return (0);
+}
+
+

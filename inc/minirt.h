@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:17:31 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/21 07:52:22 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/23 09:56:20 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,44 +148,7 @@ typedef struct s_scene
 	int			num_cylinders;
 }				t_scene;
 
-typedef struct s_obj
-{
-	int			idx;
-	int			type;
-	double		shine;
-	double		specular;
-	t_vector	axis;
-	t_vector	point;
-	t_color		color;
-	double		radius;
-}				t_obj;
-
-typedef struct s_pixel
-{
-	double		closest_t;
-	int			obj_type;
-	int			obj_idx;
-	t_color		ambient;
-	int			shadow;
-	int			color;
-	int			side;
-
-	t_vector	scaled_dir;
-	t_vector	light_dir;
-	t_vector	hit_pos;
-	t_vector	norm;
-}				t_pixel;
-
-typedef struct s_data
-{
-	mlx_image_t	*img;
-	mlx_t		*mlx;
-
-	t_obj		obj;
-	t_pixel		pix;
-	t_scene		scene;
-}				t_data;
-
+// TODO: get rid of these structs as they are only work around's
 typedef struct s_hitc
 {
 	t_vector	h1;
@@ -213,6 +176,52 @@ typedef struct s_hitc1
 	double		au1;
 }				t_helpc2;
 
+typedef struct s_obj
+{
+	int			idx;
+	int			type;
+	double		radius;
+	
+	double		shine;
+	double		specular;
+	double		reflection;
+	
+	t_vector	axis;
+	t_vector	point;
+	t_color		color;
+}				t_obj;
+
+typedef struct s_pixel
+{
+	bool		reflection_found;
+	t_color		cache_color;
+	double		closest_t;
+	int			obj_type;
+	int			obj_idx;
+	t_color		ambient;
+	int			shadow;
+	int			color;
+	int			self;
+	int			side;
+
+	t_vector	scaled_dir;
+	t_vector	light_dir;
+	t_vector	hit_pos;
+	t_vector	norm;
+}				t_pixel;
+
+typedef struct s_data
+{
+	mlx_image_t	*img;
+	mlx_t		*mlx;
+
+	t_obj		obj;
+	t_pixel		pix;
+	t_scene		scene;
+}				t_data;
+
+
+
 // GENERAL
 double			ft_atof(char *str);
 int				arr_len(char **arr);
@@ -230,7 +239,8 @@ double			hit_cap(t_ray r, t_vector position, t_vector normal, t_cylinder *cyl);
 // LIGHT
 void			check_rgb_values(t_color *color);
 void			calculate_ambient(t_data *data, t_color *color);
-int				calculate_color(t_data *data, t_obj *obj, t_vector inter);
+t_color			calculate_color(t_data *data, t_obj *obj, t_vector inter);
+void			check_reflections(t_data *data, t_vector inter, t_color surface);
 void			spotlight_effect(t_light *light, t_obj *obj, t_color *c, double d);
 int				is_in_shadow(t_vector surface_point, t_vector light_source_position, t_data *data, int self);
 
@@ -250,21 +260,20 @@ t_vector		cross(t_vector forward, t_vector position);
 t_vector		vec_add(const t_vector v1, const t_vector v2);
 
 // RAY
-void			check_spheres(t_data *data);
-void			check_planes(t_data *data);
-void			check_cylinders(t_data *data);
 t_vector		normalize(t_vector vector);
 t_vector		ray_at(const t_ray r, double t);
-double			hit_plane(const t_plane *plane, const t_ray *ray);
 void			update_ray(t_data *data, int x, int y);
-t_ray			ray_create(const t_vector origin, const t_vector direction);
-t_ray			create_shadow_ray(t_vector surface_point, t_vector light_pos);
-double			hit_sphere(const t_sphere *sp, const t_ray *r);
+void			check_planes(t_data *data, t_ray *ray);
+void			check_spheres(t_data *data, t_ray *ray);
+void			check_cylinders(t_data *data, t_ray *ray);
 double			hit_cylinder(t_cylinder *cyl, const t_ray r);
+double			hit_sphere(const t_sphere *sp, const t_ray *r);
+double			hit_plane(const t_plane *plane, const t_ray *ray);
+t_ray			ray_create(const t_vector origin, const t_vector direction);
 
 // RENDER
-void			shoot_ray(t_data *data);
 void			reset_pix(t_pixel *pix);
+void			shoot_ray(t_data *data, t_ray *ray);
 int				render_pixel(t_data *data, int x, int y);
 
 #endif // !MINIRT_H

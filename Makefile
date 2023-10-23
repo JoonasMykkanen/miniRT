@@ -6,7 +6,7 @@
 #    By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/19 15:36:10 by djames            #+#    #+#              #
-#    Updated: 2023/10/20 15:43:10 by jmykkane         ###   ########.fr        #
+#    Updated: 2023/10/22 10:05:18 by jmykkane         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,7 @@ SRCS := \
 	$(SRCDIR)/vec_helpers.c \
 	$(SRCDIR)/parser_line.c \
 	$(SRCDIR)/hit_object.c \
+	$(SRCDIR)/reflection.c \
 	$(SRCDIR)/vec_math.c \
 	$(SRCDIR)/utility.c \
 	$(SRCDIR)/ft_atof.c \
@@ -54,8 +55,8 @@ INCLUDES = -I ./inc
 # LIBS = -L$(LIBFT_DIR) -lft $(LIBMLX_LIB) -I ./src/mlx42/include -ldl -lglfw -L"/Users/$${USER}/.brew/Cellar/glfw/3.3.8/lib/"
 LIBS = -L$(LIBFT_DIR) -lft $(LIBMLX_LIB) -I ./src/mlx42/include -ldl -lglfw -L"/opt/homebrew/Cellar/glfw/3.3.8/lib/"
 
-CFLAGS = -g -Werror -Wall -Wextra $(INCLUDES)
-LDFLAGS =  -g -Werror -Wall -Wextra $(LIBS)
+CFLAGS = -g $(INCLUDES)
+LDFLAGS =  -g $(LIBS)
 
 .PHONY: all
 all: $(NAME) 

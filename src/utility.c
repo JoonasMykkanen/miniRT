@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:32:47 by djames            #+#    #+#             */
-/*   Updated: 2023/10/21 07:30:46 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/21 19:50:20 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 void	reset_pix(t_pixel *pix)
 {
+	pix->reflection_found = false;
 	pix->closest_t = FLT_MAX;
 	pix->color = 0x000000ff;
 	pix->obj_type = NONE;

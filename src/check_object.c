@@ -6,13 +6,13 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:28:48 by djames            #+#    #+#             */
-/*   Updated: 2023/10/21 08:18:57 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/23 10:38:46 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-void	check_spheres(t_data *data)
+void	check_spheres(t_data *data, t_ray *ray)
 {
 	double	hit;
 	int		idx;
@@ -20,9 +20,12 @@ void	check_spheres(t_data *data)
 	idx = -1;
 	while (++idx < data->scene.num_spheres)
 	{
-		hit = hit_sphere(&data->scene.spheres[idx], &data->scene.ray);
+		if (idx == data->pix.self && data->pix.obj_type == SPHERE)
+			continue ;
+		hit = hit_sphere(&data->scene.spheres[idx], ray);
 		if (hit >= 0 && hit < data->pix.closest_t)
 		{
+			data->pix.reflection_found = true;
 			data->pix.obj_idx = idx;
 			data->pix.closest_t = hit;
 			data->pix.obj_type = SPHERE;
@@ -35,7 +38,7 @@ void	check_spheres(t_data *data)
 	}
 }
 
-void	check_planes(t_data *data)
+void	check_planes(t_data *data, t_ray *ray)
 {
 	double	hit;
 	int		idx;
@@ -43,9 +46,12 @@ void	check_planes(t_data *data)
 	idx = -1;
 	while (++idx < data->scene.num_planes)
 	{
-		hit = hit_plane(&data->scene.planes[idx], &data->scene.ray);
+		// if (idx == data->pix.self && data->pix.obj_type == PLANE)
+				// continue ;
+		hit = hit_plane(&data->scene.planes[idx], ray);
 		if (hit > 0 && hit < data->pix.closest_t)
 		{
+			data->pix.reflection_found = true;
 			data->pix.obj_idx = idx;
 			data->pix.closest_t = hit;
 			data->pix.obj_type = PLANE;
@@ -59,7 +65,7 @@ void	check_planes(t_data *data)
 	}
 }
 
-void	check_cylinders(t_data *data)
+void	check_cylinders(t_data *data, t_ray *ray)
 {
 	double	hit;
 	int		idx;
@@ -67,9 +73,12 @@ void	check_cylinders(t_data *data)
 	idx = -1;
 	while (++idx < data->scene.num_cylinders)
 	{
-		hit = hit_cylinder(&data->scene.cylinders[idx], data->scene.ray);
+		if (idx == data->pix.self && data->pix.obj_type == CYLINDER)
+			continue ;
+		hit = hit_cylinder(&data->scene.cylinders[idx], *ray);
 		if (hit != 0 && hit < data->pix.closest_t)
 		{
+			data->pix.reflection_found = true;
 			data->pix.obj_idx = idx;
 			data->pix.closest_t = hit;
 			data->pix.obj_type = CYLINDER;
@@ -83,19 +92,18 @@ void	check_cylinders(t_data *data)
 	}
 }
 
-// Shine coefficent set between 5 - 150
-// Specular mult 0 - 1
 static void	init_obj(t_obj *obj)
 {
+	obj->type = NONE;
 	obj->shine = 70;
 	obj->specular = 0.4;
-	obj->type = NONE;
+	obj->reflection = 0.2;
 }
 
-void	shoot_ray(t_data *data)
+void	shoot_ray(t_data *data, t_ray *ray)
 {
 	init_obj(&data->obj);
-	check_spheres(data);
-	check_planes(data);
-	check_cylinders(data);
+	check_spheres(data, ray);
+	check_planes(data, ray);
+	check_cylinders(data, ray);
 }

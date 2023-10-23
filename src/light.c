@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:30:22 by djames            #+#    #+#             */
-/*   Updated: 2023/10/21 08:16:24 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/23 10:32:28 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ static void	calculate_specular(t_data *data, t_color *specular, t_vector point)
 	specular->blue = intensity * 255;
 }
 
-int	calculate_color(t_data *data, t_obj *obj, t_vector inter)
+t_color	calculate_color(t_data *data, t_obj *obj, t_vector inter)
 {
 	t_color	specular;
 	t_color	ambient;
@@ -137,5 +137,5 @@ int	calculate_color(t_data *data, t_obj *obj, t_vector inter)
 	obj->color.green = (int)(ambient.green + spot.green + specular.green);
 	obj->color.blue = (int)(ambient.blue + spot.blue + specular.blue);
 	clamp_colors(&obj->color);
-	return (ft_color(obj->color.red, obj->color.green, obj->color.blue, 0xff));
+	return (obj->color);
 }

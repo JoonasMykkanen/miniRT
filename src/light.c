@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:30:22 by djames            #+#    #+#             */
-/*   Updated: 2023/10/23 10:32:28 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/24 13:54:59 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,26 +87,17 @@ static void	calculate_specular(t_data *data, t_color *specular, t_vector point)
 	t_vector	half;
 	t_vector	pos;
 	
-	// Light dir
 	pos = data->scene.light.position;
 	data->pix.light_dir = normalize(subtract(pos, point));
-
-	// View dir
 	data->pix.norm = normalize(subtract(data->scene.camera.position, point));
-
-	// Half dir
 	half = vec_add(data->pix.light_dir, data->pix.norm);
 	half = normalize(half);
-
-	// Normal of the hit
 	if (data->pix.obj_type == PLANE)
 		data->pix.norm = data->scene.planes[data->pix.obj_idx].normal;
 	else
 		data->pix.norm = normalize(subtract(point, data->obj.point));
-
 	angle = fmax(0.0, dot_product(data->pix.norm, half));
 	intensity = pow(angle, data->obj.shine) * data->obj.specular;
-
 	specular->red = intensity * 255;
 	specular->green = intensity * 255;
 	specular->blue = intensity * 255;

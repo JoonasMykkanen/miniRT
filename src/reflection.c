@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/21 08:35:43 by jmykkane          #+#    #+#             */
-/*   Updated: 2023/10/23 10:32:36 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/24 15:26:38 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	calculate_reflection_color(t_data *data, t_color surface, t_color re
 {
 	double	kr = data->obj.reflection;
 	t_color final;
-	
+
 	final.red = (1.0 - kr) * surface.red + kr * reflect.red;
 	final.green = (1.0 - kr) * surface.green + kr * reflect.green;
 	final.blue = (1.0 - kr) * surface.blue + kr * reflect.blue;
@@ -47,6 +47,7 @@ void	check_reflections(t_data *data, t_vector inter, t_color surface)
 	data->pix.reflection_found = false;
 	reflection_ray = create_reflection_ray(data, inter);
 	shoot_ray(data, &reflection_ray);
+	data->scene.ray = reflection_ray;
 	if (data->pix.reflection_found == true)
 	{
 		inter = vec_add(vec_multis(reflection_ray.dir, data->pix.closest_t), reflection_ray.orig);

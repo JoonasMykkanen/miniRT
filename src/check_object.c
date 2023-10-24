@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:28:48 by djames            #+#    #+#             */
-/*   Updated: 2023/10/23 10:38:46 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/24 15:52:56 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ void	check_spheres(t_data *data, t_ray *ray)
 	idx = -1;
 	while (++idx < data->scene.num_spheres)
 	{
-		if (idx == data->pix.self && data->pix.obj_type == SPHERE)
-			continue ;
 		hit = hit_sphere(&data->scene.spheres[idx], ray);
 		if (hit >= 0 && hit < data->pix.closest_t)
 		{
@@ -38,6 +36,7 @@ void	check_spheres(t_data *data, t_ray *ray)
 	}
 }
 
+// If check is used to disable plane to plane reflections
 void	check_planes(t_data *data, t_ray *ray)
 {
 	double	hit;
@@ -46,12 +45,11 @@ void	check_planes(t_data *data, t_ray *ray)
 	idx = -1;
 	while (++idx < data->scene.num_planes)
 	{
-		// if (idx == data->pix.self && data->pix.obj_type == PLANE)
-				// continue ;
 		hit = hit_plane(&data->scene.planes[idx], ray);
 		if (hit > 0 && hit < data->pix.closest_t)
 		{
-			data->pix.reflection_found = true;
+			if (data->obj.type != PLANE)
+				data->pix.reflection_found = true;
 			data->pix.obj_idx = idx;
 			data->pix.closest_t = hit;
 			data->pix.obj_type = PLANE;
@@ -73,8 +71,6 @@ void	check_cylinders(t_data *data, t_ray *ray)
 	idx = -1;
 	while (++idx < data->scene.num_cylinders)
 	{
-		if (idx == data->pix.self && data->pix.obj_type == CYLINDER)
-			continue ;
 		hit = hit_cylinder(&data->scene.cylinders[idx], *ray);
 		if (hit != 0 && hit < data->pix.closest_t)
 		{
@@ -92,17 +88,32 @@ void	check_cylinders(t_data *data, t_ray *ray)
 	}
 }
 
-static void	init_obj(t_obj *obj)
+static void	init_obj(t_obj *obj, t_data *data)
 {
-	obj->type = NONE;
-	obj->shine = 70;
-	obj->specular = 0.4;
-	obj->reflection = 0.2;
+	if (data->pix.obj_type == PLANE)
+	{
+		obj->shine = PLANE_SHINE;
+		obj->specular = PLANE_SPECULAR;
+		obj->reflection = PLANE_REFLECTION;
+	}
+	else if (data->pix.obj_type == SPHERE)
+	{
+		obj->shine = SPHERE_SHINE;
+		obj->specular = SPHERE_SPECULAR;
+		obj->reflection = SPHERE_REFLECTION;
+	}
+	else if (data->pix.obj_type == CYLINDER)
+	{
+		obj->shine = CYLINDER_SHINE;
+		obj->specular = CYLINDER_SPECULAR;
+		obj->reflection = CYLINDER_REFLECTION;
+	}
+	
 }
 
 void	shoot_ray(t_data *data, t_ray *ray)
 {
-	init_obj(&data->obj);
+	init_obj(&data->obj, data);
 	check_spheres(data, ray);
 	check_planes(data, ray);
 	check_cylinders(data, ray);

@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:32:31 by djames            #+#    #+#             */
-/*   Updated: 2023/10/23 10:34:23 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/24 15:56:49 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static void	draw_sphere(t_data *data)
 
 int	render_pixel(t_data *data, int x, int y)
 {
-	reset_pix(&data->pix);
+	reset_pix(data);
 	update_ray(data, x, y);
 	shoot_ray(data, &data->scene.ray);
 	data->pix.self = -1;

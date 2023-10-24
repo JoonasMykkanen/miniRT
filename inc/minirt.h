@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:17:31 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/23 09:56:20 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/24 15:57:05 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <float.h>
 # include <stdio.h>
 # include <math.h>
-#include <time.h>
+# include <time.h>
 
 # define HEIGHT 800
 # define WIDTH 1300
@@ -44,6 +44,18 @@
 # define BODY 0
 # define TOP 1
 # define BOTTOM 2
+
+# define PLANE_SHINE 100
+# define PLANE_SPECULAR 0.7
+# define PLANE_REFLECTION 0.5
+
+# define SPHERE_SHINE 10
+# define SPHERE_SPECULAR 0.3
+# define SPHERE_REFLECTION 0.3
+
+# define CYLINDER_SHINE 150
+# define CYLINDER_SPECULAR 0.0
+# define CYLINDER_REFLECTION 0.0
 
 typedef struct s_vector
 {
@@ -272,7 +284,7 @@ double			hit_plane(const t_plane *plane, const t_ray *ray);
 t_ray			ray_create(const t_vector origin, const t_vector direction);
 
 // RENDER
-void			reset_pix(t_pixel *pix);
+void			reset_pix(t_data *data);
 void			shoot_ray(t_data *data, t_ray *ray);
 int				render_pixel(t_data *data, int x, int y);
 

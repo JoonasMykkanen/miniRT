@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:17:31 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/24 15:57:05 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/24 16:52:13 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,18 @@
 # include "../src/mlx42/include/MLX42/MLX42.h"
 # include "../src/libft/inc/libft.h"
 # include <stdbool.h>
-# include <pthread.h>
-# include "stdbool.h"
 # include <stdlib.h>
 # include <float.h>
 # include <stdio.h>
 # include <math.h>
-# include <time.h>
+
+# define EPSILON 0.001
 
 # define HEIGHT 800
 # define WIDTH 1300
 
 # define ERROR 2
 # define OK 0
-
-# define MAX_OBJ 100
 
 # define HORIZONTAL 1
 # define VERTICAL 2
@@ -149,14 +146,14 @@ typedef struct s_scene
 	t_light		light;
 	bool		status_light;
 
-	t_sphere	spheres[MAX_OBJ];
+	t_sphere	spheres[100];
 	int			num_spheres;
 
-	t_plane		planes[MAX_OBJ];
+	t_plane		planes[100];
 	int			num_planes;
 	t_ray		ray;
 
-	t_cylinder	cylinders[MAX_OBJ];
+	t_cylinder	cylinders[100];
 	int			num_cylinders;
 }				t_scene;
 
@@ -193,11 +190,11 @@ typedef struct s_obj
 	int			idx;
 	int			type;
 	double		radius;
-	
+
 	double		shine;
 	double		specular;
 	double		reflection;
-	
+
 	t_vector	axis;
 	t_vector	point;
 	t_color		color;
@@ -232,60 +229,60 @@ typedef struct s_data
 	t_scene		scene;
 }				t_data;
 
-
-
 // GENERAL
-double			ft_atof(char *str);
-int				arr_len(char **arr);
-void			free_arr(char **arr);
-int				init(t_data *data, char *file);
-int				ft_color(int r, int g, int b, int a);
-double			hit_cylinder2(t_cylinder *cyl, t_ray r);
-int				ay(t_helpc2 *point, t_cylinder *cyl, t_ray r);
-void			clamp_colors(t_color *color);
-void			hit_cylinder3(t_helpc *hit, t_ray r, t_vector cyl);
-void			init_cyl(t_cylinder *cyl, const t_ray r, t_helpc2 *point);
-void			init_camera(t_data *data, double vp_height, double vp_width);
-double			hit_cap(t_ray r, t_vector position, t_vector normal, t_cylinder *cyl);
+double		ft_atof(char *str);
+int			arr_len(char **arr);
+void		free_arr(char **arr);
+int			init(t_data *data, char *file);
+int			ft_color(int r, int g, int b, int a);
+double		hit_cylinder2(t_cylinder *cyl, t_ray r);
+int			ay(t_helpc2 *point, t_cylinder *cyl, t_ray r);
+void		clamp_colors(t_color *color);
+void		hit_cylinder3(t_helpc *hit, t_ray r, t_vector cyl);
+void		init_cyl(t_cylinder *cyl, const t_ray r, t_helpc2 *point);
+void		init_camera(t_data *data, double vp_height, double vp_width);
+double		hit_cap(t_ray r, t_vector pos, t_vector normal, t_cylinder *cyl);
 
 // LIGHT
-void			check_rgb_values(t_color *color);
-void			calculate_ambient(t_data *data, t_color *color);
-t_color			calculate_color(t_data *data, t_obj *obj, t_vector inter);
-void			check_reflections(t_data *data, t_vector inter, t_color surface);
-void			spotlight_effect(t_light *light, t_obj *obj, t_color *c, double d);
-int				is_in_shadow(t_vector surface_point, t_vector light_source_position, t_data *data, int self);
+void		check_rgb_values(t_color *color);
+void		calculate_ambient(t_data *data, t_color *color);
+t_color		calculate_color(t_data *data, t_obj *obj, t_vector inter);
+double		calculate_cap(t_data *data, t_vector inter, t_cylinder *cyl);
+double		calculate_body(t_data *data, t_vector inter, t_cylinder *cyl);
+void		check_reflections(t_data *data, t_vector inter, t_color surface);
+int			is_in_shadow(t_vector point, t_vector light, t_data *d, int self);
+void		spotlight_effect(t_light *light, t_obj *obj, t_color *c, double d);
 
 // HOOK
-void			render(void *param);
-void			ft_hook(void *param);
+void		render(void *param);
+void		ft_hook(void *param);
 
 // MATH
-double			length(t_vector v);
-double			length_squared(t_vector v);
-double			dist(t_vector a, t_vector b);
-double			dot_product(t_vector a, t_vector b);
-t_vector		subtract(t_vector a, t_vector b);
-t_vector		vec_divide(const t_vector v, float r);
-t_vector		vec_multis(const t_vector v, float r);
-t_vector		cross(t_vector forward, t_vector position);
-t_vector		vec_add(const t_vector v1, const t_vector v2);
+double		length(t_vector v);
+double		length_squared(t_vector v);
+double		dist(t_vector a, t_vector b);
+double		dot_product(t_vector a, t_vector b);
+t_vector	subtract(t_vector a, t_vector b);
+t_vector	vec_divide(const t_vector v, float r);
+t_vector	vec_multis(const t_vector v, float r);
+t_vector	cross(t_vector forward, t_vector position);
+t_vector	vec_add(const t_vector v1, const t_vector v2);
 
 // RAY
-t_vector		normalize(t_vector vector);
-t_vector		ray_at(const t_ray r, double t);
-void			update_ray(t_data *data, int x, int y);
-void			check_planes(t_data *data, t_ray *ray);
-void			check_spheres(t_data *data, t_ray *ray);
-void			check_cylinders(t_data *data, t_ray *ray);
-double			hit_cylinder(t_cylinder *cyl, const t_ray r);
-double			hit_sphere(const t_sphere *sp, const t_ray *r);
-double			hit_plane(const t_plane *plane, const t_ray *ray);
-t_ray			ray_create(const t_vector origin, const t_vector direction);
+t_vector	normalize(t_vector vector);
+t_vector	ray_at(const t_ray r, double t);
+void		update_ray(t_data *data, int x, int y);
+void		check_planes(t_data *data, t_ray *ray);
+void		check_spheres(t_data *data, t_ray *ray);
+void		check_cylinders(t_data *data, t_ray *ray);
+double		hit_cylinder(t_cylinder *cyl, const t_ray r);
+double		hit_sphere(const t_sphere *sp, const t_ray *r);
+double		hit_plane(const t_plane *plane, const t_ray *ray);
+t_ray		ray_create(const t_vector origin, const t_vector direction);
 
 // RENDER
-void			reset_pix(t_data *data);
-void			shoot_ray(t_data *data, t_ray *ray);
-int				render_pixel(t_data *data, int x, int y);
+void		reset_pix(t_data *data);
+void		shoot_ray(t_data *data, t_ray *ray);
+int			render_pixel(t_data *data, int x, int y);
 
 #endif // !MINIRT_H

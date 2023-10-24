@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:32:37 by djames            #+#    #+#             */
-/*   Updated: 2023/10/24 15:30:20 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/24 16:41:48 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,26 +64,25 @@ static t_ray	create_shadow_ray(t_vector surface_point, t_vector light_pos)
 	return (shadow_ray);
 }
 
-int	is_in_shadow(t_vector point, t_vector light_pos, t_data *data, int self)
+int	is_in_shadow(t_vector point, t_vector light, t_data *d, int self)
 {
-	int		status = 0;
 	t_ray	shadow_ray;
 	t_color	ambient;
+	int		status;
 
-	shadow_ray = create_shadow_ray(point, light_pos);
-	if (sphere_shadow(data, shadow_ray, self))
+	status = 0;
+	shadow_ray = create_shadow_ray(point, light);
+	if (sphere_shadow(d, shadow_ray, self))
 	{
-		calculate_ambient(data, &ambient);
-		data->pix.color = ft_color(ambient.red, ambient.green, ambient.blue, 0xff);
+		calculate_ambient(d, &ambient);
+		d->pix.color = ft_color(ambient.red, ambient.green, ambient.blue, 0xff);
 		return (1);
 	}
-	else if (cylinder_shadow(data, shadow_ray, self))
+	else if (cylinder_shadow(d, shadow_ray, self))
 	{
-		calculate_ambient(data, &ambient);
-		data->pix.color = ft_color(ambient.red, ambient.green, ambient.blue, 0xff);
+		calculate_ambient(d, &ambient);
+		d->pix.color = ft_color(ambient.red, ambient.green, ambient.blue, 0xff);
 		return (1);
 	}
 	return (0);
 }
-
-

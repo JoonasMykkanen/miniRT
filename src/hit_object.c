@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hit_object.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:29:37 by djames            #+#    #+#             */
-/*   Updated: 2023/10/19 15:48:07 by djames           ###   ########.fr       */
+/*   Updated: 2023/10/24 16:37:42 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ double	hit_plane(const t_plane *plane, const t_ray *ray)
 	return (hit);
 }
 
-double	hit_cap(t_ray r, t_vector position, t_vector normal, t_cylinder *cyl)
+double	hit_cap(t_ray r, t_vector pos, t_vector normal, t_cylinder *cyl)
 {
 	float		depth;
 	t_plane		cup;
@@ -57,13 +57,13 @@ double	hit_cap(t_ray r, t_vector position, t_vector normal, t_cylinder *cyl)
 	ray.dir = r.dir;
 	ray.orig = r.orig;
 	cup.normal = normal;
-	cup.point = position;
+	cup.point = pos;
 	depth = hit_plane(&cup, &ray);
 	if (depth < 0)
 		return (0);
 	dir = vec_multis(ray.dir, depth);
 	dir = vec_add(r.orig, dir);
-	aux = length(subtract(dir, position));
+	aux = length(subtract(dir, pos));
 	if (aux > cyl->diameter)
 		return (0);
 	return (depth);

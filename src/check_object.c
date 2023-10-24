@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:28:48 by djames            #+#    #+#             */
-/*   Updated: 2023/10/24 15:52:56 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/24 16:52:29 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,6 @@ static void	init_obj(t_obj *obj, t_data *data)
 		obj->specular = CYLINDER_SPECULAR;
 		obj->reflection = CYLINDER_REFLECTION;
 	}
-	
 }
 
 void	shoot_ray(t_data *data, t_ray *ray)

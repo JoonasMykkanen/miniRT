@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:32:31 by djames            #+#    #+#             */
-/*   Updated: 2023/10/24 15:56:49 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/24 16:44:24 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,11 @@
 
 static void	draw_plane(t_data *data)
 {
-	t_color		*color = &data->pix.cache_color;
+	t_color		*color;
 	t_vector	inter;
 
-	inter = vec_add(vec_multis(data->scene.ray.dir, data->pix.closest_t), data->scene.ray.orig);
+	color = &data->pix.cache_color;
+	inter = ray_at(data->scene.ray, data->pix.closest_t);
 	if (!is_in_shadow(inter, data->scene.light.position, data, data->obj.idx))
 	{
 		*color = calculate_color(data, &data->obj, inter);
@@ -29,9 +30,10 @@ static void	draw_plane(t_data *data)
 
 static void	draw_cylinder(t_data *data)
 {
-	t_color		*color = &data->pix.cache_color;
+	t_color		*color;
 	t_vector	inter;
 
+	color = &data->pix.cache_color;
 	inter = ray_at(data->scene.ray, data->pix.closest_t);
 	if (!is_in_shadow(inter, data->scene.light.position, data, data->obj.idx))
 	{
@@ -44,9 +46,10 @@ static void	draw_cylinder(t_data *data)
 
 static void	draw_sphere(t_data *data)
 {
-	t_color		*color = &data->pix.cache_color;
+	t_color		*color;
 	t_vector	inter;
 
+	color = &data->pix.cache_color;
 	inter = ray_at(data->scene.ray, data->pix.closest_t);
 	if (!is_in_shadow(inter, data->scene.light.position, data, data->obj.idx))
 	{

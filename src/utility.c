@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:32:47 by djames            #+#    #+#             */
-/*   Updated: 2023/10/24 15:57:45 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/25 09:49:06 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,13 @@
 
 void	reset_pix(t_data *data)
 {
-	ft_memset(&data->obj, 0, sizeof(t_obj));
+	ft_memset(&data->pix.cache_color, 0, sizeof(t_color));
+	ft_memset(&data->obj.color, 0, sizeof(t_color));
 	data->pix.reflection_found = false;
 	data->pix.closest_t = FLT_MAX;
 	data->pix.color = 0x000000ff;
 	data->pix.obj_type = NONE;
+	data->obj.type = NONE;
 }
 
 int	ft_color(int r, int g, int b, int a)
@@ -54,7 +56,9 @@ int	check_number(char *str)
 {
 	while (*str)
 	{
-		if (ft_isdigit(*str) != 1)
+		if (*str == '+')
+			str++;
+		else if (ft_isdigit(*str) != 1)
 		{
 			if (*str != '.' && *str != '-')
 				return (ERROR);

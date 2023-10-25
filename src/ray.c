@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:32:22 by djames            #+#    #+#             */
-/*   Updated: 2023/10/21 07:19:11 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/24 16:50:15 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,15 @@ t_vector	normalize(t_vector v)
 
 void	update_ray(t_data *data, int x, int y)
 {
-	data->scene.camera.help = vec_multis(data->scene.camera.pixu, (float)x);
-	data->scene.camera.help1 = vec_multis(data->scene.camera.pixv, (float)y);
-	data->scene.camera.center = vec_add(data->scene.camera.help, data->scene.camera.help1);
-	data->scene.camera.center = vec_add(data->scene.camera.center, data->scene.camera.pixel);
-	data->scene.ray.dir = subtract(data->scene.camera.center, data->scene.camera.position);
-	data->scene.ray = ray_create(data->scene.camera.position, data->scene.ray.dir);
+	t_camera	*cam;
+
+	cam = &data->scene.camera;
+	cam->help = vec_multis(cam->pixu, (float)x);
+	cam->help1 = vec_multis(cam->pixv, (float)y);
+	cam->center = vec_add(cam->help, cam->help1);
+	cam->center = vec_add(cam->center, data->scene.camera.pixel);
+	data->scene.ray.dir = subtract(cam->center, cam->position);
+	data->scene.ray = ray_create(cam->position, data->scene.ray.dir);
 }
 
 t_vector	ray_at(const t_ray r, double t)

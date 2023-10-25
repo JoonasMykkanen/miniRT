@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atof.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:29:20 by djames            #+#    #+#             */
-/*   Updated: 2023/10/19 15:29:24 by djames           ###   ########.fr       */
+/*   Updated: 2023/10/25 09:38:25 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ static int	handle_sign(int	*sign, char c)
 		*sign = -1;
 		return (0);
 	}
+	else if (c == '+')
+		return (0);
 	return (1);
 }
 

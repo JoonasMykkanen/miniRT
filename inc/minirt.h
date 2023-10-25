@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:17:31 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/25 10:51:49 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/25 11:44:44 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 # include <stdio.h>
 # include <math.h>
 
-# define EPSILON 0.001
 # define MAX_OBJ 100
 
 # define HEIGHT 800
@@ -42,18 +41,6 @@
 # define BODY 0
 # define TOP 1
 # define BOTTOM 2
-
-# define PLANE_SHINE 100
-# define PLANE_SPECULAR 0.5
-# define PLANE_REFLECTION 0.5
-
-# define SPHERE_SHINE 30
-# define SPHERE_SPECULAR 0.4
-# define SPHERE_REFLECTION 0.0
-
-# define CYLINDER_SHINE 100
-# define CYLINDER_SPECULAR 0.7
-# define CYLINDER_REFLECTION 0.0
 
 typedef struct s_vector
 {

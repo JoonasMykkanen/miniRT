@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:32:15 by djames            #+#    #+#             */
-/*   Updated: 2023/10/25 09:48:41 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/25 11:50:10 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	read_input(t_data *data, char *file)
 	int		fd;
 
 	fd = open(file, O_RDONLY);
-	if (fd == -1)
+	if (fd < 0)
 	{
 		ft_putstr_fd("Error: opening file\n", 2);
 		return (ERROR);

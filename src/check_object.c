@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_object.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:28:48 by djames            #+#    #+#             */
-/*   Updated: 2023/10/25 07:20:58 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/25 11:44:55 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,31 +88,8 @@ void	check_cylinders(t_data *data, t_ray *ray)
 	}
 }
 
-static void	init_obj(t_obj *obj, t_data *data)
-{
-	if (data->pix.obj_type == PLANE)
-	{
-		obj->shine = PLANE_SHINE;
-		obj->specular = PLANE_SPECULAR;
-		obj->reflection = PLANE_REFLECTION;
-	}
-	else if (data->pix.obj_type == SPHERE)
-	{
-		obj->shine = SPHERE_SHINE;
-		obj->specular = SPHERE_SPECULAR;
-		obj->reflection = SPHERE_REFLECTION;
-	}
-	else if (data->pix.obj_type == CYLINDER)
-	{
-		obj->shine = CYLINDER_SHINE;
-		obj->specular = CYLINDER_SPECULAR;
-		obj->reflection = CYLINDER_REFLECTION;
-	}
-}
-
 void	shoot_ray(t_data *data, t_ray *ray)
 {
-	init_obj(&data->obj, data);
 	check_spheres(data, ray);
 	check_planes(data, ray);
 	check_cylinders(data, ray);

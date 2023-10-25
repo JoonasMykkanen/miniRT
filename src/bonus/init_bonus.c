@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   init_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:30:00 by djames            #+#    #+#             */
-/*   Updated: 2023/10/25 11:22:01 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/25 11:55:21 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/bonus/minirt_bonus.h"
-#include "../../inc/bonus/parser_bonus.h"
+#include "minirt.h"
+#include "parser.h"
 
 void	basic_params(t_camera *cam, double *vp_h, double *vp_w)
 {
@@ -59,6 +59,11 @@ void	init_camera(t_data *data, double vp_height, double vp_width)
 int	init(t_data *data, char *file)
 {
 	ft_memset(&data->scene, 0, sizeof(data->scene));
+	if (!ft_strnstr(file, ".rt", ft_strlen(file)))
+	{
+		ft_putstr_fd("Error: File error\n", 2);
+		return (ERROR);
+	}
 	if (read_input(data, file) != OK)
 		return (ERROR);
 	data->mlx = mlx_init(WIDTH, HEIGHT, "miniRT", true);

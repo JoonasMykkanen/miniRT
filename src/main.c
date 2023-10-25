@@ -3,14 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:30:31 by djames            #+#    #+#             */
-/*   Updated: 2023/10/25 12:01:43 by djames           ###   ########.fr       */
+/*   Updated: 2023/10/25 14:57:48 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+
+static int	validate_scene(t_data *data)
+{
+	t_scene	*s;
+	int		status;
+
+	status = OK;
+	s = &data->scene;
+	if (!data->scene.status_ambient)
+		status = ERROR;
+	if (!data->scene.status_camera)
+		status = ERROR;
+	if (!data->scene.status_light)
+		status = ERROR;
+	if (status == ERROR)
+		ft_putstr_fd("Error: Map error\n", 2);
+	if (s->ambient.intensity == 0 && s->light.brightness == 0)
+	{
+		status = ERROR;
+		ft_putstr_fd("Error: No light found in scene\n", 2);
+	}
+	return (status);
+}
 
 int	minirt(t_data *data)
 {
@@ -35,6 +58,8 @@ int	main(int argc, char **argv)
 	if (argc == 2)
 	{
 		if (init(&data, argv[1]) != OK)
+			return (ERROR);
+		if (validate_scene(&data) != OK)
 			return (ERROR);
 		if (minirt(&data) != OK)
 			return (ERROR);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_checks.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:31:23 by djames            #+#    #+#             */
-/*   Updated: 2023/10/19 15:31:31 by djames           ###   ########.fr       */
+/*   Updated: 2023/10/25 14:48:57 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	check_size(double value)
 
 int	check_brightness(double value)
 {
-	if (value > 0.0 && value <= 1.0)
+	if (value >= 0.0 && value <= 1.0)
 		return (OK);
 	return (ERROR);
 }

@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:31:23 by djames            #+#    #+#             */
-/*   Updated: 2023/10/25 11:22:32 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/25 15:01:37 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	check_size(double value)
 
 int	check_brightness(double value)
 {
-	if (value > 0.0 && value <= 1.0)
+	if (value >= 0.0 && value <= 1.0)
 		return (OK);
 	return (ERROR);
 }

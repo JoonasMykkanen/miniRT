@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   reflection.c                                       :+:      :+:    :+:   */
+/*   reflection_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/21 08:35:43 by jmykkane          #+#    #+#             */
-/*   Updated: 2023/10/25 10:51:22 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/25 11:23:09 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "../../inc/bonus/minirt_bonus.h"
 
 static void	reflection_color(t_data *d, t_color surface, t_color reflect)
 {

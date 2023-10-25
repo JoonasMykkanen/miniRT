@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+         #
+#    By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/19 15:36:10 by djames            #+#    #+#              #
-#    Updated: 2023/10/25 11:00:52 by jmykkane         ###   ########.fr        #
+#    Updated: 2023/10/25 11:34:09 by jmykkane         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ LIBMLX_LIB = $(LIBMLX_DIR)/build/libmlx42.a
 
 SRCDIR = src
 OBJDIR = obj
-BONUSDIR = $(SRC)/bonus
+BONUS_SRCDIR = $(SRC)/bonus
 BONUS_OBJDIR = obj/bonus
 
 SRCS := \
@@ -39,7 +39,6 @@ SRCS := \
 	$(SRCDIR)/vec_helpers.c \
 	$(SRCDIR)/parser_line.c \
 	$(SRCDIR)/hit_object.c \
-	$(SRCDIR)/reflection.c \
 	$(SRCDIR)/light_cyl.c \
 	$(SRCDIR)/vec_math.c \
 	$(SRCDIR)/utility.c \
@@ -88,10 +87,10 @@ OBJS = $(SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 BONUS_OBJS = $(SRCS_BONUS:$(BONUSDIR)/%.c=$(BONUS_OBJDIR)/%.o)
 
 HEADERS = ./inc/minirt.h ./inc/parser.h
-BONUS_HEADERS = ./inc/minirt_bonus.h ./inc/parser_bonus.h
+BONUS_HEADERS = ./inc/bonus/minirt_bonus.h ./inc/bonus/parser_bonus.h
 
-LIBS = -L$(LIBFT_DIR) -lft $(LIBMLX_LIB) -I ./src/mlx42/include -ldl -lglfw -L"/Users/$${USER}/.brew/Cellar/glfw/3.3.8/lib/"
-# LIBS = -L$(LIBFT_DIR) -lft $(LIBMLX_LIB) -I ./src/mlx42/include -ldl -lglfw -L"/opt/homebrew/Cellar/glfw/3.3.8/lib/"
+# LIBS = -L$(LIBFT_DIR) -lft $(LIBMLX_LIB) -I ./src/mlx42/include -ldl -lglfw -L"/Users/$${USER}/.brew/Cellar/glfw/3.3.8/lib/"
+LIBS = -L$(LIBFT_DIR) -lft $(LIBMLX_LIB) -I ./src/mlx42/include -ldl -lglfw -L"/opt/homebrew/Cellar/glfw/3.3.8/lib/"
 
 CFLAGS = -Wall -Werror -Wextra -I./inc
 LDFLAGS = $(LIBS)
@@ -100,14 +99,15 @@ LDFLAGS = $(LIBS)
 all: $(NAME) 
 
 .PHONY: bonus
-$(NAME_BONUS): $(LIBMLX_LIB) $(LIBFT) $(BONUS_OBJS) $(BONUS_HEADERS)
-	@echo "Compiling miniRT_BONUS"
-	@cc $(LDFLAGS) $(BONUS_OBJS) -o $(NAME_BONUS)
-
+bonus: $(NAME_BONUS)
 
 $(NAME): $(LIBMLX_LIB) $(LIBFT) $(OBJS) $(HEADERS)
 	@echo "Compiling miniRT"
 	@cc $(LDFLAGS) $(OBJS) -o $(NAME)
+
+$(NAME_BONUS): $(LIBMLX_LIB) $(LIBFT) $(BONUS_OBJS) $(BONUS_HEADERS)
+	@echo "Compiling miniRT_BONUS"
+	@cc $(LDFLAGS) $(BONUS_OBJS) -o $(NAME_BONUS)
 
 $(LIBFT):
 	@echo "Creating dependency libft"
@@ -120,11 +120,7 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c $(HEADERS)
 	@mkdir -p $(OBJDIR)
 	@cc $(CFLAGS) -c $< -o $@
 
-$(OBJDIR)/%.o: $(SRCDIR)/%.c $(BONUS_HEADERS)
-	@mkdir -p $(OBJDIR)
-	@cc $(CFLAGS) -c $< -o $@
-
-$(BONUS_OBJDIR)/%.o: $(SRCS_BONUS)/%.c $(BONUS_HEADERS)
+$(BONUS_OBJDIR)/%.o: $(BONUS_SRCDIR)/%.c $(BONUS_HEADERS)
 	@mkdir -p $(BONUS_OBJDIR)
 	@cc $(CFLAGS) -c $< -o $@
 
@@ -145,7 +141,3 @@ fclean: clean
 
 .PHONY: re
 re: fclean all
-
-.PHONY: test
-test: all
-	leaks --atExit -- ./minirt test/multiPlane.rt

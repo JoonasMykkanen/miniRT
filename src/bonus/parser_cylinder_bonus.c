@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_cylinder.c                                  :+:      :+:    :+:   */
+/*   parser_cylinder_bonus.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:31:39 by djames            #+#    #+#             */
-/*   Updated: 2023/10/25 11:39:15 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/25 11:21:45 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
-#include "parser.h"
+#include "../../inc/bonus/minirt_bonus.h"
+#include "../../inc/bonus/parser_bonus.h"
 
 int	create_obj_cylinder(t_data *data, char **params)
 {
@@ -31,7 +31,6 @@ int	create_obj_cylinder(t_data *data, char **params)
 	if (check_number(params[3]) == ERROR)
 		return (ERROR);
 	ptr->diameter = ft_atof(params[3]);
-	ptr->diameter /= 2;
 	if (check_number(params[4]) == ERROR)
 		return (ERROR);
 	ptr->height = ft_atof(params[4]);

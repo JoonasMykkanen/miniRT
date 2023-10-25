@@ -1,42 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_cylinder.c                                  :+:      :+:    :+:   */
+/*   parser_sphere_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/19 15:31:39 by djames            #+#    #+#             */
-/*   Updated: 2023/10/25 11:39:15 by jmykkane         ###   ########.fr       */
+/*   Created: 2023/10/19 15:32:09 by djames            #+#    #+#             */
+/*   Updated: 2023/10/25 11:23:04 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
-#include "parser.h"
+#include "../../inc/bonus/minirt_bonus.h"
+#include "../../inc/bonus/parser_bonus.h"
 
-int	create_obj_cylinder(t_data *data, char **params)
+int	create_obj_sphere(t_data *data, char **params)
 {
-	t_cylinder	*ptr;
+	t_sphere	*ptr;
 	int			*idx;
 
-	idx = &data->scene.num_cylinders;
-	ptr = &data->scene.cylinders[*idx];
+	idx = &data->scene.num_spheres;
+	ptr = &data->scene.spheres[*idx];
 	if (*idx >= MAX_OBJ)
 		return (ERROR);
-	if (arr_len(params) != 6)
+	if (arr_len(params) != 4)
 		return (ERROR);
 	if (assign_vector(&ptr->center, params[1], POSITION) == ERROR)
 		return (ERROR);
-	if (assign_vector(&ptr->axis, params[2], ORIENTATION) == ERROR)
+	ptr->diameter = ft_atof(params[2]);
+	if (check_size(ptr->diameter) == ERROR)
 		return (ERROR);
-	if (check_number(params[3]) == ERROR)
+	if (assign_color(&ptr->color, params[3]) == ERROR)
 		return (ERROR);
-	ptr->diameter = ft_atof(params[3]);
-	ptr->diameter /= 2;
-	if (check_number(params[4]) == ERROR)
-		return (ERROR);
-	ptr->height = ft_atof(params[4]);
-	if (assign_color(&ptr->color, params[5]) == ERROR)
-		return (ERROR);
+	ptr->radius = ptr->diameter / 2;
 	*idx += 1;
 	return (OK);
 }

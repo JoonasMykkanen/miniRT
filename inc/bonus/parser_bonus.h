@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
+/*   parser_bonus.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 13:18:07 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/20 14:30:44 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/25 12:09:08 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+#ifndef PARSER_BONUS_H
+# define PARSER_BONUS_H
 
 # define ORIENTATION 1
 # define POSITION 0
 
-# include "minirt.h"
+# include "minirt_bonus.h"
 
 // Checks to be done for each attribute category
 int	check_color(int value);

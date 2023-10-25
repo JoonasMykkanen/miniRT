@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:17:31 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/25 11:44:44 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/25 12:08:18 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,11 @@
 # include "../src/libft/inc/libft.h"
 # include <stdbool.h>
 # include <stdlib.h>
-# include <float.h>
 # include <stdio.h>
 # include <math.h>
 
+# define FLT_MAX 3.402823e+38
+# define FLT_MIN 1.175494e-38
 # define MAX_OBJ 100
 
 # define HEIGHT 800

@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:32:37 by djames            #+#    #+#             */
-/*   Updated: 2023/10/24 16:41:48 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/25 07:11:13 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,7 @@ int	is_in_shadow(t_vector point, t_vector light, t_data *d, int self)
 {
 	t_ray	shadow_ray;
 	t_color	ambient;
-	int		status;
 
-	status = 0;
 	shadow_ray = create_shadow_ray(point, light);
 	if (sphere_shadow(d, shadow_ray, self))
 	{

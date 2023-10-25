@@ -6,7 +6,7 @@
 #    By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/19 15:36:10 by djames            #+#    #+#              #
-#    Updated: 2023/10/22 10:05:18 by jmykkane         ###   ########.fr        #
+#    Updated: 2023/10/25 07:10:57 by jmykkane         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ SRCS := \
 	$(SRCDIR)/parser_line.c \
 	$(SRCDIR)/hit_object.c \
 	$(SRCDIR)/reflection.c \
+	$(SRCDIR)/light_cyl.c \
 	$(SRCDIR)/vec_math.c \
 	$(SRCDIR)/utility.c \
 	$(SRCDIR)/ft_atof.c \
@@ -51,17 +52,18 @@ SRCS := \
 
 OBJS = $(SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 
-INCLUDES = -I ./inc
+HEADERS = ./inc/minirt.h ./inc/parser.h
+
 # LIBS = -L$(LIBFT_DIR) -lft $(LIBMLX_LIB) -I ./src/mlx42/include -ldl -lglfw -L"/Users/$${USER}/.brew/Cellar/glfw/3.3.8/lib/"
 LIBS = -L$(LIBFT_DIR) -lft $(LIBMLX_LIB) -I ./src/mlx42/include -ldl -lglfw -L"/opt/homebrew/Cellar/glfw/3.3.8/lib/"
 
-CFLAGS = -g $(INCLUDES)
-LDFLAGS =  -g $(LIBS)
+CFLAGS = -Wall -Werror -Wextra -I./inc
+LDFLAGS = $(LIBS)
 
 .PHONY: all
 all: $(NAME) 
 
-$(NAME): $(LIBMLX_LIB) $(LIBFT) $(OBJS)
+$(NAME): $(LIBMLX_LIB) $(LIBFT) $(OBJS) $(HEADERS)
 	@echo "Compiling miniRT"
 	@cc $(LDFLAGS) $(OBJS) -o $(NAME)
 
@@ -72,7 +74,7 @@ $(LIBFT):
 $(LIBMLX_LIB):
 	@cd src/mlx42 && cmake -B build && make -C build -j4
 	
-$(OBJDIR)/%.o: $(SRCDIR)/%.c
+$(OBJDIR)/%.o: $(SRCDIR)/%.c $(HEADERS)
 	@mkdir -p $(OBJDIR)
 	@cc $(CFLAGS) -c $< -o $@
 

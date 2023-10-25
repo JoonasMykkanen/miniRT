@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:32:15 by djames            #+#    #+#             */
-/*   Updated: 2023/10/20 15:41:16 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/25 09:48:41 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,15 @@ static int	parse_line(t_data *data, char *line)
 	params = ft_split(line, ' ');
 	ft_free(line);
 	if (!params)
+	{
+		ft_putstr_fd("Error: Malloc\n", 2);
 		return (ERROR);
+	}
 	if (choose_object(data, params) == ERROR)
+	{
+		ft_putstr_fd("Error: Map error\n", 2);
 		return (ERROR);
+	}
 	return (OK);
 }
 

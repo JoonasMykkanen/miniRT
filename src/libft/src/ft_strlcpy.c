@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmykkane <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 16:29:02 by jmykkane          #+#    #+#             */
-/*   Updated: 2022/10/25 16:29:03 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/25 13:48:52 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 			i++;
 			dstsize--;
 		}
-	*(dst + i) = '\0';
+		*(dst + i) = '\0';
 	}
 	while (*(src + i) != '\0')
 		i++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmykkane <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 12:54:30 by jmykkane          #+#    #+#             */
-/*   Updated: 2022/10/25 12:54:31 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/25 13:48:48 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static char	*translate(char *str, char rev_num[13], int neg, int i)
 		str[0] = '-';
 	}
 	else if (neg == 0)
-	{	
+	{
 		i--;
 		l--;
 	}

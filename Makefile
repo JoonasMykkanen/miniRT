@@ -3,14 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+         #
+#    By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/19 15:36:10 by djames            #+#    #+#              #
-#    Updated: 2023/10/25 07:10:57 by jmykkane         ###   ########.fr        #
+#    Updated: 2023/10/25 11:00:52 by jmykkane         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = minirt
+NAME = miniRT
+
+NAME_BONUS = miniRT_BONUS
 
 LIBFT_DIR = src/libft
 LIBFT = $(LIBFT_DIR)/libft.a
@@ -20,6 +22,8 @@ LIBMLX_LIB = $(LIBMLX_DIR)/build/libmlx42.a
 
 SRCDIR = src
 OBJDIR = obj
+BONUSDIR = $(SRC)/bonus
+BONUS_OBJDIR = obj/bonus
 
 SRCS := \
 	$(SRCDIR)/parser_cylinder.c \
@@ -50,18 +54,56 @@ SRCS := \
 	$(SRCDIR)/cyl.c \
 	$(SRCDIR)/main.c
 
+SRCS_BONUS := \
+	$(BONUSDIR)/parser_cylinder_bonus.c \
+	$(BONUSDIR)/parser_helpers_bonus.c \
+	$(BONUSDIR)/parser_ambient_bonus.c \
+	$(BONUSDIR)/light_helpers_bonus.c \
+	$(BONUSDIR)/parser_camera_bonus.c \
+	$(BONUSDIR)/parser_sphere_bonus.c \
+	$(BONUSDIR)/parser_checks_bonus.c \
+	$(BONUSDIR)/check_object_bonus.c \
+	$(BONUSDIR)/parser_plane_bonus.c \
+	$(BONUSDIR)/parser_light_bonus.c \
+	$(BONUSDIR)/vec_helpers_bonus.c \
+	$(BONUSDIR)/parser_line_bonus.c \
+	$(BONUSDIR)/hit_object_bonus.c \
+	$(BONUSDIR)/reflection_bonus.c \
+	$(BONUSDIR)/light_cyl_bonus.c \
+	$(BONUSDIR)/vec_math_bonus.c \
+	$(BONUSDIR)/utility_bonus.c \
+	$(BONUSDIR)/ft_atof_bonus.c \
+	$(BONUSDIR)/parser_bonus.c \
+	$(BONUSDIR)/render_bonus.c \
+	$(BONUSDIR)/shadow_bonus.c \
+	$(BONUSDIR)/light_bonus.c \
+	$(BONUSDIR)/init_bonus.c \
+	$(BONUSDIR)/hook_bonus.c \
+	$(BONUSDIR)/ray_bonus.c \
+	$(BONUSDIR)/cyl_bonus.c \
+	$(BONUSDIR)/main_bonus.c
+
 OBJS = $(SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 
-HEADERS = ./inc/minirt.h ./inc/parser.h
+BONUS_OBJS = $(SRCS_BONUS:$(BONUSDIR)/%.c=$(BONUS_OBJDIR)/%.o)
 
-# LIBS = -L$(LIBFT_DIR) -lft $(LIBMLX_LIB) -I ./src/mlx42/include -ldl -lglfw -L"/Users/$${USER}/.brew/Cellar/glfw/3.3.8/lib/"
-LIBS = -L$(LIBFT_DIR) -lft $(LIBMLX_LIB) -I ./src/mlx42/include -ldl -lglfw -L"/opt/homebrew/Cellar/glfw/3.3.8/lib/"
+HEADERS = ./inc/minirt.h ./inc/parser.h
+BONUS_HEADERS = ./inc/minirt_bonus.h ./inc/parser_bonus.h
+
+LIBS = -L$(LIBFT_DIR) -lft $(LIBMLX_LIB) -I ./src/mlx42/include -ldl -lglfw -L"/Users/$${USER}/.brew/Cellar/glfw/3.3.8/lib/"
+# LIBS = -L$(LIBFT_DIR) -lft $(LIBMLX_LIB) -I ./src/mlx42/include -ldl -lglfw -L"/opt/homebrew/Cellar/glfw/3.3.8/lib/"
 
 CFLAGS = -Wall -Werror -Wextra -I./inc
 LDFLAGS = $(LIBS)
 
 .PHONY: all
 all: $(NAME) 
+
+.PHONY: bonus
+$(NAME_BONUS): $(LIBMLX_LIB) $(LIBFT) $(BONUS_OBJS) $(BONUS_HEADERS)
+	@echo "Compiling miniRT_BONUS"
+	@cc $(LDFLAGS) $(BONUS_OBJS) -o $(NAME_BONUS)
+
 
 $(NAME): $(LIBMLX_LIB) $(LIBFT) $(OBJS) $(HEADERS)
 	@echo "Compiling miniRT"
@@ -78,17 +120,28 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c $(HEADERS)
 	@mkdir -p $(OBJDIR)
 	@cc $(CFLAGS) -c $< -o $@
 
+$(OBJDIR)/%.o: $(SRCDIR)/%.c $(BONUS_HEADERS)
+	@mkdir -p $(OBJDIR)
+	@cc $(CFLAGS) -c $< -o $@
+
+$(BONUS_OBJDIR)/%.o: $(SRCS_BONUS)/%.c $(BONUS_HEADERS)
+	@mkdir -p $(BONUS_OBJDIR)
+	@cc $(CFLAGS) -c $< -o $@
+
 .PHONY: clean
 clean:
 	@echo "Cleaning"
 	@make clean -C $(LIBFT_DIR)
 	@rm -f $(OBJS)
+	@rm -f $(BONUS_OBJS)
 
 .PHONY: fclean
 fclean: clean
 	@make fclean -C $(LIBFT_DIR) 
 	@rm -rf $(LIBMLX_DIR)/build
 	@rm -f $(NAME)
+	@rm -f $(NAME_BONUS)
+	
 
 .PHONY: re
 re: fclean all

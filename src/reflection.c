@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reflection.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/21 08:35:43 by jmykkane          #+#    #+#             */
-/*   Updated: 2023/10/24 16:50:48 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/25 10:51:22 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ static t_ray	create_reflection_ray(t_data *data, t_vector inter)
 
 void	check_reflections(t_data *data, t_vector inter, t_color surface)
 {
-	t_color	color;
 	t_ray	reflection_ray;
+	t_color	color;
 
 	data->pix.closest_t = FLT_MAX;
 	data->pix.reflection_found = false;

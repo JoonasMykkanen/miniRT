@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:17:31 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/25 07:30:25 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/25 10:51:49 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@
 
 # define CYLINDER_SHINE 100
 # define CYLINDER_SPECULAR 0.7
-# define CYLINDER_REFLECTION 0.8
+# define CYLINDER_REFLECTION 0.0
 
 typedef struct s_vector
 {
@@ -158,7 +158,6 @@ typedef struct s_scene
 	int			num_cylinders;
 }				t_scene;
 
-// TODO: get rid of these structs as they are only work around's
 typedef struct s_hitc
 {
 	t_vector	h1;

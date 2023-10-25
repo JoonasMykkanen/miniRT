@@ -6,9 +6,10 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:17:31 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/25 14:22:45 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/25 15:04:12 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MINIRT_H
 # define MINIRT_H
@@ -22,6 +23,7 @@
 
 # define FLT_MAX 3.402823e+38
 # define FLT_MIN 1.175494e-38
+# define EPSILON 0.001
 # define MAX_OBJ 100
 
 # define HEIGHT 800
@@ -234,11 +236,11 @@ double		hit_cap(t_ray r, t_vector pos, t_vector normal, t_cylinder *cyl);
 // LIGHT
 void		check_rgb_values(t_color *color);
 void		calculate_ambient(t_data *data, t_color *color);
+int			is_in_shadow(t_vector point, t_vector light, t_data *d);
 t_color		calculate_color(t_data *data, t_obj *obj, t_vector inter);
 double		calculate_cap(t_data *data, t_vector inter, t_cylinder *cyl);
 double		calculate_body(t_data *data, t_vector inter, t_cylinder *cyl);
 void		check_reflections(t_data *data, t_vector inter, t_color surface);
-int			is_in_shadow(t_vector point, t_vector light, t_data *d, int self);
 void		spotlight_effect(t_light *light, t_obj *obj, t_color *c, double d);
 
 // HOOK

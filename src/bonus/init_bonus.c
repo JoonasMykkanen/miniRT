@@ -6,12 +6,12 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:30:00 by djames            #+#    #+#             */
-/*   Updated: 2023/10/25 15:00:25 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/26 10:54:34 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
-#include "parser.h"
+#include "../../inc/bonus/minirt_bonus.h"
+#include "../../inc/bonus/parser_bonus.h"
 
 void	basic_params(t_camera *cam, double *vp_h, double *vp_w)
 {

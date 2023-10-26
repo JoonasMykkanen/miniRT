@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:30:31 by djames            #+#    #+#             */
-/*   Updated: 2023/10/25 15:01:09 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/26 12:08:02 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,13 @@ int	minirt(t_data *data)
 	if (mlx_image_to_window(data->mlx, data->img, 0, 0) == -1)
 	{
 		mlx_close_window(data->mlx);
-		puts(mlx_strerror(mlx_errno));
+		ft_putstr_fd("Error: MLX Image\n", 2);
 		return (ERROR);
 	}
+	// init_camera(data, 0, 0);
 	mlx_loop_hook(data->mlx, ft_hook, data);
-	render(data);
+	mlx_loop_hook(data->mlx, render, data);
+	mlx_close_hook(data->mlx, handle_exit, data);
 	mlx_loop(data->mlx);
 	mlx_delete_image(data->mlx, data->img);
 	mlx_terminate(data->mlx);
@@ -60,6 +62,10 @@ int	main(int argc, char **argv)
 		if (init(&data, argv[1]) != OK)
 			return (ERROR);
 		if (validate_scene(&data) != OK)
+			return (ERROR);
+		if (create_jobs(&data) != OK)
+			return (ERROR);
+		if (wakeup_workers(&data) != OK)
 			return (ERROR);
 		if (minirt(&data) != OK)
 			return (ERROR);

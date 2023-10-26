@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   color_calc_main.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
+/*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 13:27:04 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/17 08:53:55 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/10/26 10:57:18 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ int	test(t_data *data)
 	if (mlx_image_to_window(data->mlx, data->img, 0, 0) == -1)
 	{
 		mlx_close_window(data->mlx);
-		puts(mlx_strerror(mlx_errno));
+		ft_putstr_fd("Error: No light found in scene\n", 2);
 		return(ERROR);
 	}
 

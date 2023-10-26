@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:30:31 by djames            #+#    #+#             */
-/*   Updated: 2023/10/25 14:57:48 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/26 10:57:38 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	minirt(t_data *data)
 	if (mlx_image_to_window(data->mlx, data->img, 0, 0) == -1)
 	{
 		mlx_close_window(data->mlx);
-		puts(mlx_strerror(mlx_errno));
+		ft_putstr_fd("Error: MLX Image\n", 2);
 		return (ERROR);
 	}
 	mlx_loop_hook(data->mlx, ft_hook, data);

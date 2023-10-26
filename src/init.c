@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:30:00 by djames            #+#    #+#             */
-/*   Updated: 2023/10/25 14:44:36 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/26 10:56:56 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	init(t_data *data, char *file)
 	data->mlx = mlx_init(WIDTH, HEIGHT, "miniRT", true);
 	if (!data->mlx)
 	{
-		ft_putstr_fd((char *)mlx_strerror(mlx_errno), ERROR);
+		ft_putstr_fd("Error: MLX init\n", 2);
 		return (ERROR);
 	}
 	data->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);

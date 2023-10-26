@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shadow.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:32:37 by djames            #+#    #+#             */
-/*   Updated: 2023/10/25 13:51:52 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/25 15:15:00 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	sphere_shadow(t_data *data, t_ray shadow_ray)
 	return (0);
 }
 
-static int	cylinder_shadow(t_data *data, t_ray shadow_ray)
+static int	cylinder_shadow(t_data *data, t_ray shadow_ray, int self)
 {
 	int		idx;
 	double	hit;
@@ -37,6 +37,8 @@ static int	cylinder_shadow(t_data *data, t_ray shadow_ray)
 	hit = 0;
 	while (++idx < data->scene.num_cylinders)
 	{
+		if (data->obj.type == CYLINDER && idx == self)
+			continue ;
 		hit = hit_cylinder(&data->scene.cylinders[idx], shadow_ray);
 		if (hit != 0)
 			return (1);
@@ -60,7 +62,7 @@ static t_ray	create_shadow_ray(t_vector surface_point, t_vector light_pos)
 	return (shadow_ray);
 }
 
-int	is_in_shadow(t_vector point, t_vector light, t_data *d)
+int	is_in_shadow(t_vector point, t_vector light, t_data *d, int self)
 {
 	t_ray	shadow_ray;
 	t_color	ambient;
@@ -72,7 +74,7 @@ int	is_in_shadow(t_vector point, t_vector light, t_data *d)
 		d->pix.color = ft_color(ambient.red, ambient.green, ambient.blue, 0xff);
 		return (1);
 	}
-	else if (cylinder_shadow(d, shadow_ray))
+	else if (cylinder_shadow(d, shadow_ray, self))
 	{
 		calculate_ambient(d, &ambient);
 		d->pix.color = ft_color(ambient.red, ambient.green, ambient.blue, 0xff);

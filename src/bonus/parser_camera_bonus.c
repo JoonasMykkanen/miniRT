@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:31:15 by djames            #+#    #+#             */
-/*   Updated: 2023/10/25 11:22:24 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/25 15:20:42 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ int	create_obj_camera(t_data *data, char **params)
 		return (ERROR);
 	if (assign_fov(&ptr->fov, params[3]) == ERROR)
 		return (ERROR);
+	if (ptr->fov == 180)
+		ptr->fov -= EPSILON;
 	data->scene.status_camera = true;
 	return (OK);
 }

@@ -6,7 +6,7 @@
 #    By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/19 15:36:10 by djames            #+#    #+#              #
-#    Updated: 2023/10/25 14:12:15 by jmykkane         ###   ########.fr        #
+#    Updated: 2023/10/26 10:16:49 by jmykkane         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,15 +67,20 @@ SRCS_BONUS := \
 	$(BONUSDIR)/vec_helpers_bonus.c \
 	$(BONUSDIR)/parser_line_bonus.c \
 	$(BONUSDIR)/hit_object_bonus.c \
+	$(BONUSDIR)/clean_exit_bonus.c \
 	$(BONUSDIR)/reflection_bonus.c \
 	$(BONUSDIR)/light_cyl_bonus.c \
 	$(BONUSDIR)/vec_math_bonus.c \
 	$(BONUSDIR)/utility_bonus.c \
 	$(BONUSDIR)/ft_atof_bonus.c \
+	$(BONUSDIR)/routine_bonus.c \
 	$(BONUSDIR)/parser_bonus.c \
 	$(BONUSDIR)/render_bonus.c \
 	$(BONUSDIR)/shadow_bonus.c \
+	$(BONUSDIR)/worker_bonus.c \
 	$(BONUSDIR)/light_bonus.c \
+	$(BONUSDIR)/jobs_bonus.c \
+	$(BONUSDIR)/list_bonus.c \
 	$(BONUSDIR)/init_bonus.c \
 	$(BONUSDIR)/hook_bonus.c \
 	$(BONUSDIR)/ray_bonus.c \

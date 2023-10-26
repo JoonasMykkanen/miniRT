@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:29:47 by djames            #+#    #+#             */
-/*   Updated: 2023/10/25 11:21:57 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/26 12:07:56 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,26 +19,31 @@ void	ft_hook(void *param)
 	data = (t_data *)param;
 	if (mlx_is_key_down(data->mlx, MLX_KEY_ESCAPE))
 	{
-		mlx_delete_image(data->mlx, data->img);
-		mlx_terminate(data->mlx);
-		exit(0);
+		handle_exit(param);
 	}
+}
+
+static void	render_frame(t_data *data)
+{
+	pthread_mutex_lock(&data->pool.queue);
+	reset_job_list(data->pool.job_list);
+	pthread_mutex_unlock(&data->pool.queue);
+	pthread_cond_broadcast(&data->pool.cond);
 }
 
 void	render(void *param)
 {
-	t_data	*data;
-	int		x;
-	int		y;
-
-	x = -1;
-	y = -1;
+    double 		cpu_time_used;
+	clock_t		start;
+	clock_t		end;
+	t_data		*data;
+	
 	data = (t_data *)param;
-	init_camera(data, 0, 0);
-	while (++y < HEIGHT)
-	{
-		while (++x < WIDTH)
-			mlx_put_pixel(data->img, x, y, render_pixel(data, x, y));
-		x = -1;
-	}
+	start = clock();
+
+	render_frame(data);
+	
+	end = clock();
+    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
+	printf("frame took %f seconds render\n", cpu_time_used);
 }

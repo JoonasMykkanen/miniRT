@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt_bonus.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:17:31 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/25 13:53:36 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/26 11:42:12 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,19 @@
 # include "../../src/mlx42/include/MLX42/MLX42.h"
 # include "../../src/libft/inc/libft.h"
 # include <stdbool.h>
+# include <pthread.h>
+# include <stddef.h>
 # include <stdlib.h>
 # include <stdio.h>
+# include <time.h>
 # include <math.h>
 
 # define FLT_MAX 3.402823e+38
 # define FLT_MIN 1.175494e-38
 # define EPSILON 0.001
 # define MAX_OBJ 100
+
+# define WORKERS 10
 
 # define HEIGHT 800
 # define WIDTH 1300
@@ -55,6 +60,37 @@
 # define CYLINDER_SHINE 100
 # define CYLINDER_SPECULAR 0.7
 # define CYLINDER_REFLECTION 0.0
+
+typedef struct s_data	t_data;
+typedef struct s_job 	t_job;
+
+typedef struct s_job
+{
+	bool	done;
+	int		row;
+
+	t_job	*next;
+}				t_job;
+
+typedef struct	s_worker
+{
+	pthread_t	employee;
+	t_data		*data;
+	int			index;
+}				t_worker;
+
+typedef struct s_threadpool
+{
+	pthread_mutex_t	queue;
+	pthread_mutex_t	alive;
+	pthread_mutex_t	write;
+	pthread_cond_t	cond;
+	bool			done;
+	
+	t_job		*job_list;
+	t_worker	workers[WORKERS];
+	
+}				t_threadpool;
 
 typedef struct s_vector
 {
@@ -148,14 +184,14 @@ typedef struct s_scene
 	t_light		light;
 	bool		status_light;
 
-	t_sphere	spheres[100];
+	t_sphere	spheres[MAX_OBJ];
 	int			num_spheres;
 
-	t_plane		planes[100];
+	t_plane		planes[MAX_OBJ];
 	int			num_planes;
 	t_ray		ray;
 
-	t_cylinder	cylinders[100];
+	t_cylinder	cylinders[MAX_OBJ];
 	int			num_cylinders;
 }				t_scene;
 
@@ -222,23 +258,27 @@ typedef struct s_pixel
 
 typedef struct s_data
 {
-	mlx_image_t	*img;
-	mlx_t		*mlx;
+	mlx_image_t		*img;
+	mlx_t			*mlx;
 
-	t_obj		obj;
-	t_pixel		pix;
-	t_scene		scene;
+	t_threadpool	pool;
+	int				samples;
+	bool			moved;
+
+	t_obj			obj;
+	t_pixel			pix;
+	t_scene			scene;
 }				t_data;
 
 // GENERAL
 double		ft_atof(char *str);
 int			arr_len(char **arr);
 void		free_arr(char **arr);
+void		clamp_colors(t_color *color);
 int			init(t_data *data, char *file);
 int			ft_color(int r, int g, int b, int a);
 double		hit_cylinder2(t_cylinder *cyl, t_ray r);
 int			ay(t_helpc2 *point, t_cylinder *cyl, t_ray r);
-void		clamp_colors(t_color *color);
 void		hit_cylinder3(t_helpc *hit, t_ray r, t_vector cyl);
 void		init_cyl(t_cylinder *cyl, const t_ray r, t_helpc2 *point);
 void		init_camera(t_data *data, double vp_height, double vp_width);
@@ -247,16 +287,17 @@ double		hit_cap(t_ray r, t_vector pos, t_vector normal, t_cylinder *cyl);
 // LIGHT
 void		check_rgb_values(t_color *color);
 void		calculate_ambient(t_data *data, t_color *color);
-int			is_in_shadow(t_vector point, t_vector light, t_data *d);
 t_color		calculate_color(t_data *data, t_obj *obj, t_vector inter);
 double		calculate_cap(t_data *data, t_vector inter, t_cylinder *cyl);
 double		calculate_body(t_data *data, t_vector inter, t_cylinder *cyl);
 void		check_reflections(t_data *data, t_vector inter, t_color surface);
+int			is_in_shadow(t_vector point, t_vector light, t_data *d, int self);
 void		spotlight_effect(t_light *light, t_obj *obj, t_color *c, double d);
 
 // HOOK
 void		render(void *param);
 void		ft_hook(void *param);
+void		handle_exit(void *param);
 
 // MATH
 double		length(t_vector v);
@@ -285,5 +326,18 @@ t_ray		ray_create(const t_vector origin, const t_vector direction);
 void		reset_pix(t_data *data);
 void		shoot_ray(t_data *data, t_ray *ray);
 int			render_pixel(t_data *data, int x, int y);
+
+// Job queue
+t_job		*new_job(int data);
+int			create_jobs(t_data *data);
+int			get_next_job(t_job *start);
+void		free_job_list(t_job *start);
+void		reset_job_list(t_job *start);
+int			push_job_list(t_job **start, int data);
+
+// Threadpool
+void		*routine(void *param);
+int			kill_workers(t_data *data);
+int			wakeup_workers(t_data *data);
 
 #endif // !MINIRT_H

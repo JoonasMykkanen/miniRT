@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:32:22 by djames            #+#    #+#             */
-/*   Updated: 2023/10/25 11:23:07 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/26 12:32:34 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,17 +33,17 @@ t_vector	normalize(t_vector v)
 	return (normalized_vector);
 }
 
-void	update_ray(t_data *data, int x, int y)
+void	update_ray(t_data *data, int x, int y, int i)
 {
 	t_camera	*cam;
 
-	cam = &data->scene.camera;
+	cam = &data->scene[i].camera;
 	cam->help = vec_multis(cam->pixu, (float)x);
 	cam->help1 = vec_multis(cam->pixv, (float)y);
 	cam->center = vec_add(cam->help, cam->help1);
-	cam->center = vec_add(cam->center, data->scene.camera.pixel);
-	data->scene.ray.dir = subtract(cam->center, cam->position);
-	data->scene.ray = ray_create(cam->position, data->scene.ray.dir);
+	cam->center = vec_add(cam->center, data->scene[i].camera.pixel);
+	data->scene[i].ray.dir = subtract(cam->center, cam->position);
+	data->scene[i].ray = ray_create(cam->position, data->scene[i].ray.dir);
 }
 
 t_vector	ray_at(const t_ray r, double t)

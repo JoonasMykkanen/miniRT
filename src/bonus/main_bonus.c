@@ -6,34 +6,11 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:30:31 by djames            #+#    #+#             */
-/*   Updated: 2023/10/26 12:08:02 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/26 12:44:41 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/bonus/minirt_bonus.h"
-
-static int	validate_scene(t_data *data)
-{
-	t_scene	*s;
-	int		status;
-
-	status = OK;
-	s = &data->scene;
-	if (!data->scene.status_ambient)
-		status = ERROR;
-	if (!data->scene.status_camera)
-		status = ERROR;
-	if (!data->scene.status_light)
-		status = ERROR;
-	if (status == ERROR)
-		ft_putstr_fd("Error: Map error\n", 2);
-	if (s->ambient.intensity == 0 && s->light.brightness == 0)
-	{
-		status = ERROR;
-		ft_putstr_fd("Error: No light found in scene\n", 2);
-	}
-	return (status);
-}
 
 int	minirt(t_data *data)
 {
@@ -43,7 +20,6 @@ int	minirt(t_data *data)
 		ft_putstr_fd("Error: MLX Image\n", 2);
 		return (ERROR);
 	}
-	// init_camera(data, 0, 0);
 	mlx_loop_hook(data->mlx, ft_hook, data);
 	mlx_loop_hook(data->mlx, render, data);
 	mlx_close_hook(data->mlx, handle_exit, data);

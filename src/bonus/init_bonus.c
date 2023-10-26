@@ -6,12 +6,46 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:30:00 by djames            #+#    #+#             */
-/*   Updated: 2023/10/26 10:54:34 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/26 13:17:37 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/bonus/minirt_bonus.h"
 #include "../../inc/bonus/parser_bonus.h"
+
+void	copy_scenes(t_data *data)
+{
+	int idx;
+
+	idx = 0;
+	while (++idx < WORKERS)
+	{
+		ft_memcpy(&data->scene[idx], &data->scene[0], sizeof(t_scene));
+	}
+}
+
+int	validate_scene(t_data *data)
+{
+	t_scene	*s;
+	int		status;
+
+	status = OK;
+	s = &data->scene[0];
+	if (!s->status_ambient)
+		status = ERROR;
+	if (!s->status_camera)
+		status = ERROR;
+	if (!s->status_light)
+		status = ERROR;
+	if (status == ERROR)
+		ft_putstr_fd("Error: Map error\n", 2);
+	if (s->ambient.intensity == 0 && s->light.brightness == 0)
+	{
+		status = ERROR;
+		ft_putstr_fd("Error: No light found in scene\n", 2);
+	}
+	return (status);
+}
 
 void	basic_params(t_camera *cam, double *vp_h, double *vp_w)
 {
@@ -35,7 +69,7 @@ void	init_camera(t_data *data, double vp_height, double vp_width)
 	t_camera	*cam;
 	t_vector	up;
 
-	cam = &data->scene.camera;
+	cam = &data->scene[0].camera;
 	basic_params(cam, &vp_height, &vp_width);
 	forward = normalize(cam->focal);
 	right = cross(cam->vup, forward);
@@ -61,6 +95,8 @@ int	init(t_data *data, char *file)
 	ft_memset(&data->scene, 0, sizeof(data->scene));
 	if (read_input(data, file) != OK)
 		return (ERROR);
+	init_camera(data, 0, 0);
+	copy_scenes(data);
 	data->mlx = mlx_init(WIDTH, HEIGHT, "miniRT", true);
 	if (!data->mlx)
 	{

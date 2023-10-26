@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:32:03 by djames            #+#    #+#             */
-/*   Updated: 2023/10/25 11:23:00 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/26 12:35:59 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ int	create_obj_plane(t_data *data, char **params)
 	t_plane	*ptr;
 	int		*idx;
 
-	idx = &data->scene.num_planes;
-	ptr = &data->scene.planes[*idx];
+	idx = &data->scene[0].num_planes;
+	ptr = &data->scene[0].planes[*idx];
 	if (*idx >= MAX_OBJ)
 		return (ERROR);
 	if (arr_len(params) != 4)

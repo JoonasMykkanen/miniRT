@@ -6,21 +6,21 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:32:47 by djames            #+#    #+#             */
-/*   Updated: 2023/10/25 11:23:17 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/26 12:29:37 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/bonus/minirt_bonus.h"
 
-void	reset_pix(t_data *data)
+void	reset_pix(t_data *data, int i)
 {
-	ft_memset(&data->pix.cache_color, 0, sizeof(t_color));
-	ft_memset(&data->obj.color, 0, sizeof(t_color));
-	data->pix.reflection_found = false;
-	data->pix.closest_t = FLT_MAX;
-	data->pix.color = 0x000000ff;
-	data->pix.obj_type = NONE;
-	data->obj.type = NONE;
+	ft_memset(&data->pix[i].cache_color, 0, sizeof(t_color));
+	ft_memset(&data->obj[i].color, 0, sizeof(t_color));
+	data->pix[i].reflection_found = false;
+	data->pix[i].closest_t = FLT_MAX;
+	data->pix[i].color = 0x000000ff;
+	data->pix[i].obj_type = NONE;
+	data->obj[i].type = NONE;
 }
 
 int	ft_color(int r, int g, int b, int a)

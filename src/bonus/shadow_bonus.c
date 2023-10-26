@@ -6,40 +6,40 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:32:37 by djames            #+#    #+#             */
-/*   Updated: 2023/10/25 15:18:12 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/26 12:59:11 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/bonus/minirt_bonus.h"
 
-static int	sphere_shadow(t_data *data, t_ray shadow_ray)
+static int	sphere_shadow(t_data *data, t_ray shadow_ray, int i)
 {
 	int		idx;
 	double	hit;
 
 	idx = -1;
 	hit = 0;
-	while (++idx < data->scene.num_spheres)
+	while (++idx < data->scene[i].num_spheres)
 	{
-		hit = hit_sphere(&data->scene.spheres[idx], &shadow_ray);
+		hit = hit_sphere(&data->scene[i].spheres[idx], &shadow_ray);
 		if (hit > 0)
 			return (1);
 	}
 	return (0);
 }
 
-static int	cylinder_shadow(t_data *data, t_ray shadow_ray, int self)
+static int	cylinder_shadow(t_data *data, t_ray shadow_ray, int self, int i)
 {
 	int		idx;
 	double	hit;
 
 	idx = -1;
 	hit = 0;
-	while (++idx < data->scene.num_cylinders)
+	while (++idx < data->scene[i].num_cylinders)
 	{
-		if (data->obj.type == CYLINDER && idx == self)
+		if (data->obj[i].type == CYLINDER && idx == self)
 			continue ;
-		hit = hit_cylinder(&data->scene.cylinders[idx], shadow_ray);
+		hit = hit_cylinder(&data->scene[i].cylinders[idx], shadow_ray);
 		if (hit != 0)
 			return (1);
 	}
@@ -62,22 +62,24 @@ static t_ray	create_shadow_ray(t_vector surface_point, t_vector light_pos)
 	return (shadow_ray);
 }
 
-int	is_in_shadow(t_vector point, t_vector light, t_data *d, int self)
+int	is_in_shadow(t_vector point, t_data *d, int i)
 {
-	t_ray	shadow_ray;
-	t_color	ambient;
+	t_ray		shadow_ray;
+	t_color		ambient;
+	t_vector	light;
 
+	light = d->scene[i].light.position;
 	shadow_ray = create_shadow_ray(point, light);
-	if (sphere_shadow(d, shadow_ray))
+	if (sphere_shadow(d, shadow_ray, i))
 	{
-		calculate_ambient(d, &ambient);
-		d->pix.color = ft_color(ambient.red, ambient.green, ambient.blue, 0xff);
+		calculate_ambient(d, &ambient, i);
+		d->pix[i].color = ft_color(ambient.red, ambient.green, ambient.blue, 0xff);
 		return (1);
 	}
-	else if (cylinder_shadow(d, shadow_ray, self))
+	else if (cylinder_shadow(d, shadow_ray, d->obj[i].idx, i))
 	{
-		calculate_ambient(d, &ambient);
-		d->pix.color = ft_color(ambient.red, ambient.green, ambient.blue, 0xff);
+		calculate_ambient(d, &ambient, i);
+		d->pix[i].color = ft_color(ambient.red, ambient.green, ambient.blue, 0xff);
 		return (1);
 	}
 	return (0);

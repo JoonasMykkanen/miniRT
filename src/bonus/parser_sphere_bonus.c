@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:32:09 by djames            #+#    #+#             */
-/*   Updated: 2023/10/25 11:23:04 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/26 12:35:47 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ int	create_obj_sphere(t_data *data, char **params)
 	t_sphere	*ptr;
 	int			*idx;
 
-	idx = &data->scene.num_spheres;
-	ptr = &data->scene.spheres[*idx];
+	idx = &data->scene[0].num_spheres;
+	ptr = &data->scene[0].spheres[*idx];
 	if (*idx >= MAX_OBJ)
 		return (ERROR);
 	if (arr_len(params) != 4)

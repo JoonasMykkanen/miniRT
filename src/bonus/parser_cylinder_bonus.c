@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:31:39 by djames            #+#    #+#             */
-/*   Updated: 2023/10/25 15:18:53 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/26 12:37:01 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ int	create_obj_cylinder(t_data *data, char **params)
 	t_cylinder	*ptr;
 	int			*idx;
 
-	idx = &data->scene.num_cylinders;
-	ptr = &data->scene.cylinders[*idx];
+	idx = &data->scene[0].num_cylinders;
+	ptr = &data->scene[0].cylinders[*idx];
 	if (*idx >= MAX_OBJ)
 		return (ERROR);
 	if (arr_len(params) != 6)

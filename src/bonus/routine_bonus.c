@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 08:05:01 by jmykkane          #+#    #+#             */
-/*   Updated: 2023/10/26 12:10:57 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/26 12:22:30 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	check_alive(t_data *data)
 	return (OK);
 }
 
-static void	do_job(t_data *data, int y)
+static void	do_job(t_data *data, int y, int index)
 {
 	int	pixel;
 	int	x;
@@ -32,7 +32,7 @@ static void	do_job(t_data *data, int y)
 	x = -1;
 	while (++x < WIDTH)
 	{
-		pixel = render_pixel(data, x, y);
+		pixel = render_pixel(data, x, y, index);
 		pthread_mutex_lock(&data->pool.write);
 		mlx_put_pixel(data->img, x, y, pixel);
 		pthread_mutex_unlock(&data->pool.write);
@@ -61,7 +61,7 @@ void	*routine(void *param)
 			continue ;
 		}
 		pthread_mutex_unlock(&data->pool.queue);
-		do_job(data, row);
+		do_job(data, row, worker->index);
 	}
 	return (data);
 }

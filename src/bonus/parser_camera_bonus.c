@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:31:15 by djames            #+#    #+#             */
-/*   Updated: 2023/10/25 15:20:42 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/26 12:37:17 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ int	create_obj_camera(t_data *data, char **params)
 {
 	t_camera	*ptr;
 
-	ptr = &data->scene.camera;
-	if (arr_len(params) != 4 || data->scene.status_camera != false)
+	ptr = &data->scene[0].camera;
+	if (arr_len(params) != 4 || data->scene[0].status_camera != false)
 		return (ERROR);
 	if (assign_vector(&ptr->position, params[1], POSITION) == ERROR)
 		return (ERROR);
@@ -41,6 +41,6 @@ int	create_obj_camera(t_data *data, char **params)
 		return (ERROR);
 	if (ptr->fov == 180)
 		ptr->fov -= EPSILON;
-	data->scene.status_camera = true;
+	data->scene[0].status_camera = true;
 	return (OK);
 }

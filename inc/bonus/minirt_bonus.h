@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt_bonus.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:17:31 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/26 13:14:22 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/27 13:18:25 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,9 @@ typedef struct s_plane
 typedef struct s_cylinder
 {
 	t_vector	center;
+	t_vector	center1;
 	t_vector	axis;
+	int			flag;
 	float		diameter;
 	float		height;
 	t_color		color;

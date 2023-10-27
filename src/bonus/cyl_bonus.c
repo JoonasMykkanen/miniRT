@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cyl_bonus.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 10:58:56 by djames            #+#    #+#             */
-/*   Updated: 2023/10/25 11:21:52 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/27 13:17:55 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,21 @@
 
 void	init_cyl(t_cylinder *cyl, const t_ray r, t_helpc2 *point)
 {
+	point->normal = normalize(cyl->axis);
+	cyl->center1 = (vec_multis(point->normal, -1));
+	cyl->center1 = vec_multis(cyl->center1, (cyl->height / 2.0));
+	cyl->center1 = vec_add(cyl->center1, cyl->center);
+	if (cyl->flag == 0)
+	{
+		cyl->center = cyl->center1;
+		cyl->flag = 1;
+	}
 	point->depth = hit_cylinder2(cyl, r);
 	point->hit = normalize(r.dir);
 	point->hit = vec_multis(point->hit, point->depth);
 	point->hit = vec_add(r.orig, point->hit);
 	point->hit = subtract(point->hit, cyl->center);
 	point->axis_of = dot_product(point->hit, cyl->axis);
-	point->normal = normalize(cyl->axis);
 	cyl->fcylinder = 0;
 	point->cap = vec_multis(point->normal, cyl->height);
 	point->cap = vec_add(point->cap, cyl->center);

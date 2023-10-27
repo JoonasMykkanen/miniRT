@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:17:31 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/27 11:56:27 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/27 14:02:48 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,9 @@ typedef struct s_plane
 typedef struct s_cylinder
 {
 	t_vector	center;
+	t_vector	center1;
 	t_vector	axis;
+	int			flag;
 	float		diameter;
 	float		height;
 	t_color		color;

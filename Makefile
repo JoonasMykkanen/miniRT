@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: djames <djames@student.hive.fi>            +#+  +:+       +#+         #
+#    By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/19 15:36:10 by djames            #+#    #+#              #
-#    Updated: 2023/10/27 12:39:24 by djames           ###   ########.fr        #
+#    Updated: 2023/10/27 17:43:29 by jmykkane         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -94,8 +94,8 @@ BONUS_OBJS = $(SRCS_BONUS:$(BONUSDIR)/%.c=$(BONUS_OBJDIR)/%.o)
 HEADERS = ./inc/minirt.h ./inc/parser.h
 BONUS_HEADERS = ./inc/bonus/minirt_bonus.h ./inc/bonus/parser_bonus.h
 
- LIBS = -L$(LIBFT_DIR) -lft $(LIBMLX_LIB) -I ./src/mlx42/include -ldl -lglfw -L"/Users/$${USER}/.brew/Cellar/glfw/3.3.8/lib/"
-#LIBS = -L$(LIBFT_DIR) -lft $(LIBMLX_LIB) -I ./src/mlx42/include -ldl -lglfw -L"/opt/homebrew/Cellar/glfw/3.3.8/lib/"
+#  LIBS = -L$(LIBFT_DIR) -lft $(LIBMLX_LIB) -I ./src/mlx42/include -ldl -lglfw -L"/Users/$${USER}/.brew/Cellar/glfw/3.3.8/lib/"
+LIBS = -L$(LIBFT_DIR) -lft $(LIBMLX_LIB) -I ./src/mlx42/include -ldl -lglfw -L"/opt/homebrew/Cellar/glfw/3.3.8/lib/"
 
 CFLAGS = -Wall -Werror -Wextra -I./inc
 LDFLAGS = $(LIBS)

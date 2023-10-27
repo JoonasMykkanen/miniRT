@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:17:31 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/27 14:02:48 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/27 18:12:43 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@
 # include "../../src/libft/inc/libft.h"
 # include <stdbool.h>
 # include <pthread.h>
+# include <sys/time.h>
 # include <stddef.h>
 # include <stdlib.h>
 # include <stdio.h>
-# include <time.h>
 # include <math.h>
 
 # define FLT_MAX 3.402823e+38
@@ -28,7 +28,7 @@
 # define EPSILON 0.001
 # define MAX_OBJ 100
 
-# define WORKERS 10
+# define WORKERS 5
 
 # define HEIGHT 800
 # define WIDTH 1300

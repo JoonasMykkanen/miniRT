@@ -6,13 +6,13 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 08:05:01 by jmykkane          #+#    #+#             */
-/*   Updated: 2023/10/26 12:22:30 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/27 13:58:53 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/bonus/minirt_bonus.h"
 
-static int	check_alive(t_data *data)
+int	check_alive(t_data *data)
 {
 	pthread_mutex_lock(&data->pool.alive);
 	if (data->pool.done)
@@ -56,6 +56,7 @@ void	*routine(void *param)
 		row = get_next_job(data->pool.job_list);
 		if (row < 0)
 		{
+			data->pool.ready = true;
 			pthread_cond_wait(&data->pool.cond, &data->pool.queue);
 			pthread_mutex_unlock(&data->pool.queue);
 			continue ;

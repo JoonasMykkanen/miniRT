@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:29:47 by djames            #+#    #+#             */
-/*   Updated: 2023/10/26 12:07:56 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/27 14:00:18 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,13 @@ void	ft_hook(void *param)
 
 static void	render_frame(t_data *data)
 {
+	data->pool.ready = false;
+	while (42)
+	{
+		if (data->pool.ready)
+			break ;
+		usleep(15);
+	}
 	pthread_mutex_lock(&data->pool.queue);
 	reset_job_list(data->pool.job_list);
 	pthread_mutex_unlock(&data->pool.queue);
@@ -40,9 +47,7 @@ void	render(void *param)
 	
 	data = (t_data *)param;
 	start = clock();
-
 	render_frame(data);
-	
 	end = clock();
     cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
 	printf("frame took %f seconds render\n", cpu_time_used);

@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 07:19:34 by jmykkane          #+#    #+#             */
-/*   Updated: 2023/10/26 12:07:19 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/27 13:57:26 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	kill_workers(t_data *data)
 
 static int	init_mutexes(t_data *data)
 {
+	data->pool.done = false;
 	if (pthread_cond_init(&data->pool.cond, 0) != OK)
 		return (ERROR);
 	if (pthread_mutex_init(&data->pool.alive, 0) != OK)

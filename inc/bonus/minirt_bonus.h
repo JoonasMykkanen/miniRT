@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:17:31 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/26 13:14:22 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/27 11:56:27 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ typedef struct s_threadpool
 	pthread_mutex_t	alive;
 	pthread_mutex_t	write;
 	pthread_cond_t	cond;
+	
+	bool			ready;
 	bool			done;
 	
 	t_job		*job_list;
@@ -338,6 +340,7 @@ int			push_job_list(t_job **start, int data);
 
 // Threadpool
 void		*routine(void *param);
+int			check_alive(t_data *data);
 int			kill_workers(t_data *data);
 int			wakeup_workers(t_data *data);
 

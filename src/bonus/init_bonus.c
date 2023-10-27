@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:30:00 by djames            #+#    #+#             */
-/*   Updated: 2023/10/26 13:17:37 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/27 10:28:16 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,11 @@ int	validate_scene(t_data *data)
 	if (!s->status_light)
 		status = ERROR;
 	if (status == ERROR)
-		ft_putstr_fd("Error: Map error\n", 2);
+		ft_putstr_fd("Error: Map error\n", ERROR);
 	if (s->ambient.intensity == 0 && s->light.brightness == 0)
 	{
 		status = ERROR;
-		ft_putstr_fd("Error: No light found in scene\n", 2);
+		ft_putstr_fd("Error: No light found in scene\n", ERROR);
 	}
 	return (status);
 }
@@ -100,14 +100,14 @@ int	init(t_data *data, char *file)
 	data->mlx = mlx_init(WIDTH, HEIGHT, "miniRT", true);
 	if (!data->mlx)
 	{
-		ft_putstr_fd((char *)mlx_strerror(mlx_errno), ERROR);
+		ft_putstr_fd("Error: mlx init\n", ERROR);
 		return (ERROR);
 	}
 	data->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
 	if (!data->img)
 	{
 		mlx_close_window(data->mlx);
-		ft_putstr_fd((char *)mlx_strerror(mlx_errno), ERROR);
+		ft_putstr_fd("Error: mlx window init\n", ERROR);
 		return (ERROR);
 	}
 	return (OK);

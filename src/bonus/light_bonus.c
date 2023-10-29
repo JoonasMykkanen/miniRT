@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:30:22 by djames            #+#    #+#             */
-/*   Updated: 2023/10/29 10:48:55 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/29 13:21:53 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ t_color	calculate_color(t_data *data, t_obj *obj, t_vector inter, int i)
 	calculate_ambient(data, &ambient, i);
 	while (++idx < data->scene[i].num_lights)
 	{
+		if (data->scene[i].in_shadow[idx] == true)
+			continue ;
 		if (data->pix[i].obj_type == CYLINDER)
 		{
 			if (data->pix[i].is_cap == 0)

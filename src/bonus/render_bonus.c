@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:32:31 by djames            #+#    #+#             */
-/*   Updated: 2023/10/29 10:48:00 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/29 13:15:59 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,12 @@ static void	draw_plane(t_data *data, int i)
 	color = &data->pix[i].cache_color;
 	inter = ray_at(data->scene[i].ray, data->pix[i].closest_t);
 	data->pix[i].hit_norm = normalize(data->obj[i].axis);
-	if (!is_in_shadow(inter, data, i)) 
-	{
-		*color = calculate_color(data, &data->obj[i], inter, i);
-		data->pix[i].self = data->obj[i].idx;
-		check_reflections(data, inter, data->pix[i].cache_color, i);
-		data->pix[i].color = ft_color(color->red, color->green, color->blue, 0xff);
-	}
+	is_in_shadow(inter, data, i);
+
+	*color = calculate_color(data, &data->obj[i], inter, i);
+	data->pix[i].self = data->obj[i].idx;
+	check_reflections(data, inter, data->pix[i].cache_color, i);
+	data->pix[i].color = ft_color(color->red, color->green, color->blue, 0xff);
 }
 
 static void	draw_cylinder(t_data *data, int i)

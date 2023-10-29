@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:32:37 by djames            #+#    #+#             */
-/*   Updated: 2023/10/29 10:13:04 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/29 13:21:33 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ static t_ray	create_shadow_ray(t_vector normal, t_vector surface_point, t_vector
 int	is_in_shadow(t_vector point, t_data *d, int i)
 {
 	t_ray		shadow_ray;
-	t_color		ambient;
 	t_vector	light;
 	int			idx;
 
@@ -77,19 +76,14 @@ int	is_in_shadow(t_vector point, t_data *d, int i)
 		shadow_ray = create_shadow_ray(d->pix[i].hit_norm, point, light);
 		if (sphere_shadow(d, shadow_ray, i))
 		{
-			calculate_ambient(d, &ambient, i);
-			d->pix[i].color = ft_color(ambient.red, ambient.green, ambient.blue, 0xff);
-			d->scene->in_shadow[idx] = false;
-			return (1);
+			d->scene[i].in_shadow[idx] = true;
 		}
 		else if (cylinder_shadow(d, shadow_ray, i))
 		{
-			calculate_ambient(d, &ambient, i);
-			d->pix[i].color = ft_color(ambient.red, ambient.green, ambient.blue, 0xff);
-			d->scene->in_shadow[idx] = false;
-			return (1);
+			d->scene[i].in_shadow[idx] = true;
 		}
+		else
+			d->scene[i].in_shadow[idx] = false;
 	}
-	d->scene->in_shadow[idx] = true;
 	return (0);
 }

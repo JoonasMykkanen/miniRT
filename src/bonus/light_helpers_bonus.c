@@ -6,11 +6,21 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:30:51 by djames            #+#    #+#             */
-/*   Updated: 2023/10/25 11:22:09 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/29 08:23:11 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/bonus/minirt_bonus.h"
+
+t_color	color_add(t_color c1, t_color c2)
+{
+	t_color	result;
+
+	result.red = c1.red + c2.red;
+	result.green = c1.green + c2.green;
+	result.blue = c1.blue + c2.blue;
+	return (result);
+}
 
 void	clamp_colors(t_color *color)
 {
@@ -30,10 +40,12 @@ void	clamp_colors(t_color *color)
 
 void	spotlight_effect(t_light *light, t_obj *obj, t_color *c, double d)
 {
+	t_color	color;
 	float	b;
 
 	b = light->brightness;
-	c->red = (d * b * light->color.red) * obj->color.red / 255.0;
-	c->green = (d * b * light->color.green) * obj->color.green / 255.0;
-	c->blue = (d * b * light->color.blue) * obj->color.blue / 255.0;
+	color.red = (d * b * light->color.red) * obj->color.red / 255.0;
+	color.green = (d * b * light->color.green) * obj->color.green / 255.0;
+	color.blue = (d * b * light->color.blue) * obj->color.blue / 255.0;
+	*c = color_add(*c, color);
 }

@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:30:00 by djames            #+#    #+#             */
-/*   Updated: 2023/10/27 10:28:16 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/29 07:49:08 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,12 @@ int	validate_scene(t_data *data)
 		status = ERROR;
 	if (!s->status_camera)
 		status = ERROR;
-	if (!s->status_light)
-		status = ERROR;
 	if (status == ERROR)
 		ft_putstr_fd("Error: Map error\n", ERROR);
-	if (s->ambient.intensity == 0 && s->light.brightness == 0)
+	if (s->ambient.intensity == 0 && status != ERROR)
 	{
 		status = ERROR;
-		ft_putstr_fd("Error: No light found in scene\n", ERROR);
+		ft_putstr_fd("Error: No ambient light found in scene\n", ERROR);
 	}
 	return (status);
 }

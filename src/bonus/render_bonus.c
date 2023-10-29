@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:32:31 by djames            #+#    #+#             */
-/*   Updated: 2023/10/26 13:14:35 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/29 09:47:36 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	draw_plane(t_data *data, int i)
 
 	color = &data->pix[i].cache_color;
 	inter = ray_at(data->scene[i].ray, data->pix[i].closest_t);
-	if (!is_in_shadow(inter, data, i)) 
+	if (!is_in_shadow(inter, data, i, data->obj[i].axis)) 
 	{
 		*color = calculate_color(data, &data->obj[i], inter, i);
 		data->pix[i].self = data->obj[i].idx;
@@ -31,11 +31,12 @@ static void	draw_plane(t_data *data, int i)
 static void	draw_cylinder(t_data *data, int i)
 {
 	t_color		*color;
+	t_vector	normal;
 	t_vector	inter;
 
 	color = &data->pix[i].cache_color;
 	inter = ray_at(data->scene[i].ray, data->pix[i].closest_t);
-	if (!is_in_shadow(inter, data, i)) 
+	if (!is_in_shadow(inter, data, i, normal)) 
 	{
 		*color = calculate_color(data, &data->obj[i], inter, i);
 		data->pix[i].self = data->obj[i].idx;
@@ -47,11 +48,13 @@ static void	draw_cylinder(t_data *data, int i)
 static void	draw_sphere(t_data *data, int i)
 {
 	t_color		*color;
+	t_vector	normal;
 	t_vector	inter;
 
 	color = &data->pix[i].cache_color;
 	inter = ray_at(data->scene[i].ray, data->pix[i].closest_t);
-	if (!is_in_shadow(inter, data, i)) 
+	normal = normalize(subtract(data->obj[i].point, inter));
+	if (!is_in_shadow(inter, data, i, normal))
 	{
 		*color = calculate_color(data, &data->obj[i], inter, i);
 		data->pix[i].self = data->obj[i].idx;

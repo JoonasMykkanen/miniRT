@@ -6,21 +6,11 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 16:51:19 by jmykkane          #+#    #+#             */
-/*   Updated: 2023/10/29 09:40:28 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/29 10:09:57 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/bonus/minirt_bonus.h"
-
-// t_vector	specular_cyl(t_data *data, t_vector point, int i)
-// {
-// 	t_vector	normal;
-// 	t_obj		*obj;
-
-// 	obj = &data->obj[i];
-	
-// 	return (normal);
-// }
 
 // Calculating light for cylinder body
 double	calculate_body(t_data *data, t_vector inter, t_cylinder *cyl, int i, int idx)

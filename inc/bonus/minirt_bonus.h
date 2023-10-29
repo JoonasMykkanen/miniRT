@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:17:31 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/29 07:34:06 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/29 10:47:20 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,6 +251,7 @@ typedef struct s_pixel
 	int			obj_idx;
 	t_color		ambient;
 	int			shadow;
+	int			is_cap;
 	int			color;
 	int			self;
 	int			side;
@@ -258,6 +259,7 @@ typedef struct s_pixel
 	t_vector	scaled_dir;
 	t_vector	light_dir;
 	t_vector	hit_pos;
+	t_vector	hit_norm;
 	t_vector	norm;
 }				t_pixel;
 
@@ -282,6 +284,7 @@ void		free_arr(char **arr);
 void		clamp_colors(t_color *color);
 int			validate_scene(t_data *data);
 int			init(t_data *data, char *file);
+t_color		color_add(t_color c1, t_color c2);
 int			ft_color(int r, int g, int b, int a);
 double		hit_cylinder2(t_cylinder *cyl, t_ray r);
 int			ay(t_helpc2 *point, t_cylinder *cyl, t_ray r);
@@ -292,17 +295,14 @@ double		hit_cap(t_ray r, t_vector pos, t_vector normal, t_cylinder *cyl);
 
 // LIGHT
 void		check_rgb_values(t_color *color);
-int			is_in_shadow(t_vector point, t_data *d, int i, t_vector normal);
+int			is_in_shadow(t_vector point, t_data *d, int i);
 t_color		calculate_ambient(t_data *data, t_color *color, int i);
 t_color		calculate_color(t_data *data, t_obj *obj, t_vector inter, int i);
 double		calculate_cap(t_data *data, t_vector inter, t_cylinder *cyl, int i, int idx);
 double		calculate_body(t_data *data, t_vector inter, t_cylinder *cyl, int i, int idx);
 void		check_reflections(t_data *data, t_vector inter, t_color surface, int i);
-// t_color		spotlight_effect(t_light *light, t_obj *obj, double d);
-void	spotlight_effect(t_light *light, t_obj *obj, t_color *c, double d);
-t_vector	specular_cyl(t_data *data, t_vector point, int i);
-// t_color	spotlight_effect(t_light *light, t_obj *obj, double d);
-t_color		color_add(t_color c1, t_color c2);
+void		spotlight_effect(t_light *light, t_obj *obj, t_color *c, double d);
+
 
 // HOOK
 void		render(void *param);

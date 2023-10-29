@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:32:37 by djames            #+#    #+#             */
-/*   Updated: 2023/10/29 08:05:03 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/29 10:13:04 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static int	cylinder_shadow(t_data *data, t_ray shadow_ray, int i)
 	return (0);
 }
 
-static t_ray	create_shadow_ray(t_vector surface_point, t_vector light_pos, t_vector normal)
+static t_ray	create_shadow_ray(t_vector normal, t_vector surface_point, t_vector light_pos)
 {
 	t_ray   	shadow_ray;
     float   	length;
@@ -63,7 +63,7 @@ static t_ray	create_shadow_ray(t_vector surface_point, t_vector light_pos, t_vec
     return (shadow_ray);
 }
 
-int	is_in_shadow(t_vector point, t_data *d, int i, t_vector normal)
+int	is_in_shadow(t_vector point, t_data *d, int i)
 {
 	t_ray		shadow_ray;
 	t_color		ambient;
@@ -74,7 +74,7 @@ int	is_in_shadow(t_vector point, t_data *d, int i, t_vector normal)
 	while (++idx < d->scene[i].num_lights)
 	{
 		light = d->scene[i].lights[idx].position;
-		shadow_ray = create_shadow_ray(point, light, normal);
+		shadow_ray = create_shadow_ray(d->pix[i].hit_norm, point, light);
 		if (sphere_shadow(d, shadow_ray, i))
 		{
 			calculate_ambient(d, &ambient, i);

@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:30:22 by djames            #+#    #+#             */
-/*   Updated: 2023/10/29 09:41:19 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/29 10:48:55 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,14 +81,14 @@ t_color	calculate_color(t_data *data, t_obj *obj, t_vector inter, int i)
 	{
 		if (data->pix[i].obj_type == CYLINDER)
 		{
-			if (data->scene[i].cylinders[obj->idx].fcylinder == 0)
+			if (data->pix[i].is_cap == 0)
 				d = calculate_body(data, inter, &data->scene[i].cylinders[obj->idx], i, idx);
 			else
 				d = calculate_cap(data, inter, &data->scene[i].cylinders[obj->idx], i, idx);
 		}
 		else
 			d = calculate_spot_light(data, inter, i, idx);
-		spotlight_effect(&data->scene[i].lights[idx], obj, &spot, d);
+		spotlight_effect(&data->scene[i].lights[idx], obj, &spot, d); 
 		calculate_specular(data, &specular, inter, i, idx);
 	}
 	obj->color.red = (int)(ambient.red + spot.red + specular.red);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:32:31 by djames            #+#    #+#             */
-/*   Updated: 2023/10/31 10:15:06 by djames           ###   ########.fr       */
+/*   Updated: 2023/10/31 11:48:27 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ static void	draw_cylinder(t_data *data, int i)
 {
 	t_color		*color;
 	t_vector	inter;
-	t_vector	base;
-	float		len;
 	t_vector	scaled;
 	t_vector	close;
 
@@ -41,16 +39,13 @@ static void	draw_cylinder(t_data *data, int i)
 	data->pix[i].is_cap = data->scene[i].cylinders[data->obj[i].idx].fcylinder;
 	if (data->pix[i].is_cap == 0)
 	{
-		base = subtract(inter, data->obj[i].point);
-		len = dot_product(base, data->obj[i].axis);
-		scaled = vec_multis(data->obj[i].axis, len);
+		scaled = vec_multis(data->obj[i].axis, dot_product(subtract(inter,
+						data->obj[i].point), data->obj[i].axis));
 		close = vec_add(data->obj[i].point, scaled);
 		data->pix[i].hit_norm = normalize(subtract(inter, close));
 	}
 	else
-	{
 		data->pix[i].hit_norm = normalize(data->obj[i].axis);
-	}
 	if (!is_in_shadow(inter, data, i))
 	{
 		*color = calculate_color(data, &data->obj[i], inter, i);

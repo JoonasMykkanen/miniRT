@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   light_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:30:22 by djames            #+#    #+#             */
-/*   Updated: 2023/10/31 10:26:31 by djames           ###   ########.fr       */
+/*   Updated: 2023/10/31 11:53:25 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ static double	calculate_spot_light(t_data *data, t_vector point, int i,
 	return (d);
 }
 
-static void	calculate_specular(t_data *data, t_color *specular, t_vector point,
-		int i, int idx)
+static void	calculate_specular(
+		t_data *data, t_color *specular, t_vector point, int i)
 {
 	double		intensity;
 	t_color		color;
@@ -52,7 +52,7 @@ static void	calculate_specular(t_data *data, t_color *specular, t_vector point,
 	t_light		light;
 	t_vector	half;
 
-	light = data->scene[i].lights[idx];
+	light = data->scene[i].lights[data->pix[i].obj_idx];
 	data->pix[i].light_dir = normalize(subtract(light.position, point));
 	data->pix[i].norm = normalize(subtract(data->scene[i].camera.position,
 				point));
@@ -70,48 +70,42 @@ static void	calculate_specular(t_data *data, t_color *specular, t_vector point,
 	*specular = color_add(*specular, color);
 }
 
-void	init_values(t_color *specular, t_color *spot, int *idx)
+void	init_values(t_data *data, int *idx, int i)
 {
-	specular->blue = 0;
-	specular->green = 0;
-	specular->red = 0;
-	spot->blue = 0;
-	spot->green = 0;
-	spot->red = 0;
+	data->pix[i].specular.blue = 0;
+	data->pix[i].specular.green = 0;
+	data->pix[i].specular.red = 0;
+	data->pix[i].spot.blue = 0;
+	data->pix[i].spot.green = 0;
+	data->pix[i].spot.red = 0;
 	*idx = -1;
 }
 
 t_color	calculate_color(t_data *data, t_obj *obj, t_vector inter, int i)
 {
-	t_color	specular;
-	t_color	ambient;
 	int		idx;
-	t_color	spot;
 	double	d;
 
-	init_values(&specular, &spot, &idx);
-	calculate_ambient(data, &ambient, i);
+	init_values(data, &idx, i);
+	calculate_ambient(data, &data->pix[i].ambient1, i);
 	while (++idx < data->scene[i].num_lights)
 	{
 		if (data->scene[i].in_shadow[idx] == true)
 			continue ;
 		if (data->pix[i].obj_type == CYLINDER)
-		{
-			if (data->pix[i].is_cap == 0)
-				d = calculate_body(data, inter,
-						&data->scene[i].cylinders[obj->idx], i, idx);
-			else
-				d = calculate_cap(data, inter,
-						&data->scene[i].cylinders[obj->idx], i, idx);
-		}
+			d = cylinder_light(data, inter, i, idx);
 		else
 			d = calculate_spot_light(data, inter, i, idx);
-		spotlight_effect(&data->scene[i].lights[idx], obj, &spot, d);
-		calculate_specular(data, &specular, inter, i, idx);
+		spotlight_effect(&data->scene[i].lights[idx],
+			obj, &data->pix[i].spot, d);
+		calculate_specular(data, &data->pix[i].specular, inter, i);
 	}
-	obj->color.red = (int)(ambient.red + spot.red + specular.red);
-	obj->color.green = (int)(ambient.green + spot.green + specular.green);
-	obj->color.blue = (int)(ambient.blue + spot.blue + specular.blue);
+	obj->color.red = (int)(data->pix[i].ambient1.red + data->pix[i].spot.red
+			+ data->pix[i].specular.red);
+	obj->color.green = (int)(data->pix[i].ambient1.green
+			+ data->pix[i].spot.green + data->pix[i].specular.green);
+	obj->color.blue = (int)(data->pix[i].ambient1.blue + data->pix[i].spot.blue
+			+ data->pix[i].specular.blue);
 	clamp_colors(&obj->color);
 	return (obj->color);
 }

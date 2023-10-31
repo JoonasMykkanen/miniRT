@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt_bonus.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:17:31 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/31 11:17:27 by djames           ###   ########.fr       */
+/*   Updated: 2023/10/31 11:50:50 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,12 +249,16 @@ typedef struct s_pixel
 	double		closest_t;
 	int			obj_type;
 	int			obj_idx;
-	t_color		ambient;
 	int			shadow;
+	t_color		ambient;
 	int			is_cap;
 	int			color;
 	int			self;
 	int			side;
+
+	t_color		spot;
+	t_color		ambient1;
+	t_color		specular;
 
 	t_vector	scaled_dir;
 	t_vector	light_dir;
@@ -295,9 +299,10 @@ double		hit_cap(t_ray r, t_vector pos, t_vector normal, t_cylinder *cyl);
 void		check_rgb_values(t_color *color);
 int			is_in_shadow(t_vector point, t_data *d, int i);
 t_color		calculate_ambient(t_data *data, t_color *color, int i);
+double		cylinder_light(t_data *data, t_vector inter, int i, int idx);
 t_color		calculate_color(t_data *data, t_obj *obj, t_vector inter, int i);
-double		calculate_cap(t_data *data, t_vector inter, t_cylinder *cyl, int i, int idx);
-double		calculate_body(t_data *data, t_vector inter, t_cylinder *cyl, int i, int idx);
+double		calculate_cap(t_data *data, t_vector inter, int i, int idx);
+double		calculate_body(t_data *data, t_vector inter, int i, int idx);
 void		check_reflections(t_data *data, t_vector inter, t_color surface, int i);
 void		spotlight_effect(t_light *light, t_obj *obj, t_color *c, double d);
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shadow_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:32:37 by djames            #+#    #+#             */
-/*   Updated: 2023/10/29 13:21:33 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/31 10:14:34 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,23 +44,23 @@ static int	cylinder_shadow(t_data *data, t_ray shadow_ray, int i)
 	return (0);
 }
 
-static t_ray	create_shadow_ray(t_vector normal, t_vector surface_point, t_vector light_pos)
+static t_ray	create_shadow_ray(t_vector normal, t_vector surface_point,
+		t_vector light_pos)
 {
-	t_ray   	shadow_ray;
-    float   	length;
+	t_ray	shadow_ray;
+	float	length;
 
-    shadow_ray.orig.x = surface_point.x + normal.x * EPSILON;
-    shadow_ray.orig.y = surface_point.y + normal.y * EPSILON;
-    shadow_ray.orig.z = surface_point.z + normal.z * EPSILON;
-    shadow_ray.dir.x = light_pos.x - shadow_ray.orig.x;
-    shadow_ray.dir.y = light_pos.y - shadow_ray.orig.y;
-    shadow_ray.dir.z = light_pos.z - shadow_ray.orig.z;
-    length = sqrtf(dot_product(shadow_ray.dir, shadow_ray.dir));
-    shadow_ray.dir.x /= length;
-    shadow_ray.dir.y /= length;
-    shadow_ray.dir.z /= length;
-
-    return (shadow_ray);
+	shadow_ray.orig.x = surface_point.x + normal.x * EPSILON;
+	shadow_ray.orig.y = surface_point.y + normal.y * EPSILON;
+	shadow_ray.orig.z = surface_point.z + normal.z * EPSILON;
+	shadow_ray.dir.x = light_pos.x - shadow_ray.orig.x;
+	shadow_ray.dir.y = light_pos.y - shadow_ray.orig.y;
+	shadow_ray.dir.z = light_pos.z - shadow_ray.orig.z;
+	length = sqrtf(dot_product(shadow_ray.dir, shadow_ray.dir));
+	shadow_ray.dir.x /= length;
+	shadow_ray.dir.y /= length;
+	shadow_ray.dir.z /= length;
+	return (shadow_ray);
 }
 
 int	is_in_shadow(t_vector point, t_data *d, int i)

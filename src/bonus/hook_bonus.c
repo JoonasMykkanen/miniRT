@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   hook_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:29:47 by djames            #+#    #+#             */
-/*   Updated: 2023/10/30 10:48:01 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/31 10:29:43 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/bonus/minirt_bonus.h"
-# include <stdio.h>
+#include <stdio.h>
 #include <sys/time.h>
 
 void	ft_hook(void *param)
@@ -42,18 +42,16 @@ static void	render_frame(t_data *data)
 
 void	render(void *param)
 {
-    struct timeval	start, end;
-    double 			elapsed;
+	double			elapsed;
 	t_data			*data;
-	
+	struct timeval	start;
+	struct timeval	end;
+
 	data = (t_data *)param;
-	
-
-	gettimeofday(&start, NULL);  // Start time
+	gettimeofday(&start, NULL);
 	render_frame(data);
-	gettimeofday(&end, NULL);    // End time
-
-	elapsed = (end.tv_sec - start.tv_sec) + (end.tv_usec - start.tv_usec) / 1000000.0;
+	gettimeofday(&end, NULL);
+	elapsed = (end.tv_sec - start.tv_sec) + (end.tv_usec - start.tv_usec)
+		/ 1000000.0;
 	printf("Frame took %f seconds to render\n", elapsed);
-	
 }

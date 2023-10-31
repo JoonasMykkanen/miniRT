@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   worker_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 07:19:34 by jmykkane          #+#    #+#             */
-/*   Updated: 2023/10/27 13:57:26 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/31 10:12:55 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 int	kill_workers(t_data *data)
 {
 	t_worker	*workers;
-	int	idx;
+	int			idx;
 
 	idx = -1;
 	workers = data->pool.workers;
@@ -70,7 +70,8 @@ int	wakeup_workers(t_data *data)
 	{
 		workers[idx].index = idx;
 		workers[idx].data = data;
-		if (pthread_create(&data->pool.workers[idx].employee, 0, &routine, &workers[idx]) != OK)
+		if (pthread_create(&data->pool.workers[idx].employee, 0, &routine,
+				&workers[idx]) != OK)
 			status = ERROR;
 	}
 	if (status == ERROR)

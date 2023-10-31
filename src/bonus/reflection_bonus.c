@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reflection_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/21 08:35:43 by jmykkane          #+#    #+#             */
-/*   Updated: 2023/10/28 21:15:06 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/31 10:17:51 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,15 @@ static void	reflection_color(t_data *d, t_color surface, t_color reflect, int i)
 
 static t_ray	create_reflection_ray(t_data *data, t_vector inter, int i)
 {
-	t_ray		reflection_ray;
-	double		dot;
+	t_ray	reflection_ray;
+	double	dot;
 
 	dot = 2 * (dot_product(data->pix[i].norm, data->scene[i].ray.dir));
 	reflection_ray.dir = vec_multis(data->pix[i].norm, dot);
 	reflection_ray.dir = subtract(data->scene[i].ray.dir, reflection_ray.dir);
 	reflection_ray.dir = normalize(reflection_ray.dir);
-	reflection_ray.orig = vec_add(inter, vec_multis(data->pix[i].norm, EPSILON));
+	reflection_ray.orig = vec_add(inter, vec_multis(data->pix[i].norm,
+				EPSILON));
 	return (reflection_ray);
 }
 

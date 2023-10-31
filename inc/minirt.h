@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:17:31 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/31 12:20:54 by djames           ###   ########.fr       */
+/*   Updated: 2023/10/31 15:08:34 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,6 +224,7 @@ typedef struct s_data
 double		ft_atof(char *str);
 int			arr_len(char **arr);
 void		free_arr(char **arr);
+int			check_filename(char *file);
 int			init(t_data *data, char *file);
 int			ft_color(int r, int g, int b, int a);
 double		hit_cylinder2(t_cylinder *cyl, t_ray r);

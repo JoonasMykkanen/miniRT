@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:30:00 by djames            #+#    #+#             */
-/*   Updated: 2023/10/31 10:01:21 by djames           ###   ########.fr       */
+/*   Updated: 2023/10/31 15:10:41 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,11 @@ void	init_camera(t_data *data, double vp_height, double vp_width)
 int	init(t_data *data, char *file)
 {
 	ft_memset(&data->scene, 0, sizeof(data->scene));
+	if (check_filename(file) != OK)
+	{
+		ft_putstr_fd("Error: filename\n", ERROR);
+		return (ERROR);
+	}
 	if (read_input(data, file) != OK)
 		return (ERROR);
 	init_camera(data, 0, 0);

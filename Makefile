@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: djames <djames@student.hive.fi>            +#+  +:+       +#+         #
+#    By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/19 15:36:10 by djames            #+#    #+#              #
-#    Updated: 2023/10/31 12:21:33 by djames           ###   ########.fr        #
+#    Updated: 2023/10/31 15:13:32 by jmykkane         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ SRCS := \
 	$(SRCDIR)/parser_cylinder.c \
 	$(SRCDIR)/parser_helpers.c \
 	$(SRCDIR)/parser_ambient.c \
+	$(SRCDIR)/filename_check.c \
 	$(SRCDIR)/light_helpers.c \
 	$(SRCDIR)/parser_camera.c \
 	$(SRCDIR)/parser_sphere.c \
@@ -56,6 +57,7 @@ SRCS := \
 SRCS_BONUS := \
 	$(BONUSDIR)/parser_cylinder_bonus.c \
 	$(BONUSDIR)/parser_helpers_bonus.c \
+	$(BONUSDIR)/filename_check_bonus.c \
 	$(BONUSDIR)/parser_ambient_bonus.c \
 	$(BONUSDIR)/light_helpers_bonus.c \
 	$(BONUSDIR)/parser_camera_bonus.c \
@@ -94,8 +96,8 @@ BONUS_OBJS = $(SRCS_BONUS:$(BONUSDIR)/%.c=$(BONUS_OBJDIR)/%.o)
 HEADERS = ./inc/minirt.h ./inc/parser.h
 BONUS_HEADERS = ./inc/bonus/minirt_bonus.h ./inc/bonus/parser_bonus.h
 
-LIBS = -L$(LIBFT_DIR) -lft $(LIBMLX_LIB) -I ./src/mlx42/include -ldl -lglfw -L"/Users/$${USER}/.brew/Cellar/glfw/3.3.8/lib/"
-#LIBS = -L$(LIBFT_DIR) -lft $(LIBMLX_LIB) -I ./src/mlx42/include -ldl -lglfw -L"/opt/homebrew/Cellar/glfw/3.3.8/lib/"
+# LIBS = -L$(LIBFT_DIR) -lft $(LIBMLX_LIB) -I ./src/mlx42/include -ldl -lglfw -L"/Users/$${USER}/.brew/Cellar/glfw/3.3.8/lib/"
+LIBS = -L$(LIBFT_DIR) -lft $(LIBMLX_LIB) -I ./src/mlx42/include -ldl -lglfw -L"/opt/homebrew/Cellar/glfw/3.3.8/lib/"
 
 CFLAGS = -Wall -Werror -Wextra -I./inc
 LDFLAGS = $(LIBS)

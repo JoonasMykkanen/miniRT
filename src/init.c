@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:30:00 by djames            #+#    #+#             */
-/*   Updated: 2023/10/26 10:56:56 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/31 15:12:54 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,11 @@ void	init_camera(t_data *data, double vp_height, double vp_width)
 int	init(t_data *data, char *file)
 {
 	ft_memset(&data->scene, 0, sizeof(data->scene));
+	if (check_filename(file) != OK)
+	{
+		ft_putstr_fd("Error: filename\n", 2);
+		return (ERROR);
+	}
 	if (read_input(data, file) != OK)
 		return (ERROR);
 	data->mlx = mlx_init(WIDTH, HEIGHT, "miniRT", true);

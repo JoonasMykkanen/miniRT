@@ -6,13 +6,13 @@
 #    By: djames <djames@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/19 15:36:10 by djames            #+#    #+#              #
-#    Updated: 2023/10/31 12:06:02 by djames           ###   ########.fr        #
+#    Updated: 2023/10/31 12:20:16 by djames           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = miniRT
 
-NAME_BONUS = miniRT_BONUS
+NAME_BONUS = miniRT_bonus
 
 LIBFT_DIR = src/libft
 LIBFT = $(LIBFT_DIR)/libft.a

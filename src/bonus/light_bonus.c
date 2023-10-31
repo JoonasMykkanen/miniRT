@@ -6,7 +6,7 @@
 /*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:30:22 by djames            #+#    #+#             */
-/*   Updated: 2023/10/31 11:53:25 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/31 12:06:36 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static double	calculate_spot_light(t_data *data, t_vector point, int i,
 }
 
 static void	calculate_specular(
-		t_data *data, t_color *specular, t_vector point, int i)
+		t_data *data, t_vector point, int i, int idx)
 {
 	double		intensity;
 	t_color		color;
@@ -52,7 +52,7 @@ static void	calculate_specular(
 	t_light		light;
 	t_vector	half;
 
-	light = data->scene[i].lights[data->pix[i].obj_idx];
+	light = data->scene[i].lights[idx];
 	data->pix[i].light_dir = normalize(subtract(light.position, point));
 	data->pix[i].norm = normalize(subtract(data->scene[i].camera.position,
 				point));
@@ -67,7 +67,7 @@ static void	calculate_specular(
 	color.red = light.brightness * (intensity * 255);
 	color.green = light.brightness * (intensity * 255);
 	color.blue = light.brightness * (intensity * 255);
-	*specular = color_add(*specular, color);
+	data->pix[i].specular = color_add(data->pix[i].specular, color);
 }
 
 void	init_values(t_data *data, int *idx, int i)
@@ -98,7 +98,7 @@ t_color	calculate_color(t_data *data, t_obj *obj, t_vector inter, int i)
 			d = calculate_spot_light(data, inter, i, idx);
 		spotlight_effect(&data->scene[i].lights[idx],
 			obj, &data->pix[i].spot, d);
-		calculate_specular(data, &data->pix[i].specular, inter, i);
+		calculate_specular(data, inter, i, idx);
 	}
 	obj->color.red = (int)(data->pix[i].ambient1.red + data->pix[i].spot.red
 			+ data->pix[i].specular.red);

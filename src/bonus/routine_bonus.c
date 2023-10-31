@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 08:05:01 by jmykkane          #+#    #+#             */
-/*   Updated: 2023/10/27 13:58:53 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/31 11:13:41 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,9 @@ void	*routine(void *param)
 		row = get_next_job(data->pool.job_list);
 		if (row < 0)
 		{
+			pthread_mutex_lock(&data->pool.alive);
 			data->pool.ready = true;
+			pthread_mutex_unlock(&data->pool.alive);
 			pthread_cond_wait(&data->pool.cond, &data->pool.queue);
 			pthread_mutex_unlock(&data->pool.queue);
 			continue ;

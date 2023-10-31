@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt_bonus.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:17:31 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/29 10:47:20 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/10/31 11:17:27 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -269,8 +269,6 @@ typedef struct s_data
 	mlx_t			*mlx;
 
 	t_threadpool	pool;
-	int				samples;
-	bool			moved;
 
 	t_obj			obj[WORKERS];
 	t_pixel			pix[WORKERS];

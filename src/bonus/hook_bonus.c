@@ -6,7 +6,7 @@
 /*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:29:47 by djames            #+#    #+#             */
-/*   Updated: 2023/10/31 10:29:43 by djames           ###   ########.fr       */
+/*   Updated: 2023/10/31 11:14:34 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,18 @@ void	ft_hook(void *param)
 
 static void	render_frame(t_data *data)
 {
+	pthread_mutex_lock(&data->pool.alive);
 	data->pool.ready = false;
+	pthread_mutex_unlock(&data->pool.alive);
 	while (42)
 	{
+		pthread_mutex_lock(&data->pool.alive);
 		if (data->pool.ready)
+		{
+			pthread_mutex_unlock(&data->pool.alive);
 			break ;
+		}
+		pthread_mutex_unlock(&data->pool.alive);
 		usleep(15);
 	}
 	pthread_mutex_lock(&data->pool.queue);

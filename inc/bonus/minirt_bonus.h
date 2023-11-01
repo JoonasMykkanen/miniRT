@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt_bonus.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:17:31 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/10/31 12:20:43 by djames           ###   ########.fr       */
+/*   Updated: 2023/11/01 06:12:38 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -283,6 +283,7 @@ typedef struct s_data
 double					ft_atof(char *str);
 int						arr_len(char **arr);
 void					free_arr(char **arr);
+int						check_filename(char *file);
 void					clamp_colors(t_color *color);
 int						validate_scene(t_data *data);
 int						init(t_data *data, char *file);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isnum.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
+/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 11:47:34 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/08/23 13:14:13 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/11/03 12:08:48 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

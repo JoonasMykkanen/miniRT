@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
+/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 16:34:44 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/07/05 11:42:13 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/11/03 12:09:39 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

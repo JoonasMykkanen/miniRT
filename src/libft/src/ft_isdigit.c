@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
+/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 15:56:21 by jmykkane          #+#    #+#             */
-/*   Updated: 2023/08/23 13:16:03 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/11/03 12:08:46 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

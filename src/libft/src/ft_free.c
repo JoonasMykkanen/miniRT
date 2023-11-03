@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joonasmykkanen <joonasmykkanen@student.    +#+  +:+       +#+        */
+/*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 12:07:38 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/07/05 12:07:56 by joonasmykka      ###   ########.fr       */
+/*   Updated: 2023/11/03 12:08:38 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

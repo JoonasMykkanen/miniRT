@@ -6,13 +6,12 @@
 /*   By: djames <djames@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 07:19:34 by jmykkane          #+#    #+#             */
-/*   Updated: 2023/10/31 10:12:55 by djames           ###   ########.fr       */
+/*   Updated: 2023/11/03 12:06:57 by djames           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/bonus/minirt_bonus.h"
 
-// Function to delete workers after program is done
 int	kill_workers(t_data *data)
 {
 	t_worker	*workers;

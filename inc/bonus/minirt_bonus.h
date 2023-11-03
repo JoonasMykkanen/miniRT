@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt_bonus.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:17:31 by joonasmykka       #+#    #+#             */
-/*   Updated: 2023/11/01 06:12:38 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/11/03 15:11:56 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -280,6 +280,8 @@ typedef struct s_data
 }						t_data;
 
 // GENERAL
+int						check_inside(t_data *data, int i);
+int						check_inside_cylinder(t_data *data, int i);
 double					ft_atof(char *str);
 int						arr_len(char **arr);
 void					free_arr(char **arr);

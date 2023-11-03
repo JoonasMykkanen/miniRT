@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:30:00 by djames            #+#    #+#             */
-/*   Updated: 2023/10/31 15:10:41 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/11/03 15:13:25 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,11 @@ int	validate_scene(t_data *data)
 	{
 		status = ERROR;
 		ft_putstr_fd("Error: No ambient light found in scene\n", ERROR);
+	}
+	if (check_inside(data, 0) != OK)
+	{
+		status = ERROR;
+		ft_putstr_fd("Error: Camera inside object\n", 2);
 	}
 	return (status);
 }

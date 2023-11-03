@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   filename_check_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmykkane <jmykkane@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jmykkane <jmykkane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 15:08:09 by jmykkane          #+#    #+#             */
-/*   Updated: 2023/10/31 15:09:07 by jmykkane         ###   ########.fr       */
+/*   Updated: 2023/11/03 11:04:22 by jmykkane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
